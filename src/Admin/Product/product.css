@@ -1,0 +1,7 @@
+.item__product_card{
+    border: 1px solid #445;
+    width: 150px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}

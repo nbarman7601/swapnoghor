@@ -1,0 +1,32 @@
+.admin-layout {
+    display: flex;
+  }
+  
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    .container{
+        /* margin-left: 250px; */
+    }
+  }
+  .main-content {
+    margin-left: 220px;
+    padding: 20px;
+  }
+  .header{
+    position: sticky;
+    top: 0;
+  }
+  .layout{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+  }
+  .sidebar_layout{
+    width: 240px;
+  }
+  .content_layout{
+    padding-top: 15px;
+    width: 83%;
+  }

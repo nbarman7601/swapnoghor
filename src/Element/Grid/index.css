@@ -1,0 +1,41 @@
+/* src/App.css */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  cursor: pointer;
+  background: #bcd8b3;
+}
+
+th:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+}
+tbody{
+  font-size: 11px;
+}
+
+.grid_toolbar{
+  display: flex;
+  column-gap: 50px;
+  align-items: center;
+  justify-content: center;
+}

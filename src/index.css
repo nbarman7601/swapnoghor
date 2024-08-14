@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+body {
+  background-image: url("https://static.vecteezy.com/system/resources/thumbnails/022/432/338/small_2x/green-tree-with-leaves-outline-illustration-plant-in-garden-vector.jpg");
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-attachment: fixed;
+}

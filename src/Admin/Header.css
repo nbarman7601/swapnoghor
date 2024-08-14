@@ -1,0 +1,18 @@
+.header {
+    background-color: #34495e;
+    color: white;
+    /* padding: 20px; */
+    /* text-align: center; */
+    display: flex;
+    align-items: flex-end;
+    justify-content: right;
+  }
+  .profile__toolbar {
+    padding: 20px;
+  }
+  .profile__toolbar a{
+    text-decoration: none;
+    color: aliceblue;
+    font-weight: bold;
+  }
+  
