@@ -26,12 +26,14 @@ const columns = [
 const Employee = () => {
   const [data, setData] = useState([]);
   useEffect(()=>{
-    apiService.get('/user/userlist?status=active')
+    apiService.get('/user/usserlist?status=active') 
         .then(
           (response)=>{
             setData((prevData)=> response);
           }
-        )
+        ).catch((err)=>{
+          console.log(err)
+        })
   }, [])
 
   const handleSort =(e)=>{
@@ -40,7 +42,7 @@ const Employee = () => {
 
   return (
     <div className="container">
-      <h3>Employee</h3>
+      <h3>Employee</h3> ok
      </div>
   )
 }

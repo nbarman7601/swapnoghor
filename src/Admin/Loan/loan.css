@@ -1,0 +1,8 @@
+
+fieldset{
+    background: #eeefe4c2;
+}
+.identification strong{
+    min-width: 90px;
+    display: inline-block;
+}

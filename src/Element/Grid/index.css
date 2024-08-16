@@ -24,6 +24,7 @@ th:hover {
   display: flex;
   justify-content: center;
   gap: 5px;
+  align-items: center;
 }
 
 .pagination button {
@@ -38,4 +39,7 @@ tbody{
   column-gap: 50px;
   align-items: center;
   justify-content: center;
+}
+.grid_table{
+  background: #fefffb;
 }

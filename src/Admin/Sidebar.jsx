@@ -7,8 +7,10 @@ const Sidebar = () => {
     <div className="sidebar">
       <h3>Admin </h3>
       <ul>
+        
         <li><Link to="/admin/employee">Employee</Link></li>
         <li><Link to="/admin/customer">Customer</Link></li>
+        <li><Link to="/admin/loan">Loan</Link></li>
         <li><Link to="/admin/products">Products</Link></li>
         <li><Link to="/admin/settings">Settings</Link></li>
       </ul>

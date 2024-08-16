@@ -21,7 +21,7 @@ const Grid = ({ data, totalPages, totalCount, pageChange, currentPage, columns, 
 
     return (
         <div>
-            <table>
+            <table className='grid_table'>
                 <thead>
                     <tr>
                         {columns.map((column) => (
@@ -35,7 +35,12 @@ const Grid = ({ data, totalPages, totalCount, pageChange, currentPage, columns, 
                     {data.map((item) => (
                         <tr key={item._id}>
                             {columns.map((column, index) => (
-                                <td key={index}>{item[column.columnKey]}</td>
+                                <td key={index}>
+                                    {
+                                    column.display ? column.display(item)
+                                    : item[column.columnKey]
+                                    }
+                                </td>
                             ))}
                         </tr>
                     ))}
