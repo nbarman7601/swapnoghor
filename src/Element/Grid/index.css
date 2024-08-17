@@ -9,6 +9,9 @@ th, td {
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
+tbody tr:hover{
+  background: rgb(199, 189, 189);
+}
 
 th {
   cursor: pointer;
@@ -39,7 +42,4 @@ tbody{
   column-gap: 50px;
   align-items: center;
   justify-content: center;
-}
-.grid_table{
-  background: #fefffb;
 }

@@ -1,0 +1,11 @@
+.page_info{
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    /* justify-content: center; */
+    vertical-align: middle;
+    align-items: center;
+}
+.search__input{
+    height: 27px;
+}

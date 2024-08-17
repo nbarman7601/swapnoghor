@@ -7,6 +7,8 @@ import { Customer } from "./Admin/Customer";
 import { ProductList } from "./Admin/Product";
 import Loan from "./Admin/Loan";
 import { LoanDetail } from "./Admin/Loan/LoanDetail";
+import  Group  from "./Admin/Group";
+import { CustomerDetail } from "./Admin/Customer/CustomerDetail";
 
 const router = createBrowserRouter([
     {
@@ -30,9 +32,21 @@ const router = createBrowserRouter([
           breadcrumb: 'User',
         },
         {
+          path: "group",
+          element: <Group/>,
+          breadcrumb: 'Group',
+        },
+        {
           path: "customer",
           element: <Customer/>,
           breadcrumb: 'Customer',
+          children:[
+            {
+              path: ':id/detail',
+              element: <CustomerDetail/>,
+              breadcrumb: 'Detail'
+            }
+          ]
         },
         {
           path: "products",

@@ -20,7 +20,6 @@
   
   .page_tool{
     display: flex;
-    justify-content: center;
     align-items: center;
   }
   .tools{

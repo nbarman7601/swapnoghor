@@ -29,7 +29,7 @@ export const fetchCustomers=()=>{
         } = getState().customers;
         dispatch(fetchCustomersRequest());
         try {
-          const response = await apiService.get('/loan/loan-list', {
+          const response = await apiService.get('/customer/customerlist', {
             params: {
               search: searchQuery,
               sortBy: sortKey, 

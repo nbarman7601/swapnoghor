@@ -121,6 +121,9 @@ const Loan = () => {
                     sortOrder={sortOrder}
                     pageChange={handlePageChange}
                     perPageChange={handlePerPageItem}
+                    sort={true}
+                    pagination={true}
+                    showIndex={true}
                 /> </>) :
                 <Outlet />
             }
