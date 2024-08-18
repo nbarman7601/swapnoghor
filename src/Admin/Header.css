@@ -4,11 +4,14 @@
     /* padding: 20px; */
     /* text-align: center; */
     display: flex;
-    align-items: flex-end;
-    justify-content: right;
+    /* align-items: flex-end;
+    justify-content: right; */
   }
   .profile__toolbar {
-    padding: 20px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
   }
   .profile__toolbar a{
     text-decoration: none;

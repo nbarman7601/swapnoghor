@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider } from 'react-router-dom';
-
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import router from './routes';
 import { Provider } from 'react-redux';
 import store from './store';

@@ -7,74 +7,91 @@ import { Customer } from "./Admin/Customer";
 import { ProductList } from "./Admin/Product";
 import Loan from "./Admin/Loan";
 import { LoanDetail } from "./Admin/Loan/LoanDetail";
-import  Group  from "./Admin/Group";
+import Group from "./Admin/Group";
 import { CustomerDetail } from "./Admin/Customer/CustomerDetail";
+import { Suspense } from "react";
+import { AddCustomer } from "./Admin/Customer/AddCustomer";
 
 const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Login/>,
-      breadcrumb: 'Home',
-    },
-    {
-        path: '/login',
-        element: <Login/>,
-        breadcrumb: 'Login',
-    },
-    {
-      path: "/admin",
-      element: <Admin/>,
-      breadcrumb: 'Admin',
-      children: [
-        {
-          path: "employee",
-          element: <Employee/>,
-          breadcrumb: 'User',
-        },
-        {
-          path: "group",
-          element: <Group/>,
-          breadcrumb: 'Group',
-        },
-        {
-          path: "customer",
-          element: <Customer/>,
-          breadcrumb: 'Customer',
-          children:[
-            {
-              path: ':id/detail',
-              element: <CustomerDetail/>,
-              breadcrumb: 'Detail'
-            }
-          ]
-        },
-        {
-          path: "products",
-          element: <ProductList/>,
-          breadcrumb: 'Products',
-        },
-        {
-          path: 'loan',
-          element: <Loan/>,
-          breadcrumb: 'Loan',
-          children:[
-            { 
-              path: ':id/detail', 
-              element: <LoanDetail /> ,
-              breadcrumb: 'Detail',
-            }
-          ]
-        },
-       
-      ],
-      loader: async () => {
-        if (!isAuthenticated()) {
-          // Redirect to login if the user is not authenticated
-          throw redirect('/login');
-        }
-        return null;
+  // {
+  //   path: "/",
+  //   element: <Login />,
+  //   breadcrumb: 'Home',
+  // },
+  {
+    path: '/login',
+    element: <Login />,
+    breadcrumb: 'Login',
+  },
+  {
+    path: "/",
+    element: (
+       isAuthenticated ? <Admin /> : <Login/>
+    ),
+    breadcrumb: 'Admin',
+    children: [
+      {
+        path: "employee",
+        element: <Employee />,
+        breadcrumb: 'User',
       },
-    }
+      {
+        path: "group",
+        element: <Group />,
+        breadcrumb: 'Group',
+      },
+      {
+        path: "customer",
+        element: <Customer />,
+        breadcrumb: 'Customer',
+        children: [
+          {
+            path: 'detail/:id',
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <CustomerDetail />
+              </Suspense>
+            ),
+            breadcrumb: 'Detail'
+          },
+          {
+            path: "add-customer",
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <AddCustomer />
+              </Suspense>
+            ),
+            breadcrumb: 'Add Customer'
+          }
+        ]
+      },
+      {
+        path: "products",
+        element: <ProductList />,
+        breadcrumb: 'Products',
+      },
+      {
+        path: 'loan',
+        element: <Loan />,
+        breadcrumb: 'Loan',
+        children: [
+          {
+            path: ':id/detail',
+            element: <LoanDetail />,
+            breadcrumb: 'Detail',
+          }
+        ]
+      },
+
+    ],
+    loader: async () => {
+      if (!isAuthenticated()) {
+        // Redirect to login if the user is not authenticated
+        throw redirect('/login');
+      }
+      return null;
+    },
+  }
 ]);
 
 export default router;

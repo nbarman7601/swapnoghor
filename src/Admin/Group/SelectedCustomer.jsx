@@ -7,7 +7,7 @@ export const SelectedCustomer = ({customers})=>{
                 columnKey: 'name',
                 desc: 'Name',
                 display: function(item){
-                    return <Link to={`/admin/customer/${item._id}/detail`}>{item.name}</Link>
+                    return <Link to={`/customer/detail/${item._id}`}>{item.name}</Link>
                 }
             },
             {

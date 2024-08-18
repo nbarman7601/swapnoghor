@@ -6,12 +6,15 @@ import Spinner from "../../Element/Spinner";
 import './customer.css';
 import HighlightText from "../../common/HighlightText";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import Button from "../../Element/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileDownload, faPlus, faPrint } from "@fortawesome/free-solid-svg-icons";
 
 export const Customer = () => {
     const [data, setData] = useState([]);
     const dispatch = useDispatch();
     const location = useLocation();
-    const isDetailPage = location.pathname.includes('/customer/') && location.pathname.includes('/detail');
+    const isDetailPage = location.pathname.includes('/customer/detail') || location.pathname.includes('/add-customer');
     const {
         customers,
         status,
@@ -30,7 +33,7 @@ export const Customer = () => {
             desc: 'Name',
             display: function (item) {
                 return (
-                    <Link to={`/admin/customer/${item._id}/detail`}>
+                    <Link to={`/customer/detail/${item._id}/`}>
                         <HighlightText text={item.name} searchInput={searchQuery} />
                     </Link>
                 )
@@ -98,9 +101,13 @@ export const Customer = () => {
         dispatch(setPerPageItem(item))
     }
 
+    const gotoAddCustomer = ()=>{
+
+    }
+
     return (
         <React.Fragment>
-            {isDetailPage ? <Outlet /> :
+            { isDetailPage ? <Outlet /> :
                 (<div className="container">
                     {status == 'loading' ? <Spinner /> : ''}
                     <div className="page_tool">
@@ -112,6 +119,17 @@ export const Customer = () => {
                                 placeholder={`Search Customer`}
                                 onChange={searchCustomer}
                                 className="search__input" />
+                        </div>
+                        <div className="right_toolbar">
+                            <Link to={`/customer/add-customer`} >
+                                <FontAwesomeIcon title="Add Customer" icon={faPlus}/>
+                            </Link>
+                            <Button onClick={gotoAddCustomer} >
+                                <FontAwesomeIcon title="Downloan Excel" icon={faFileDownload}/>
+                            </Button>
+                            <Button onClick={gotoAddCustomer} >
+                                <FontAwesomeIcon title="Print Customer" icon={faPrint}/>
+                            </Button>
                         </div>
                     </div>
                     <Grid

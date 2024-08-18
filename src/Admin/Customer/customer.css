@@ -9,3 +9,24 @@
 .search__input{
     height: 27px;
 }
+.right_toolbar{
+    margin-left: auto;
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+.mb-3{
+    display: flex;
+    flex-direction: column;
+
+}
+.mb-3 label{
+    color: gray;
+}
+.mb-3 input{
+    height: 30px;
+}
+.mb-3 input::placeholder{
+    font-size: 13px;
+    color: gray;
+}

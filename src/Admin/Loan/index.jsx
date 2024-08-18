@@ -14,7 +14,7 @@ const columns = [
         columnKey: 'customer',
         desc: 'Name',
         display: function (item) {
-            return <Link to={`/admin/loan/${item._id}/detail`}>{item.customer}</Link>
+            return <Link to={`/loan/${item._id}/detail`}>{item.customer}</Link>
         }
     },
     {

@@ -4,15 +4,13 @@ import Sidebar from "./Sidebar";
 import './index.css';
 import Breadcrumb from "../common/Breadcrumb";
 import router from "../routes";
+import { MainNavigation } from "./MainNavigation";
 const Admin = () => {
     return (
         <div className="admin-layout">
             <div className="main">
-                <Header />
+                <MainNavigation />
                 <div className="layout">
-                    <div className="sidebar_layout">
-                       <Sidebar />
-                    </div>
                     <div className="content_layout">
                        <Breadcrumb routes={router.routes} />
                       <Outlet />

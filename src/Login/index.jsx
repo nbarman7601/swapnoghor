@@ -11,7 +11,7 @@ const Login = () => {
 
     useEffect(()=>{
         if(isAuthenticated()){
-            navigate('/admin');
+            navigate('/');
         }
     }, [])
 
@@ -45,7 +45,7 @@ const Login = () => {
                     console.log(response);
                     if(response.token){
                         localStorage.setItem('access_token', response.token);
-                        navigate('/admin')
+                        navigate('/')
                     }
                 }).catch((error)=>{
                     console.log(error)
