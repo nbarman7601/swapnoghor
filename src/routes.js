@@ -11,6 +11,7 @@ import Group from "./Admin/Group";
 import { CustomerDetail } from "./Admin/Customer/CustomerDetail";
 import { Suspense } from "react";
 import { AddCustomer } from "./Admin/Customer/AddCustomer";
+import Calendar from "./Admin/Calendar/DueCalendar";
 
 const router = createBrowserRouter([
   // {
@@ -82,6 +83,13 @@ const router = createBrowserRouter([
           }
         ]
       },
+      {
+        path: 'calendar',
+        element: <Suspense fallback={`Loading. Please Wait`}>
+          <Calendar />
+        </Suspense>, 
+        breadcrumb: 'Calendar',
+      }
 
     ],
     loader: async () => {

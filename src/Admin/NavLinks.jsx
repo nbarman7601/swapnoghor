@@ -7,6 +7,9 @@ export const NavLinks = ()=>{
                 <NavLink to="/loan">Loan</NavLink>
             </li>
             <li>
+                <NavLink to="/calendar">Calendar</NavLink>
+            </li>
+            <li>
                 <NavLink to="/customer">Customer</NavLink>
             </li>
             <li>

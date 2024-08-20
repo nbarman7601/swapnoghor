@@ -31,7 +31,7 @@ const Grid = ({ data, totalPages, totalCount, pageChange,
             <table className='grid_table'>
                 <thead>
                     <tr>
-                        {showIndex ? <th>Sl No</th> : ''}
+                        {showIndex ? <th>Sl No</th> : null}
                         {columns.map((column) => (
                             <th key={column.columnKey} onClick={() => handleSort(column.columnKey)}>
                                 {column.desc} {sortKey === column.columnKey ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
@@ -42,7 +42,7 @@ const Grid = ({ data, totalPages, totalCount, pageChange,
                 <tbody>
                     {data.map((item, index) => (
                         <tr key={item._id}>
-                             {showIndex ? <td>{index + 1}</td> : ''}
+                             {showIndex ? <td> {pagination ?  (index +1) + ((currentPage -1) * itemsPerPage) : (index +1)} </td> : ''}
                             {columns.map((column, index) => (
                                 <td key={index}>
                                     {

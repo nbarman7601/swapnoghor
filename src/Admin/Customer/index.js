@@ -9,6 +9,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import Button from "../../Element/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileDownload, faPlus, faPrint } from "@fortawesome/free-solid-svg-icons";
+import TruncateText from "../../common/TruncateText";
 
 export const Customer = () => {
     const [data, setData] = useState([]);
@@ -25,7 +26,8 @@ export const Customer = () => {
         currentPage,
         totalPages,
         totalCount,
-        itemsPerPage
+        itemsPerPage,
+        needRefresh
     } = useSelector((state) => state.customers);
     const columns = [
         {
@@ -38,6 +40,13 @@ export const Customer = () => {
                     </Link>
                 )
                 
+            }
+        },
+        {
+            columnKey: 'guardian',
+            desc: 'Guardian',
+            display: function (item) {
+                return <span>{item.guardian}</span>;
             }
         },
         {
@@ -62,15 +71,31 @@ export const Customer = () => {
             }
         },
         {
+            columnKey: 'identityProof',
+            desc: 'Proof',
+            display: function (item) {
+                return <span>{item.identityProof}</span>;
+            }
+        },
+        {
+            columnKey: 'identityNo',
+            desc: 'ID No',
+            display: function (item) {
+                return <span>{item.identityNo}</span>;
+            }
+        },
+        {
             columnKey: 'address',
             desc: 'Address',
             display: function (item) {
-                return <HighlightText text={item.address} searchInput={searchQuery} />
+                return <TruncateText text={item.address} />
             }
         }
     ]
     useEffect(() => {
-        dispatch(fetchCustomers());
+        if(needRefresh){
+            dispatch(fetchCustomers());
+        }
     }, [dispatch, sortKey, sortOrder, currentPage, itemsPerPage]);
 
     const handleSort = (e) => {

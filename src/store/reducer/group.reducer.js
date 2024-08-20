@@ -17,7 +17,8 @@ const initialState = {
     totalPages: 0,
     itemsPerPage: 25,
     totalCount: 0,
-    loading: false
+    loading: false,
+    needRefresh: true
 }
 
 export const groupReducer = (state = initialState, action)=>{
@@ -34,28 +35,33 @@ export const groupReducer = (state = initialState, action)=>{
                 totalPages: action.payload.totalPages,
                 currentPage: action.payload.currentPage,
                 totalCount: action.payload.totalCount,
-                loading: false
+                loading: false,
+                needRefresh: false
             }
         case SET_GROUP_SORT:
             return {
                 ...state,
                 sortKey: action.payload.key,
-                sortOrder: action.payload.direction
+                sortOrder: action.payload.direction,
+                needRefresh: true
             }
         case SET_GROUP_SEARCH_QUERY:
             return {
                 ...state,
-                searchQuery: action.payload
+                searchQuery: action.payload,
+                needRefresh: true
             }
         case SET_GROUP_ITEM_PER_PAGE:
             return {
                 ...state,
-                itemsPerPage: action.payload
+                itemsPerPage: action.payload,
+                needRefresh: true
             }
         case SET_GROUP_PAGE:
             return {
                 ...state,
-                currentPage: action.payload
+                currentPage: action.payload,
+                needRefresh: true
             }
         default:
             return state;

@@ -21,11 +21,14 @@ const Group=({
     sortGroup,
     setGroupSearch,
     setItemPerPage,
-    setCurrentPage
+    setCurrentPage,
+    needRefresh
 })=>{
     const [selectedGroup, setSelectedGroup] = useState(null) 
     useEffect(()=>{
-        fetchGroup();
+        if(needRefresh){
+           fetchGroup();
+        }
     }, [status,sortKey,sortOrder,currentPage,itemsPerPage])
 
     const columns = [
@@ -138,7 +141,8 @@ const mapStateToProps = (state) =>{
         totalPages,
         itemsPerPage,
         totalCount,
-        loading
+        loading,
+        needRefresh
       } = state.groups;
     return {
         groups,
@@ -151,7 +155,8 @@ const mapStateToProps = (state) =>{
         totalPages,
         itemsPerPage,
         totalCount,
-        loading
+        loading,
+        needRefresh
     }
 }
 const matDispatchToProps = (dispath)=>({

@@ -33,3 +33,16 @@
     background: #fff;
   }
   
+
+  .footer{
+    font-size: 11px;
+    /* background: gray; */
+    text-align: center;
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+    font-weight: bold;
+  }
+  .admin-layout{
+    margin-bottom: 50px;
+  }

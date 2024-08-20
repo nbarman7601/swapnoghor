@@ -6,3 +6,9 @@ fieldset{
     min-width: 90px;
     display: inline-block;
 }
+.loan_filter{
+    display: flex;
+    margin-left: 10px;
+    column-gap: 10px;
+    font-size: 12px;
+}

@@ -5,19 +5,24 @@ import './index.css';
 import Breadcrumb from "../common/Breadcrumb";
 import router from "../routes";
 import { MainNavigation } from "./MainNavigation";
+import { Footer } from "./Footer";
+import React from "react";
 const Admin = () => {
     return (
-        <div className="admin-layout">
-            <div className="main">
-                <MainNavigation />
-                <div className="layout">
-                    <div className="content_layout">
-                       <Breadcrumb routes={router.routes} />
-                      <Outlet />
+        <React.Fragment>
+            <div className="admin-layout">
+                <div className="main">
+                    <MainNavigation />
+                    <div className="layout">
+                        <div className="content_layout">
+                            <Breadcrumb routes={router.routes} />
+                            <Outlet />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </React.Fragment>
     )
 }
 

@@ -1,6 +1,7 @@
 import { FETCH_LOAN_REQUEST,
      SET_LOAN_DATA, 
      SET_LOAN_ITEM_PAGE_NO, 
+     SET_LOAN_ITEM_PER_PAGE, 
      SET_LOAN_REQUEST_FAILURE, 
      SET_LOAN_SORT, 
      SET_SELECTED_LOAN
@@ -13,13 +14,14 @@ const initialState = {
     error: null,
     searchQuery: '',
     sortKey: 'sanctioned_date',
-    sortOrder: 'asc',
+    sortOrder: 'desc',
     currentPage: 1,
     totalPages: 0,
     itemsPerPage: 25,
     totalCount: 0,
     loading: false,
-    selectedLoan: null
+    selectedLoan: null,
+    needRefresh: true
 }
 
 export const loanReducer = (state = initialState, action )=>{
@@ -33,7 +35,8 @@ export const loanReducer = (state = initialState, action )=>{
                 loading: false,
                 totalPages: action.payload.totalPages,
                 currentPage: action.payload.currentPage,
-                totalCount: action.payload.totalCount
+                totalCount: action.payload.totalCount,
+                needRefresh: false
             }
         case SET_LOAN_REQUEST_FAILURE:
             return { ...state, error: action.payload, loading: false }
@@ -43,12 +46,20 @@ export const loanReducer = (state = initialState, action )=>{
             return {
                 ...state,
                 sortKey: action.payload.key,
-                sortOrder: action.payload.direction
+                sortOrder: action.payload.direction,
+                needRefresh: true
             }
-        case SET_LOAN_ITEM_PAGE_NO: 
+        case SET_LOAN_ITEM_PER_PAGE: 
             return {
                 ...state,
-                itemsPerPage: action.payload
+                itemsPerPage: action.payload,
+                needRefresh: true
+            }
+        case SET_LOAN_ITEM_PAGE_NO:
+            return {
+                ...state,
+                currentPage: action.payload,
+                needRefresh: true
             }
         default:
             return state

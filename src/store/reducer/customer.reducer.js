@@ -21,7 +21,8 @@ import {
     currentPage: 1,
     totalPages: 0,
     itemsPerPage: 25,
-    totalCount: 0
+    totalCount: 0,
+    needRefresh: true
   };
   
   const customerReducer = (state = initialState, action) => {
@@ -35,22 +36,23 @@ import {
           customers: action.payload.data,
           totalPages: action.payload.totalPages,
           currentPage: action.payload.currentPage,
-          totalCount: action.payload.totalCount
+          totalCount: action.payload.totalCount,
+          needRefresh: false
         };
       case FETCH_CUSTOMERS_FAILURE:
-        return { ...state, status: 'failed', error: action.payload };
+        return { ...state, status: 'failed', error: action.payload, needRefresh: false };
       case SET_SEARCH_QUERY:
-        return { ...state, searchQuery: action.payload };
+        return { ...state, searchQuery: action.payload,  needRefresh: true };
       case SET_SORT_KEY:
-        return { ...state, sortKey: action.payload };
+        return { ...state, sortKey: action.payload, needRefresh: true };
       case SET_SORT_ORDER:
-        return { ...state, sortOrder: action.payload };
+        return { ...state, sortOrder: action.payload, needRefresh: true };
       case SET_CURRENT_PAGE:
-        return { ...state, currentPage: action.payload };
+        return { ...state, currentPage: action.payload, needRefresh: true };
       case SET_SORT:
-        return {...state, sortKey: action.payload.key, sortOrder: action.payload.direction };
+        return {...state, sortKey: action.payload.key, sortOrder: action.payload.direction, needRefresh: true };
       case SET_CUSTOMER_PER_PAGE_ITEM:
-        return {  ...state, itemsPerPage: action.payload}
+        return {  ...state, itemsPerPage: action.payload, needRefresh: true}
       default:
         return state;
     }

@@ -6,6 +6,7 @@ export const SET_LOAN_DATA = 'SET_LOAN_DATA';
 export const SET_LOAN_REQUEST_FAILURE = 'SET_LOAN_REQUEST_FAILURE';
 export const SET_SELECTED_LOAN = 'SET_SELECTED_LOAN';
 export const SET_LOAN_SORT = 'SET_LOAN_SORT';
+export const SET_LOAN_ITEM_PER_PAGE = 'SET_LOAN_ITEM_PER_PAGE';
 export const SET_LOAN_ITEM_PAGE_NO = 'SET_LOAN_ITEM_PAGE_NO';
 
 export const fetchLoanRequest = () => ({ type: FETCH_LOAN_REQUEST });
@@ -63,4 +64,5 @@ export const fetchLoanDetails = (id)=>{
 export const setLoanSort=({key, direction})=>({type: SET_LOAN_SORT, payload: {key, direction}})
 
 export const setLoanDetail = (data)=>({type: SET_SELECTED_LOAN, payload: data});
-export const setLoanItemPageNumber = (data)=>({type: SET_LOAN_ITEM_PAGE_NO, payload: data});
+export const setLoanItemPageNumber = (data)=>({type: SET_LOAN_ITEM_PER_PAGE, payload: data});
+export const setLoanPageNumber = (data)=>({type: SET_LOAN_ITEM_PAGE_NO, payload: data});
