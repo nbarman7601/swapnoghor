@@ -32,7 +32,7 @@ apiService.interceptors.response.use(
       // For example, redirect to login page on 401 unauthorized
       // window.location.href = '/login';
     }
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );
 

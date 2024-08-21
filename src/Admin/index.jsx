@@ -7,6 +7,8 @@ import router from "../routes";
 import { MainNavigation } from "./MainNavigation";
 import { Footer } from "./Footer";
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const Admin = () => {
     return (
         <React.Fragment>
@@ -22,6 +24,7 @@ const Admin = () => {
                 </div>
             </div>
             <Footer />
+            <ToastContainer />
         </React.Fragment>
     )
 }

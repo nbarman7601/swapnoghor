@@ -1,0 +1,16 @@
+.popup_header{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+.error_list ul li{
+    color: red;
+    font-family: monospace;
+}
+.error_list ul {
+    list-style: square;
+}
+.close_icon{
+    cursor: pointer;
+}

@@ -16,7 +16,7 @@ import {
     status: 'active',
     error: null,
     searchQuery: '',
-    sortKey: 'sanctioned_date',
+    sortKey: 'name',
     sortOrder: 'asc',
     currentPage: 1,
     totalPages: 0,
@@ -32,7 +32,7 @@ import {
       case FETCH_CUSTOMERS_SUCCESS:
         return {
           ...state,
-          status: 'succeeded',
+          status: 'active',
           customers: action.payload.data,
           totalPages: action.payload.totalPages,
           currentPage: action.payload.currentPage,

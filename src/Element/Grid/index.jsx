@@ -39,21 +39,25 @@ const Grid = ({ data, totalPages, totalCount, pageChange,
                         ))}
                     </tr>
                 </thead>
-                <tbody>
-                    {data.map((item, index) => (
-                        <tr key={item._id}>
-                             {showIndex ? <td> {pagination ?  (index +1) + ((currentPage -1) * itemsPerPage) : (index +1)} </td> : ''}
-                            {columns.map((column, index) => (
-                                <td key={index}>
-                                    {
-                                    column.display ? column.display(item)
-                                    : item[column.columnKey]
-                                    }
-                                </td>
+                {
+                    data ?
+                        (<tbody>
+                            {data.map((item, index) => (
+                                <tr key={item._id}>
+                                    {showIndex ? <td> {pagination ? (index + 1) + ((currentPage - 1) * itemsPerPage) : (index + 1)} </td> : ''}
+                                    {columns.map((column, index) => (
+                                        <td key={index}>
+                                            {
+                                                column.display ? column.display(item)
+                                                    : item[column.columnKey]
+                                            }
+                                        </td>
+                                    ))}
+                                </tr>
                             ))}
-                        </tr>
-                    ))}
-                </tbody>
+                        </tbody>)
+                        : (<span>No Data Found</span>)
+                }
             </table>
                {
                   pagination ?

@@ -109,7 +109,6 @@ export const Customer = () => {
         if (debounceTimeout.current) {
             clearTimeout(debounceTimeout.current);
         }
-
         // Set a new timeout for debouncing the API call
         debounceTimeout.current = setTimeout(() => {
             dispatch(fetchCustomers(value));  // Dispatch the async action to fetch data

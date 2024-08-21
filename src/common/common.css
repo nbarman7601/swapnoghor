@@ -2,3 +2,66 @@
 .highlight {
     background-color: yellow;  /* You can change this to any color */
 }
+.div404{
+    /* background: url(../../public/images/bg-404.png); */
+    min-height: 546px;
+    display: flex;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.div404 .information{
+    width: 60%;
+    background: #dbffdf;
+    height: auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.div404 .information .title{
+    font-size: 32px;
+    padding: 20px;
+    text-transform: uppercase;
+    text-shadow: 7px 2px #ffd1d1;
+}
+.info404{
+    background-image: url(../../public/images/bg404.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 40%;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    text-align: center;
+}
+.col-xs-4{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+label{
+    font-weight: bold;
+    font-size: 13px;
+}
+@media only screen and (max-width: 768px) {
+    .row{
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+    .col-xs-3{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 3px;
+    }
+    .col-xs-4{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 3px;
+    }
+}

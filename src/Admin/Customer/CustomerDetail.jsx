@@ -115,6 +115,15 @@ export const CustomerDetail = () => {
                                 <div className="col-xs-3">
                                     <label className="identification"> <strong> Address:</strong> {customer.address} </label>
                                 </div>
+                                <div className="col-xs-3">
+                                    <label className="identification"> <strong> Group:</strong> {customer.group?.name} </label>
+                                </div>
+                                <div className="col-xs-3">
+                                    <label className="identification"> <strong> ID Proof:</strong> {customer.identityProof} </label>
+                                </div>
+                                <div className="col-xs-3">
+                                    <label className="identification"> <strong> ID No:</strong> {customer.identityNo} </label>
+                                </div>
                             </div>
                         </React.Fragment>
                     ) : ''

@@ -1,7 +1,7 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import Login from "./Login";
 import Admin from "./Admin";
-import Employee from "./Admin/Employee";
+import Employee from "./Admin/Employee/Employee";
 import { isAuthenticated } from "./auth";
 import { Customer } from "./Admin/Customer";
 import { ProductList } from "./Admin/Product";
@@ -12,6 +12,8 @@ import { CustomerDetail } from "./Admin/Customer/CustomerDetail";
 import { Suspense } from "react";
 import { AddCustomer } from "./Admin/Customer/AddCustomer";
 import Calendar from "./Admin/Calendar/DueCalendar";
+import { PageNotFound } from "./common/PageNotFound";
+import { AddEmployee } from "./Admin/Employee/AddEmployee/AddEmployee";
 
 const router = createBrowserRouter([
   // {
@@ -34,7 +36,24 @@ const router = createBrowserRouter([
       {
         path: "employee",
         element: <Employee />,
-        breadcrumb: 'User',
+        breadcrumb: 'Employee',
+        children:[
+          {
+            path: 'add-employee',
+            element: <AddEmployee/>,
+            breadcrumb: 'Add Employee'
+          },
+          {
+            path: 'detail/:id',
+            element: <AddEmployee />,
+            breadcrumb: 'Employee Detail'
+          },
+          {
+            path: '*',
+            element: <PageNotFound/>,
+            breadcrumb: '404 Not Found'
+          }
+        ]
       },
       {
         path: "group",
@@ -99,6 +118,10 @@ const router = createBrowserRouter([
       }
       return null;
     },
+  },
+  {
+    path: '*',
+    element: <PageNotFound />
   }
 ]);
 
