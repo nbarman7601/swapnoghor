@@ -7,6 +7,8 @@ export const SET_GROUP_SORT = 'SET_GROUP_SORT';
 export const SET_GROUP_SEARCH_QUERY = 'SET_GROUP_SEARCH_QUERY';
 export const SET_GROUP_ITEM_PER_PAGE = 'SET_GROUP_ITEM_PER_PAGE';
 export const SET_GROUP_PAGE = 'SET_GROUP_PAGE';
+export const RESET_GROUP_DATA = 'RESET_GROUP_DATA';
+
 export const fetchGroupRequest = ()=>({type: FETCH_GROUP_REQUEST})
 export const fetchGroupRequestFailure = (error)=>({type: SET_GROUP_ERROR, payload: error})
 export const setGroupRequestSuccess = (data)=>({type: SET_GROUP_RESPONSE, payload: data})
@@ -17,6 +19,8 @@ export const setGroupSearchQuery = (value)=> ({type: SET_GROUP_SEARCH_QUERY, pay
 export const setGroupItemPerPage = (e)=>({type: SET_GROUP_ITEM_PER_PAGE, payload: e })
 
 export const setGroupCurrentPage = (page)=>({type: SET_GROUP_PAGE, payload: page});
+
+export const resetGroupData = ()=>({type: RESET_GROUP_DATA})
 
 export const fetchGroupApiCall = ()=>{
      return async (dispatch, getState)=>{

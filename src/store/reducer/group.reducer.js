@@ -3,7 +3,8 @@ import { FETCH_GROUP_REQUEST,
      SET_GROUP_RESPONSE, 
      SET_GROUP_SEARCH_QUERY, 
      SET_GROUP_SORT ,
-     SET_GROUP_ITEM_PER_PAGE
+     SET_GROUP_ITEM_PER_PAGE,
+     RESET_GROUP_DATA
     } from "../actions/group.action"
 
 const initialState = {
@@ -63,6 +64,20 @@ export const groupReducer = (state = initialState, action)=>{
                 currentPage: action.payload,
                 needRefresh: true
             }
+        case RESET_GROUP_DATA:
+            return {
+                ...state,
+                status: 'active',
+                error: null,
+                searchQuery: '',
+                sortKey: 'name',
+                sortOrder: 'asc',
+                currentPage: 1,
+                totalPages: 0,
+                itemsPerPage: 25,
+                totalCount: 0,
+                needRefresh: true
+            };
         default:
             return state;
     }

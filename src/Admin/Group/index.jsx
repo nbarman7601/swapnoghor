@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './group.css';
 import { connect } from 'react-redux';
-import { fetchGroupApiCall, setGroupCurrentPage, setGroupItemPerPage, setGroupSearchQuery, setGroupTableSort } from '../../store/actions/group.action';
+import { fetchGroupApiCall, resetGroupData, setGroupCurrentPage, setGroupItemPerPage, setGroupSearchQuery, setGroupTableSort } from '../../store/actions/group.action';
 import Grid from '../../Element/Grid';
 import Spinner from '../../Element/Spinner';
 import { SelectedCustomer } from './SelectedCustomer';
 import Button from '../../Element/Button';
 import { AddEditGroup } from './AddEditGroup/AddEditGroup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import { faRefresh } from '@fortawesome/free-solid-svg-icons';
 const Group = ({
     fetchGroup,
     groups,
@@ -24,8 +27,10 @@ const Group = ({
     setGroupSearch,
     setItemPerPage,
     setCurrentPage,
+    resetGroup,
     needRefresh
 }) => {
+    const [mode, setMode] = useState('EDIT');
     const [selectedGroup, setSelectedGroup] = useState(null);
     const [showAddEditGroup, setShowAddEditGroup] = useState(false);
     useEffect(() => {
@@ -43,10 +48,17 @@ const Group = ({
             }
         },
         {
+            columnKey: 'weekday',
+            desc: 'Weekday',
+            display: function (item) {
+                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.weekday}</span>
+            }
+        },
+        {
             columnKey: 'lo',
             desc: 'Loan Officer',
             display: function (item) {
-                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.lo}</span>
+                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.lo.name}</span>
             }
         },
         {
@@ -55,8 +67,18 @@ const Group = ({
             display: function (item) {
                 return <span className='pointer' onClick={() => viewCustomers(item)}>{item.customers.length}</span>
             }
+        },
+        {
+            columnKey: 'actions',
+            desc: 'Action',
+            display: function (item){
+                return <button onClick={()=>editGroup(item)}>
+                    <FontAwesomeIcon icon={faPen}/>
+                </button>
+            }
         }
     ]
+
 
     const viewCustomers = (item) => {
         console.log(item);
@@ -88,19 +110,30 @@ const Group = ({
     const gotoAddNewGroup = () => {
         setSelectedGroup((prevGroup)=> ({
             name: '',
-            weekday: '',
+            weekday: 'Sunday',
             lo: ''
         }));
+        setMode('ADD');
         setShowAddEditGroup(true);
     }
 
-    const editGroup = ()=>{
-        console.log(selectedGroup)
+    const editGroup = (item)=>{
+        const selectedItm = {
+            lo: item.lo._id,
+            name: item.name,
+            _id: item._id,
+            customers: item.customers,
+            weekday: item.weekday
+        }
+        setSelectedGroup(selectedItm);
         setShowAddEditGroup(true);
     }
 
     const onClose = ()=> setShowAddEditGroup(false);
 
+    const clearAll = ()=>{
+        resetGroup();
+    }
     return (
         <React.Fragment>
             <div className="container">
@@ -114,6 +147,9 @@ const Group = ({
                             onChange={(e) => handleSearch(e)}
                             placeholder={`Search Customer`}
                             className="search__input" />
+                            <Button onClick={clearAll}>
+                                <FontAwesomeIcon icon={faRefresh}/>
+                            </Button>
                     </div>
                     <div className="right_toolbar">
                         <Button onClick={gotoAddNewGroup}>Add New Group</Button>
@@ -149,9 +185,13 @@ const Group = ({
                     </div>
                 </div>
             </div>
-            {showAddEditGroup ? <AddEditGroup group={selectedGroup} onClose={onClose}/>: null}
+            {showAddEditGroup ? 
+            <AddEditGroup 
+            group={selectedGroup} 
+            onClose={onClose}
+            mode={mode}
+            />: null}
         </React.Fragment>
-
     )
 }
 const mapStateToProps = (state) => {
@@ -189,6 +229,7 @@ const matDispatchToProps = (dispath) => ({
     sortGroup: (e) => dispath(setGroupTableSort(e)),
     setGroupSearch: (value) => dispath(setGroupSearchQuery(value)),
     setItemPerPage: (noOfItem) => dispath(setGroupItemPerPage(noOfItem)),
-    setCurrentPage: (page) => dispath(setGroupCurrentPage(page))
+    setCurrentPage: (page) => dispath(setGroupCurrentPage(page)),
+    resetGroup: ()=> dispath(resetGroupData())
 })
 export default connect(mapStateToProps, matDispatchToProps)(Group)

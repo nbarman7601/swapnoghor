@@ -4,7 +4,7 @@
     column-gap: 5px;
 }
 .halfpanel{
-    width: 45%;
+    width: 50%;
 }
 .pointer{
     cursor: pointer;
@@ -12,6 +12,7 @@
 .right_panel{
     border: 1px solid #556;
     background: #fff;
+    width: 50%;
 }
 .header-title{
     background-color: #ebeae9;

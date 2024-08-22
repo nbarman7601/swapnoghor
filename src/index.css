@@ -98,3 +98,7 @@ select{
   flex-direction: column;
   row-gap: 5px;
 }
+.item_per_page select{
+  max-width: 45px !important;
+  min-width: 45px !important;
+}
