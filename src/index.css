@@ -86,7 +86,15 @@ input::placeholder{
 }
 select{
   height: 32px;
+  width: 100%;
+  min-width: 175px;
 }
+
 .primary-save-btn{
    color: #0056b3;
+}
+.col-xs-12{
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
 }

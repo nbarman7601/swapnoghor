@@ -15,7 +15,9 @@ export const Customer = () => {
     const [data, setData] = useState([]);
     const dispatch = useDispatch();
     const location = useLocation();
-    const isDetailPage = location.pathname.includes('/customer/detail') || location.pathname.includes('/add-customer');
+    const isDetailPage = location.pathname.includes('/customer/detail')
+     || location.pathname.includes('/add-customer') 
+     || location.pathname.includes('/edit-customer')  ;
     const {
         customers,
         status,

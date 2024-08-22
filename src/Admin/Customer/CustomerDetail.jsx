@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import apiService from "../../axios";
 import Grid from "../../Element/Grid";
 import DateFormatter from "../../common/DateFormatter";
 import CurrencyFormatter from "../../common/CurrencyFormatter";
+import Button from "../../Element/Button";
 
 export const CustomerDetail = () => {
     const { id } = useParams();
@@ -43,15 +44,22 @@ export const CustomerDetail = () => {
             }
         },
         {
-            columnKey: 'outstandingInstallments',
+            columnKey: 'loanAmt',
             desc: 'Loan Amount',
             display: function (item) {
                 return <CurrencyFormatter amount={item.loanAmt} />
             }
         },
+        // {
+        //     columnKey: 'outstandingInstallments',
+        //     desc: 'Loan Amount',
+        //     display: function (item) {
+        //         return <CurrencyFormatter amount={item.loanAmt} />
+        //     }
+        // },
        
         {
-            columnKey: 'loanAmt',
+            columnKey: 'paidInstallments',
             desc: 'Paid Amount',
             display: function (item) {
                 return item.paidInstallments.length > 0
@@ -61,7 +69,7 @@ export const CustomerDetail = () => {
             }
         },
         {
-            columnKey: 'loanAmt',
+            columnKey: 'outstandingInstallments',
             desc: 'Outstanding',
             display: function (item) {
                 return item.outstandingInstallments.length > 0 ?
@@ -84,12 +92,19 @@ export const CustomerDetail = () => {
             )
     }, [id])
 
+    const navigate = useNavigate();
+    const gotoEditCustomer=()=>{
+            navigate(`/customer/edit-customer/${id}`)
+    }
+
     return (
         <div className="container">
             <div className="page_tool">
                 <h3>Customer Detail</h3>
                 <div className="tools menu-container">
-
+                    <Button onClick={gotoEditCustomer}>
+                        Edit Customer
+                    </Button>
                 </div>
             </div>
             <fieldset>

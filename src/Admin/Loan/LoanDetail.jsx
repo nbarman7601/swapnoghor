@@ -194,7 +194,7 @@ export const LoanDetail = () => {
                                                         </td>
                                                         <td>{item.status}</td>
                                                         <td>
-                                                            <CurrencyFormatter amount={item.actualAmt} />
+                                                          {item.actualAmt ?  <CurrencyFormatter amount={item.actualAmt} />: null}
                                                         </td>
                                                         <td>{
                                                             item.collectedBy ?

@@ -82,6 +82,20 @@ const router = createBrowserRouter([
               </Suspense>
             ),
             breadcrumb: 'Add Customer'
+          },
+          {
+            path: 'edit-customer/:id',
+            element: (
+              <Suspense fallback={<div>Loading...</div>}>
+                <AddCustomer />
+              </Suspense>
+            ),
+            breadcrumb: 'Edit Customer'
+          },
+          {
+            path: '*',
+            element: <PageNotFound/>,
+            breadcrumb: '404 Not Found'
           }
         ]
       },
