@@ -1,0 +1,93 @@
+.stepper{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.step{
+    width: 25%;
+    border-bottom: 3px solid #9c9c9c;
+}
+.step::after{
+    content: '';
+    display: block;
+    background: #9c9c9c;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    /* position: absolute; */
+    margin-bottom: -15px;
+}
+.step.active::after{
+    background: #4631b9;
+}
+.step.active{
+    border-bottom: 3px solid #216580;
+}
+.stepper::after{
+    content: '';
+    display: block;
+    background: #9c9c9c;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    /* position: absolute; */
+    margin-top: 15px;
+    float: right;
+    position: absolute;
+    right: 0px;
+}
+.customer_selection{
+    display: flex;
+}
+
+.customer__detail{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+}
+.btn-container-stepper{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+}
+.btn-container-stepper .next{
+    margin-left: auto;
+}
+.customer_dropdown{
+    width: 96%;
+}
+.customer__information{
+    width: 50%;
+}
+
+.mytablebody tr td:first-child{
+    font-weight: bold;
+}
+.item-selection-table thead tr th:last-child{
+    text-align: right;
+}
+.item-selection-table tbody tr td:last-child{
+    text-align: right;
+}
+.item-selection-table{
+    width: 96% !important;
+}
+.input75{
+    width: 75px !important;
+}
+.emi__deatils{
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+}
+.emi__deatils .emi_info{
+    width: 50%;
+}
+table.table-installment{
+    border: 1px solid #a5ac9b;
+}
+table.table-installment tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background */
+}

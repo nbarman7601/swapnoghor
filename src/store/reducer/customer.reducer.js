@@ -9,6 +9,7 @@ import {
     SET_CURRENT_PAGE,
     SET_SORT,
     SET_CUSTOMER_PER_PAGE_ITEM,
+    RESET_CUSTOMER_STATE,
   } from '../actions/customer.action';
   
   const initialState = {
@@ -52,7 +53,13 @@ import {
       case SET_SORT:
         return {...state, sortKey: action.payload.key, sortOrder: action.payload.direction, needRefresh: true };
       case SET_CUSTOMER_PER_PAGE_ITEM:
-        return {  ...state, itemsPerPage: action.payload, needRefresh: true}
+        return {  
+          ...state, 
+          itemsPerPage: action.payload, 
+          needRefresh: true
+        }
+      case RESET_CUSTOMER_STATE:
+        return initialState;
       default:
         return state;
     }

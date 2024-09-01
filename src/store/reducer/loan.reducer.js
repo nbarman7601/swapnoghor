@@ -3,9 +3,10 @@ import { FETCH_LOAN_REQUEST,
      SET_LOAN_ITEM_PAGE_NO, 
      SET_LOAN_ITEM_PER_PAGE, 
      SET_LOAN_REQUEST_FAILURE, 
+     SET_LOAN_SEARCH_QUERY, 
      SET_LOAN_SORT, 
-     SET_SELECTED_LOAN
-    
+     SET_SELECTED_LOAN,
+     UPDATE_LOAN_SEARCHBY
 } from "../actions/loan.action"
 
 const initialState = {
@@ -16,6 +17,8 @@ const initialState = {
     sortKey: 'sanctioned_date',
     sortOrder: 'desc',
     currentPage: 1,
+    searchBy: 'CUSTOMER',
+    groupId: '',
     totalPages: 0,
     itemsPerPage: 25,
     totalCount: 0,
@@ -59,6 +62,24 @@ export const loanReducer = (state = initialState, action )=>{
             return {
                 ...state,
                 currentPage: action.payload,
+                needRefresh: true
+            }
+        case UPDATE_LOAN_SEARCHBY:
+            return {
+                ...state,
+                searchBy: action.payload,
+                searchQuery: ''
+            }
+        case 'UPDATE_LOAN_GROUP_ID':
+            return {
+                ...state,
+                groupId: action.payload,
+                needRefresh: true
+            }
+        case SET_LOAN_SEARCH_QUERY:
+            return {
+                ...state,
+                searchQuery: action.payload,
                 needRefresh: true
             }
         default:

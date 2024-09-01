@@ -16,6 +16,9 @@ export const NavLinks = ()=>{
                 <NavLink to="/group">Group</NavLink>
             </li>
             <li>
+                <NavLink to="/items">Items</NavLink>
+            </li>
+            <li>
                 <NavLink to="/employee">Employee</NavLink>
             </li>
         </ul>

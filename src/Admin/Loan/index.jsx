@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoans, setLoanItemPageNumber, setLoanPageNumber, setLoanSort } from "../../store/actions/loan.action";
 import Spinner from "../../Element/Spinner";
 import Grid from "../../Element/Grid";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import CurrencyFormatter from "../../common/CurrencyFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faPrint } from "@fortawesome/free-solid-svg-icons";
@@ -23,7 +23,7 @@ const columns = [
     {
         columnKey: 'guardian',
         desc: 'Guardian'
-    }, 
+    },
     {
         columnKey: 'phone',
         desc: 'Phone'
@@ -35,13 +35,13 @@ const columns = [
     {
         columnKey: 'lo',
         desc: 'Loan Officer',
-        display: (item)=> <span>{item.lo}</span>
+        display: (item) => <span>{item.lo}</span>
     },
     {
         columnKey: 'sanctioned_date',
         desc: 'Santioned Date',
-        display: function (item){
-            return <DateFormatter date={item.sanctioned_date}/>
+        display: function (item) {
+            return <DateFormatter date={item.sanctioned_date} />
         }
     },
     {
@@ -82,8 +82,8 @@ const columns = [
     {
         columnKey: 'installment_interval',
         desc: 'Cycle',
-        display: function (item){
-            return <EMIInterval interval={item.installment_interval}/>
+        display: function (item) {
+            return <EMIInterval interval={item.installment_interval} />
         }
     },
 ]
@@ -91,7 +91,10 @@ const Loan = () => {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
-    const isDetailPage = location.pathname.includes('/loan/') && location.pathname.includes('/detail');
+    const navigate = useNavigate();
+    const regex = /\/loan\/.*\/detail/;
+    const isDetailPage = regex.test(location.pathname)
+        || location.pathname.includes('/disburse-loan');
     const {
         loans,
         status,
@@ -104,13 +107,14 @@ const Loan = () => {
         totalCount,
         itemsPerPage,
         loading,
+        searchBy,
         needRefresh
     } = useSelector((state) => state.loans);
     useEffect(() => {
-        if(needRefresh){
+        if (needRefresh) {
             dispatch(fetchLoans())
         }
-    }, [dispatch, searchQuery, sortKey, sortOrder, currentPage, itemsPerPage]
+    }, [dispatch, sortKey, searchBy, sortOrder, currentPage, itemsPerPage]
     );
 
     const handleSort = (e) => {
@@ -120,7 +124,6 @@ const Loan = () => {
         dispatch(setLoanPageNumber(e))
     }
     const handlePerPageItem = (e) => {
-        console.log(e)
         dispatch(setLoanItemPageNumber(e))
     }
 
@@ -132,49 +135,54 @@ const Loan = () => {
 
     }
 
+    const navigateToNewLoan = () => {
+        navigate(`/loan/disburse-loan`)
+    }
 
     return (
-        <div className="container">
-            {loading ? <Spinner /> : ''}
-            {!isDetailPage ? (<>
-                <div className="page_tool">
-                    <h3>Loan</h3>
-                    <LoanFilter />
-                    <div className="tools menu-container">
-                        <Button onClick={handleMoreAction} className="custom-class">
-                            More Action&nbsp;
-                            <FontAwesomeIcon icon={faEllipsisV} />
-                        </Button>
-                        {isOpen && (
-                            <div className="menu">
-                                <Button className="menu-item" onClick={printLoan}>
-                                    Print &nbsp;
-                                    <FontAwesomeIcon icon={faPrint} />
-                                </Button>
-
-                            </div>
-                        )}
+        <React.Fragment>
+            {loading ? <Spinner /> : null}
+            {isDetailPage ? <Outlet /> :
+                <React.Fragment>
+                    <div className="page_tool">
+                        <h3>Loan</h3>
+                        <LoanFilter />
+                        <div className="tools menu-container">
+                            <Button onClick={navigateToNewLoan}>
+                                Disburse Loan
+                            </Button>
+                            <Button onClick={handleMoreAction} className="custom-class">
+                                More Action&nbsp;
+                                <FontAwesomeIcon icon={faEllipsisV} />
+                            </Button>
+                            {isOpen && (
+                                <div className="menu">
+                                    <Button className="menu-item" onClick={printLoan}>
+                                        Print &nbsp;
+                                        <FontAwesomeIcon icon={faPrint} />
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-                <Grid
-                    data={loans}
-                    columns={columns}
-                    itemsPerPage={itemsPerPage}
-                    sortChange={handleSort}
-                    totalCount={totalCount}
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    sortKey={sortKey}
-                    sortOrder={sortOrder}
-                    pageChange={handlePageChange}
-                    perPageChange={handlePerPageItem}
-                    sort={true}
-                    pagination={true}
-                    showIndex={true}
-                /> </>) :
-                <Outlet />
-            }
-        </div>
+                    <Grid
+                        data={loans}
+                        columns={columns}
+                        itemsPerPage={itemsPerPage}
+                        sortChange={handleSort}
+                        totalCount={totalCount}
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                        sortKey={sortKey}
+                        sortOrder={sortOrder}
+                        pageChange={handlePageChange}
+                        perPageChange={handlePerPageItem}
+                        sort={true}
+                        pagination={true}
+                        showIndex={true}
+                    />
+                </React.Fragment>}
+        </React.Fragment>
     )
 }
 export default Loan;

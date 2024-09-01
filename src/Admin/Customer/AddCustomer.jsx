@@ -7,6 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ErrorPopup } from "../../common/ErrorPopup/ErrorPopup";
 import Spinner from "../../Element/Spinner";
+import { useDispatch } from "react-redux";
+import { fetchCustomers, resetCustomerState } from "../../store/actions/customer.action";
 
 const formLabel = {
     name: 'Customer Name',
@@ -38,6 +40,7 @@ export const AddCustomer = () => {
     const [formError, setFormError] = useState({});
     const [showError, setShowError] = useState(false);
     const [errors, setErrors] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (id) {
@@ -123,6 +126,8 @@ export const AddCustomer = () => {
                     .then(
                         (response) => {
                             setLoading(false);
+                            dispatch(resetCustomerState());
+                            // dispatch(fetchCustomers())
                             toast.success("Customer has been updated successfully")
                             navigate('/customer')
                         }

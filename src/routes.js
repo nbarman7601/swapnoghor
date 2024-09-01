@@ -14,6 +14,9 @@ import { AddCustomer } from "./Admin/Customer/AddCustomer";
 import Calendar from "./Admin/Calendar/DueCalendar";
 import { PageNotFound } from "./common/PageNotFound";
 import { AddEmployee } from "./Admin/Employee/AddEmployee/AddEmployee";
+import  ItemList  from "./Admin/Item/ItemList";
+import { AddEditItem } from "./Admin/Item/AddEditItem";
+import { AddLoan } from "./Admin/Loan/AddLoan/AddLoan";
 
 const router = createBrowserRouter([
   // {
@@ -113,6 +116,16 @@ const router = createBrowserRouter([
             path: ':id/detail',
             element: <LoanDetail />,
             breadcrumb: 'Detail',
+          },
+          {
+            path: 'disburse-loan',
+            element: <AddLoan />,
+            breadcrumb: 'Disburse Loan'
+          },
+          {
+            path: '*',
+            element: <PageNotFound/>,
+            breadcrumb: 'Page Not Found'
           }
         ]
       },
@@ -122,7 +135,21 @@ const router = createBrowserRouter([
           <Calendar />
         </Suspense>, 
         breadcrumb: 'Calendar',
-      }
+      },
+      {
+        path: "items",
+        element: <Suspense fallback={`Loading`}><ItemList /></Suspense>,
+        breadcrumb: 'Item',
+        children: [
+          {
+            path: 'add-item',
+            element: <Suspense fallback={`Loading`}>
+              <AddEditItem />
+            </Suspense>,
+            breadcrumb: 'Add Item'
+          }
+        ]
+      },
 
     ],
     loader: async () => {

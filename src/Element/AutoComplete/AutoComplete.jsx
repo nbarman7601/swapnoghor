@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import './AutoComplete.css';
 
-const AutoComplete = ({initialQuery = '', fetchSuggestions, onSelect }) => {
+const AutoComplete = ({ initialQuery = '', fetchSuggestions, onSelect }) => {
   const [query, setQuery] = useState(initialQuery);
   const [suggestions, setSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSelection, setIsSelection] = useState(false);
+
   const debounceFetch = useCallback(
     debounce(async (newQuery) => {
-      if (newQuery.length < 2) {
+      if (newQuery.length < 2 || isSelection) {
         setSuggestions([]);
         return;
       }
@@ -20,7 +21,7 @@ const AutoComplete = ({initialQuery = '', fetchSuggestions, onSelect }) => {
       setIsLoading(false);
       setShowSuggestions(true);
     }, 300),
-    []
+    [isSelection]
   );
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const AutoComplete = ({initialQuery = '', fetchSuggestions, onSelect }) => {
 
   useEffect(() => {
     if (initialQuery) {
+      setIsSelection(false);
       debounceFetch(initialQuery);
     }
   }, [initialQuery, debounceFetch]);
@@ -42,7 +44,7 @@ const AutoComplete = ({initialQuery = '', fetchSuggestions, onSelect }) => {
     setQuery(suggestion.name);
     setIsSelection(true);
     setShowSuggestions(false);
-    onSelect(suggestion); 
+    onSelect(suggestion);
   };
 
   return (
@@ -57,7 +59,7 @@ const AutoComplete = ({initialQuery = '', fetchSuggestions, onSelect }) => {
       {showSuggestions && suggestions.length > 0 && (
         <ul className="suggestions">
           {suggestions.map((item, index) => (
-            <li key={index._id} onClick={() => handleSelect(item)}>
+            <li key={index} onClick={() => handleSelect(item)}>
               {item.name}
             </li>
           ))}

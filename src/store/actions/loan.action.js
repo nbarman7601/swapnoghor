@@ -8,8 +8,16 @@ export const SET_SELECTED_LOAN = 'SET_SELECTED_LOAN';
 export const SET_LOAN_SORT = 'SET_LOAN_SORT';
 export const SET_LOAN_ITEM_PER_PAGE = 'SET_LOAN_ITEM_PER_PAGE';
 export const SET_LOAN_ITEM_PAGE_NO = 'SET_LOAN_ITEM_PAGE_NO';
+export const SET_LOAN_SEARCH_QUERY = 'SET_LOAN_SEARCH_QUERY';
 
 export const fetchLoanRequest = () => ({ type: FETCH_LOAN_REQUEST });
+
+export const UPDATE_LOAN_SEARCHBY = 'UPDATE_LOAN_SEARCHBY';
+
+export const updateLoanSearchBy = (value)=> ({type: UPDATE_LOAN_SEARCHBY, payload: value});
+
+export const updateLoanSearchQuery = (value)=>({type: SET_LOAN_SEARCH_QUERY, payload: value});
+
 export const fetchLoans = ()=>{
     return async (dispatch, getState)=>{
         const { 
@@ -18,6 +26,9 @@ export const fetchLoans = ()=>{
             sortOrder,
             currentPage, 
             itemsPerPage,
+            searchBy,
+            status,
+            groupId
         } = getState().loans;
 
         dispatch(fetchLoanRequest());
@@ -29,8 +40,9 @@ export const fetchLoans = ()=>{
                   sort: sortOrder, 
                   page: currentPage,
                   limit: itemsPerPage,
-                  status: 'active',
-                  searchBy: 'GROUP'
+                  status: status,
+                  searchBy: searchBy,
+                  groupId: groupId
                 },
               });
               dispatch(fetchLoanSuccess({ ...response  }));
