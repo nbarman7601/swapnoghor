@@ -117,10 +117,10 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
         <Popup>
             <div className='popup_tool'>
                 <div data-testid="today_date"> {title} </div>
-                <Button onClick={print}>
+                <Button onClick={print} name="print">
                     <FontAwesomeIcon icon={faPrint} />
                 </Button>
-                <button className="popup-close" onClick={onClose}>
+                <button className="popup-close" name="close" onClick={onClose}>
                     <FontAwesomeIcon icon={faClose} />
                 </button>
             </div>

@@ -1,11 +1,12 @@
 import React from 'react';
 import './element.css';
-const Button = ({ onClick, children, className, disabled }) => {
+const Button = ({ onClick, children, className, disabled, ...props }) => {
     return (
         <button
             onClick={onClick}
             className={`btn ${className}`}
             disabled={disabled}
+            {...props}
         >
             {children}
         </button>
