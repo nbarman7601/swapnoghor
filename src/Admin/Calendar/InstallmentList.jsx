@@ -6,10 +6,12 @@ import DateFormatter from "../../common/DateFormatter"
 import Button from "../../Element/Button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faClose, faPrint } from "@fortawesome/free-solid-svg-icons"
+import PropTypes from 'prop-types';
+
 export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, onClose }) => {
     const [title, setTitle] = useState('');
     useEffect(() => {
-        const date = new Date(`${currentYear}-${currentMonth}-${installments[0].installment_date}`)
+        const date = new Date(`${currentYear}-${currentMonth}-${installments[0]?.installment_date}`)
         const modalTitle = <DateFormatter date={date} />
         setTitle(prevTitle => modalTitle)
     }, [installments, currentYear, currentMonth])
@@ -136,3 +138,33 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
         </Popup>
     )
 }
+InstallmentListPopUP.propTypes = {
+    installments: PropTypes.arrayOf(PropTypes.shape({
+        installment_date: PropTypes.string.isRequired,
+        loanId: PropTypes.shape({
+            customer: PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                guardian: PropTypes.string,
+                group: PropTypes.shape({
+                    name: PropTypes.string,
+                    lo: PropTypes.shape({
+                        firstName: PropTypes.string,
+                        lastName: PropTypes.string
+                    })
+                }),
+                phone: PropTypes.string
+            }).isRequired
+        }).isRequired,
+        installmentAmt: PropTypes.number.isRequired,
+        actualAmt: PropTypes.number,
+        collectedBy: PropTypes.shape({
+            firstName: PropTypes.string,
+            lastName: PropTypes.string
+        }),
+        paymnentAt: PropTypes.string,
+        status: PropTypes.string.isRequired
+    })).isRequired,
+    currentMonth: PropTypes.string.isRequired,
+    currentYear: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired
+};

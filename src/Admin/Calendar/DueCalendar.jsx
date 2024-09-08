@@ -18,7 +18,7 @@ const Calendar = () => {
     const [paidMoney, setPaidMoney] = useState(0);
     const [total, setTotal]= useState(0);
     const [loading, setLoading] = useState(false);
-    const [isPopupOpen, setPopupOpen] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [installments, setInstallments]= useState([]);
 
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -118,7 +118,7 @@ const Calendar = () => {
 
     const viewInstallment = (extrData)=>{
             setInstallments((prevInstallment)=>extrData)
-            setPopupOpen(true);
+            setIsPopupOpen(true);
     }
     const renderDays = () => {
         const calendarDays = [];
@@ -165,7 +165,7 @@ const Calendar = () => {
     };
 
     const closePopup = ()=>{
-        setPopupOpen(false)
+        setIsPopupOpen(false)
     }
 
 
