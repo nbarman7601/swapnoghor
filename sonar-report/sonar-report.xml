@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+    <file path="D:\latest-technology\react-app\src\Admin\__TEST__\main-header.test.js">
+        <testCase name="MainHeader.js should return content" duration="83"/>
+    </file>
+    <file path="D:\latest-technology\react-app\src\Admin\__TEST__\sidebar.test.js">
+        <testCase name="Sidebar Test Should link available in the document" duration="84"/>
+        <testCase name="Sidebar Test Should redirect to particular page" duration="32">
+            <failure message="ReferenceError: profileLink is not defined"><![CDATA[ReferenceError: profileLink is not defined
+    at Object.<anonymous> (D:\latest-technology\react-app\src\Admin\__TEST__\sidebar.test.js:50:16)
+    at Promise.then.completed (D:\latest-technology\react-app\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\latest-technology\react-app\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:60:9)
+    at run (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (D:\latest-technology\react-app\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (D:\latest-technology\react-app\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (D:\latest-technology\react-app\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (D:\latest-technology\react-app\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (D:\latest-technology\react-app\node_modules\jest-runner\build\testWorker.js:133:12)]]></failure>
+        </testCase>
+    </file>
+    <file path="D:\latest-technology\react-app\src\Admin\__TEST__\main-navigation.test.js">
+        <testCase name="Test MainNavigation Test main navigation" duration="298">
+            <failure message="TypeError: Cannot destructure property &apos;basename&apos; of &apos;React__namespace.useContext(...)&apos; as it is null."><![CDATA[TypeError: Cannot destructure property 'basename' of 'React__namespace.useContext(...)' as it is null.
+    at LinkWithRef (D:\latest-technology\react-app\node_modules\react-router-dom\index.tsx:963:11)
+    at renderWithHooks (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:15486:18)
+    at updateForwardRef (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:19245:20)
+    at beginWork (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:21675:16)
+    at beginWork$1 (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:27465:14)
+    at performUnitOfWork (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:26599:12)
+    at workLoopSync (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:26505:5)
+    at renderRootSync (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:25889:20)
+    at performConcurrentWorkOnRoot (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom.development.js:25789:22)
+    at flushActQueue (D:\latest-technology\react-app\node_modules\react\cjs\react.development.js:2667:24)
+    at act (D:\latest-technology\react-app\node_modules\react\cjs\react.development.js:2582:11)
+    at actWithWarning (D:\latest-technology\react-app\node_modules\react-dom\cjs\react-dom-test-utils.development.js:1740:10)
+    at D:\latest-technology\react-app\node_modules\@testing-library\react\dist\act-compat.js:63:25
+    at renderRoot (D:\latest-technology\react-app\node_modules\@testing-library\react\dist\pure.js:159:26)
+    at render (D:\latest-technology\react-app\node_modules\@testing-library\react\dist\pure.js:246:10)
+    at Object.<anonymous> (D:\latest-technology\react-app\src\Admin\__TEST__\main-navigation.test.js:13:15)
+    at Promise.then.completed (D:\latest-technology\react-app\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\latest-technology\react-app\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:60:9)
+    at run (D:\latest-technology\react-app\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (D:\latest-technology\react-app\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (D:\latest-technology\react-app\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (D:\latest-technology\react-app\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (D:\latest-technology\react-app\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (D:\latest-technology\react-app\node_modules\jest-runner\build\testWorker.js:133:12)]]></failure>
+        </testCase>
+    </file>
+    <file path="D:\latest-technology\react-app\src\Admin\__TEST__\header.test.js">
+        <testCase name="Header Component should render Sidebar and Profile link" duration="73"/>
+        <testCase name="Header Component should call handleLogout and navigate to the home page on logout" duration="18"/>
+    </file>
+    <file path="D:\latest-technology\react-app\src\Admin\Calendar\__Test__\Calender.test.js">
+        <testCase name="Test Calender function Installment List should be open" duration="249"/>
+        <testCase name="Test Calender function renders the grid with correct data" duration="64"/>
+        <testCase name="Test Calender function handles print button click" duration="54"/>
+        <testCase name="Test Calender function handles close button click" duration="22"/>
+    </file>
+    <file path="D:\latest-technology\react-app\src\App.test.js">
+        <testCase name="App component should render" duration="37"/>
+    </file>
+    <file path="D:\latest-technology\react-app\src\Admin\__TEST__\footer.test.js">
+        <testCase name="Footer Component Test Footer should render" duration="45"/>
+    </file>
+    <file path="D:\latest-technology\react-app\src\__TEST__\helper.test.js">
+        <testCase name="Helper js test should debounce function calls and only call after the delay" duration="3"/>
+        <testCase name="Helper js test should pass the correct arguments to the debounced function" duration="2"/>
+        <testCase name="Helper js test should reset the timer if called again before delay" duration="0"/>
+    </file>
+    <file path="D:\latest-technology\react-app\src\__TEST__\common.test.jsx">
+        <testCase name="Test Auth.js Test IsAuthenticated Auth without token" duration="3"/>
+        <testCase name="Test Auth.js Test IsAuthenticated Auth " duration="2"/>
+    </file>
+    <file path="D:\latest-technology\react-app\src\common\__TEST__\TruncateText.test.js">
+        <testCase name="TruncateText Component renders the full text if it is less than or equal to 30 characters" duration="34"/>
+        <testCase name="TruncateText Component renders the truncated text with ellipsis if it exceeds 30 characters" duration="3"/>
+        <testCase name="TruncateText Component renders an empty span when the text is empty" duration="2"/>
+    </file>
+</testExecutions>
