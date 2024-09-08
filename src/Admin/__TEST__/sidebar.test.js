@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar";
+import { act } from "react";
 
 jest.mock("react-router-dom", ()=>({
     ...jest.requireActual("react-router-dom"), 
@@ -18,12 +19,14 @@ describe("Sidebar Test", ()=>{
         jest.clearAllMocks();
         localStorage.clear(); // Clear localStorage for fresh tests
     });
-    test("Should link available in the document", ()=>{
-         render(
-            <MemoryRouter>
-                <Sidebar />
-            </MemoryRouter>
-         )
+    test("Should link available in the document", async ()=>{
+         await act(async ()=>{
+             render(
+                <MemoryRouter>
+                    <Sidebar />
+                </MemoryRouter>
+             )
+         }) 
         const empText = screen.getByText(/Employee/i);
         const group = screen.getByText(/Group/i);
         const Customer = screen.getByText(/Customer/i);
@@ -47,6 +50,6 @@ describe("Sidebar Test", ()=>{
         )
         const empText = screen.getByText(/Employee/i);
         fireEvent.click(empText);
-        expect(profileLink.closest('a')).toHaveAttribute('href', '/employee');
+        expect(empText.closest('a')).toHaveAttribute('href', '/employee');
     })
 })

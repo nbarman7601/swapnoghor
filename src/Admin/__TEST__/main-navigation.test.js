@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import { useNavigate } from "react-router-dom"
+import { BrowserRouter, useNavigate } from "react-router-dom"
 import { MainNavigation } from "../MainNavigation"
 
 jest.mock("react-router-dom", ()=>({
@@ -11,9 +11,11 @@ describe("Test MainNavigation", ()=>{
 
     test("Test main navigation", ()=>{
         render(
-            <MainNavigation />
+            <BrowserRouter basename="/">
+                <MainNavigation />
+            </BrowserRouter>
         )
-        const textName = screen.getByText(/Nandan/i);
+        const textName = screen.getByTestId('appName');
         expect(textName).toBeInTheDocument();
     })
     

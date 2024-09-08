@@ -20,7 +20,7 @@ export const MainNavigation = ()=>{
                 <NavLinks />
             </nav>
             <nav className="user_setting_profile">
-                <div>
+                <div data-testid="appName"> 
                     Nandan
                 </div>
             </nav>

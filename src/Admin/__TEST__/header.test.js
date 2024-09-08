@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react"
 import Header from "../Header"
 import { MemoryRouter, useNavigate } from "react-router-dom";
+import { act } from "react";
 
 
 jest.mock('react-router-dom', () => ({
@@ -11,12 +12,16 @@ jest.mock('../Sidebar', () => () => <div>Mocked Sidebar</div>);
 
 describe("Header Component", ()=>{
     const mockedNavigate = jest.fn();
-    beforeEach(()=>{
-        require('react-router-dom').useNavigate.mockReturnValue(mockedNavigate);
-    })
+
+    beforeEach(() => {
+        jest.useFakeTimers();
+        jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(mockedNavigate);
+    });
+
 
     afterEach(()=>{
         jest.clearAllMocks();
+        jest.clearAllTimers();
         localStorage.clear(); 
     })
 
@@ -46,7 +51,12 @@ describe("Header Component", ()=>{
         const logoutBtn = screen.getByTestId("logoutBTn");
         expect(logoutBtn).toBeInTheDocument();
 
-        fireEvent.click(logoutBtn);
+        act(() => {
+            fireEvent.click(logoutBtn);
+        });
+        act(() => {
+            jest.advanceTimersByTime(1000);
+        });
         expect(localStorage.getItem('token')).toBe(null);
         expect(mockedNavigate).toHaveBeenCalledWith('/');
       });
