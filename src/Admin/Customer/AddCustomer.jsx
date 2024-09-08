@@ -71,7 +71,7 @@ export const AddCustomer = () => {
     }, [id])
 
     const fetchSuggestions = async (query) => {
-        const response = await await apiService.get('/group/list', {
+        const response =  await apiService.get('/group/list', {
             params: {
                 search: query,
                 sortBy: 'name',
