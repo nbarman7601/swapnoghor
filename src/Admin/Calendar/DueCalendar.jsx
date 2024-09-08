@@ -33,8 +33,8 @@ const Calendar = () => {
         setLoading(preLoading => true);
         apiService.get(`loan/installment-with-datebound`, {
             params: {
-                from: currentYear + '-' + currentMonth + '-01',
-                to: currentYear + '-' + currentMonth + '-' + daysInMonth,
+                from: currentYear + '-' + currentMonth.toString().padStart(2, '0') + '-01',
+                to: currentYear + '-' + currentMonth.toString().padStart(2, '0') + '-' + daysInMonth,
             }
         }).then(
             (response) => {
