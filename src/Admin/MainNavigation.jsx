@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { MainHeader } from "./MainHeader"
 import { NavLinks } from "./NavLinks"
 import './MainNavigation.css';
-import Button from "../Element/Button";
+
 export const MainNavigation = ()=>{
     return (
         <MainHeader>

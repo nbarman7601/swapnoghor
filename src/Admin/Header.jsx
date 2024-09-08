@@ -15,7 +15,7 @@ const Header = () => {
             <Sidebar />
             <div className='profile__toolbar'>
                 <Link to="/profile">Profile</Link>
-                <Button onClick={handleLogout} className={`flat-btn`}>Logout</Button> 
+                <Button data-testid="logoutBTn" onClick={handleLogout} className={`flat-btn`}>Logout</Button> 
             </div>
     </div>
   );
