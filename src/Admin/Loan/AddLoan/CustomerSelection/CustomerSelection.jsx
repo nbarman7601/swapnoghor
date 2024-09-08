@@ -91,7 +91,12 @@ const CustomerSelection = ({group, customer, updateGroup, updateCustomer}) => {
                                     customer ?
                                         (
                                             <table>
-                                                <thead></thead>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Key</th>
+                                                        <th>Value</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody className="mytablebody">
                                                     <tr>
                                                         <td>Name</td>
