@@ -21,6 +21,12 @@ export const EmiSelection = () => {
                         <div className="emi__deatils">
                             <div className="emi_info">
                                 <table className="table-installment">
+                                    <thead>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         <tr>
                                             <td>Total Amount</td>
