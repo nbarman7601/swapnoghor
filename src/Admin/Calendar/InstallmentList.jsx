@@ -116,7 +116,7 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
     return (
         <Popup>
             <div className='popup_tool'>
-                <div> {title} </div>
+                <div data-testid="today_date"> {title} </div>
                 <Button onClick={print}>
                     <FontAwesomeIcon icon={faPrint} />
                 </Button>
@@ -160,7 +160,7 @@ InstallmentListPopUP.propTypes = {
         paymnentAt: PropTypes.string,
         status: PropTypes.string.isRequired
     })).isRequired,
-    currentMonth: PropTypes.string.isRequired,
-    currentYear: PropTypes.string.isRequired,
+    currentMonth: PropTypes.number.isRequired,
+    currentYear: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired
 };

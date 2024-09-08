@@ -4,6 +4,7 @@ import apiService from '../../axios';
 import CurrencyFormatter from '../../common/CurrencyFormatter';
 import Button from '../../Element/Button';
 import { InstallmentListPopUP } from './InstallmentList';
+import { createPortal } from 'react-dom';
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const months = [
@@ -195,12 +196,14 @@ const Calendar = () => {
             <div className="calendar-grid">
                 {renderDays()}
             </div>
-            {isPopupOpen && (
+            {isPopupOpen && ( createPortal(
                  <InstallmentListPopUP 
                  onClose={closePopup} 
                  currentMonth={currentMonth}
                  currentYear={currentYear}
-                 installments={installments} />)
+                 installments={installments} />,
+                 document.body
+            ))
             }
         </div>
     );
