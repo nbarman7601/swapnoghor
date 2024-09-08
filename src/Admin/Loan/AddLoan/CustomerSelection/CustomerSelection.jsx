@@ -16,7 +16,7 @@ const CustomerSelection = ({group, customer, updateGroup, updateCustomer}) => {
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [initGroup, setInitgroup] = useState('');
     const fetchSuggestions = async (query) => {
-        const response = await await apiService.get('/group/list', {
+        const response =  await apiService.get('/group/list', {
             params: {
                 search: query,
                 sortBy: 'name',
