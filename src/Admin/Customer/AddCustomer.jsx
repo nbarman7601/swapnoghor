@@ -179,7 +179,7 @@ export const AddCustomer = () => {
         <React.Fragment>
             {loading ? <Spinner /> : null}
             <fieldset>
-                <legend>Customer Detail</legend>
+                <legend data-testid="customerdetail">Customer Detail</legend>
                 <div className="row">
                     <div className="col-xs-4 col-sm-12">
                         <div className="mb-3">
