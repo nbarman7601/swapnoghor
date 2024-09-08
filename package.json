@@ -23,12 +23,13 @@
     "react-toastify": "^10.0.5",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
+    "sonar-scanner": "^3.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-sonar-reporter/index.js",
+    "test": "react-scripts test --watchAll -- --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -52,10 +53,14 @@
   "devDependencies": {
     "jest": "^27.5.1"
   },
- "jest": {
+  "jest": {
     "collectCoverage": true,
-    "coverageReporters": ["lcov", "text"],
-    "coverageDirectory": "./coverage"
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageDirectory": "./coverage",
+    "collectCoverageFrom": ["src/**/*test.js", "**/*.test.jsx"]
   },
   "jestSonar": {
     "sonar56x": true,
