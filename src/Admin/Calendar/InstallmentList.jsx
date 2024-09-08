@@ -109,7 +109,6 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
         printWindow.document.write(document.querySelector('.print-only').innerHTML);
         printWindow.document.write('</body></html>');
         printWindow.document.close();
-        printWindow.focus();
         printWindow.print();
     };
 
@@ -117,10 +116,10 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
         <Popup>
             <div className='popup_tool'>
                 <div data-testid="today_date"> {title} </div>
-                <Button onClick={print} name="print">
+                <Button onClick={print} data-testid="print-button">
                     <FontAwesomeIcon icon={faPrint} />
                 </Button>
-                <button className="popup-close" name="close" onClick={onClose}>
+                <button className="popup-close" data-testid="close-button" onClick={onClose}>
                     <FontAwesomeIcon icon={faClose} />
                 </button>
             </div>

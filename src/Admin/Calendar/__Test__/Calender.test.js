@@ -1,7 +1,6 @@
-import { render, screen } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
 import { InstallmentListPopUP } from "../InstallmentList"
-
-
+import '@testing-library/jest-dom';
 jest.mock("../../../common/CurrencyFormatter", () => ({ amount }) => <span>{amount}</span>);
 jest.mock('../../../common/DateFormatter', () => ({ date }) => {
     const formattedDate = new Date(date).toLocaleDateString();
@@ -68,5 +67,47 @@ describe("Test Calender function", () => {
         expect(screen.getByText('400')).toBeInTheDocument(); // Collected amount using CurrencyFormatter mock
         expect(screen.getByText('1/9/2023')).toBeInTheDocument(); // DateFormatter mock
         expect(screen.getByText('Collector One')).toBeInTheDocument();
+    });
+
+    it('handles print button click', () => {
+        window.print = jest.fn();
+        const mockOpen = jest.spyOn(window, 'open').mockImplementation(() => ({
+            document: {
+                write: jest.fn(),
+                close: jest.fn(),
+                focus: jest.fn()
+            },
+            print: jest.fn()
+        }));
+
+        render(
+            <InstallmentListPopUP
+                installments={mockInstallments}
+                currentMonth={mockCurrentMonth}
+                currentYear={mockCurrentYear}
+                onClose={mockOnClose}
+            />
+        );
+
+        const printButton = screen.getByTestId('print-button');
+        fireEvent.click(printButton);
+
+        expect(mockOpen).toHaveBeenCalled();
+    });
+
+    it('handles close button click', () => {
+        render(
+            <InstallmentListPopUP
+                installments={mockInstallments}
+                currentMonth={mockCurrentMonth}
+                currentYear={mockCurrentYear}
+                onClose={mockOnClose}
+            />
+        );
+
+        const closeButton = screen.getByTestId('close-button');
+        fireEvent.click(closeButton);
+
+        expect(mockOnClose).toHaveBeenCalled();
     });
 })
