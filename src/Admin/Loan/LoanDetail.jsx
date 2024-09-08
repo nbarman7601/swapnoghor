@@ -119,8 +119,8 @@ export const LoanDetail = () => {
                                 </div>
                                 <div className="col-xs-3">
                                     <label className="identification"> <strong> EMI Cycle:</strong> {
-                                        selectedLoan.installment_interval == '1M' ?
-                                            'Monthly' : selectedLoan.installment_interval == '1W' ?
+                                        selectedLoan.installment_interval === '1M' ?
+                                            'Monthly' : selectedLoan.installment_interval === '1W' ?
                                                 'Weekly' : '2 Weeks'
                                     } </label>
                                 </div>
@@ -203,7 +203,7 @@ export const LoanDetail = () => {
                                                         </td>
                                                         <td>
                                                             {
-                                                                item.status == 'paid' ?
+                                                                item.status === 'paid' ?
                                                                     <DateFormatter date={item.paymnentAt} />
                                                                     : ''
                                                             }

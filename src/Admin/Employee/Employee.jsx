@@ -87,7 +87,7 @@ const Employee = () => {
     <React.Fragment>
       {isDetailPage ? <Outlet /> :
         (<div className="container">
-          {status == 'loading' ? <Spinner /> : ''}
+          {status === 'loading' ? <Spinner /> : ''}
           <div className="page_tool">
             <div className="page_info">
               <h3>Customer</h3>

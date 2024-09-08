@@ -70,7 +70,7 @@ export const AddEmployee = () => {
         }
         if (!formData.confirmedPassword.trim()) {
             error.confirmedPassword = "Confirmed Password is required";
-        } else if (formData.password !== formData.confirmedPassword) {
+        } else if (formData.password!== formData.confirmedPassword) {
             error.confirmedPassword = "Passwords do not match";
         }
         return error;

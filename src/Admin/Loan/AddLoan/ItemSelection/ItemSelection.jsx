@@ -59,7 +59,7 @@ export const ItemSelection = () => {
     }
 
     const addToCart = (item) => {
-        const isExist = cartItems.find((cartItem) => cartItem._id == item._id);
+        const isExist = cartItems.find((cartItem) => cartItem._id === item._id);
         if (!isExist) {
             const items = [...cartItems,
             {
@@ -92,7 +92,7 @@ export const ItemSelection = () => {
     return (
         <React.Fragment>
             {
-                currentStep == 2 ? (
+                currentStep === 2 ? (
                     <Card>
                         <div className='item-details customer_selection'>
                             <div className='left customer__detail'>

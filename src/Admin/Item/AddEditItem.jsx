@@ -77,7 +77,7 @@ export const AddEditItem = () => {
                     }
                 ).catch(error=>{
                     setLoading(false);
-                    if(error.status == 404){
+                    if(error.status === 404){
                         toast.error('Resource Not Found')
                     }else{
                         toast.error(error.error)

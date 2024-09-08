@@ -15,7 +15,7 @@ export const EmiSelection = () => {
     return (
         <React.Fragment>
             {
-                currentStep == 3 ? (
+                currentStep === 3 ? (
                     <Card>
                         <h3>EMI</h3>
                         <div className="emi__deatils">

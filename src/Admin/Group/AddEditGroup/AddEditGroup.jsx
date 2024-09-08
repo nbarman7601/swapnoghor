@@ -33,7 +33,7 @@ export const AddEditGroup = ({ group, mode, onClose }) => {
     }
 
     const addUpdateGroup = () => {
-        if(mode == 'EDIT'){
+        if(mode === 'EDIT'){
             setLoading(true);
             apiService.put(`group/${groupData._id}/update`, groupData)
                 .then(
@@ -106,7 +106,7 @@ export const AddEditGroup = ({ group, mode, onClose }) => {
                     </div>
                     <div className="btn-container">
                         <Button onClick={addUpdateGroup}>{
-                            mode == 'EDIT' ? 'Update Group' : 'Add Group'
+                            mode === 'EDIT' ? 'Update Group' : 'Add Group'
                         }</Button>
                     </div>
                 </div>

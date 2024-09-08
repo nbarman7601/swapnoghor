@@ -65,7 +65,7 @@ export const LoanFilter = () => {
                 </select>
             </div>
             {
-                searchBy == 'GROUP' ? (
+                searchBy === 'GROUP' ? (
                     <div className="search__item">
                         <label>Group</label>
                         <AutoComplete
@@ -73,7 +73,7 @@ export const LoanFilter = () => {
                             initialQuery={''}
                             onSelect={handleGroupSelect} />
                     </div>
-                ) : searchBy == 'CUSTOMER' ? (
+                ) : searchBy === 'CUSTOMER' ? (
                     <>
                         <div className="search__item">
                             <label>Customer</label>

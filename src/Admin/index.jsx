@@ -1,6 +1,4 @@
 import { Outlet } from "react-router-dom"
-import Header from "./Header";
-import Sidebar from "./Sidebar";
 import './index.css';
 import Breadcrumb from "../common/Breadcrumb";
 import router from "../routes";

@@ -58,14 +58,14 @@ const CustomerSelection = ({group, customer, updateGroup, updateCustomer}) => {
 
     const handleCustomerSelection = (e)=>{
         const id = e.target.value;
-        const sCustomer = listCustomer.find((lcustomer)=> lcustomer._id == id);
+        const sCustomer = listCustomer.find((lcustomer)=> lcustomer._id === id);
         updateCustomer(sCustomer);
     }
 
     return (
         <React.Fragment>
             {
-                currentStep == 1 ?
+                currentStep === 1 ?
                     (<Card>
                         <div className="customer_selection">
                             <div className="customer__detail">

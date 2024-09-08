@@ -13,7 +13,7 @@ const Grid = ({ data, totalPages, totalCount, pageChange,
 
     const handleSort = (key) => {
         if(sort){
-            let direction = sortOrder == 'asc' ? 'desc' : 'asc';
+            let direction = sortOrder === 'asc' ? 'desc' : 'asc';
             sortChange({ key, direction });
         }
     };

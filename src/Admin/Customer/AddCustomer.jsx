@@ -120,8 +120,8 @@ export const AddCustomer = () => {
         if (Object.keys(error).length === 0) {
             console.log("Form submitted successfully", formData);
             setLoading(true);
-            const url = mode == 'EDIT' ? `customer/${id}/update-customer` : `/customer/create`;
-            if(mode == 'EDIT'){
+            const url = mode === 'EDIT' ? `customer/${id}/update-customer` : `/customer/create`;
+            if(mode === 'EDIT'){
                 apiService.put(url, formData)
                     .then(
                         (response) => {
@@ -279,7 +279,7 @@ export const AddCustomer = () => {
                 </div>
                 <div className="btn-container">
                     <Button onClick={handleCustomerSubmit}>
-                        {mode == 'EDIT' ? 'Update Customer': 'Add Customer'} 
+                        {mode === 'EDIT' ? 'Update Customer': 'Add Customer'} 
                     </Button>
                 </div>
             </fieldset>

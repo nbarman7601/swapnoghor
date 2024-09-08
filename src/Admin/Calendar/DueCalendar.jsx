@@ -39,7 +39,7 @@ const Calendar = () => {
         }).then(
             (response) => {
                 const installments = response.data;
-                const paidMoneyTotal = response.data.filter((installment) => installment.status == 'paid').reduce((accumulator, currentValue) => accumulator + currentValue.actualAmt, 0);
+                const paidMoneyTotal = response.data.filter((installment) => installment.status === 'paid').reduce((accumulator, currentValue) => accumulator + currentValue.actualAmt, 0);
                 const totalMoney = response.data.reduce((accumulator, currentValue) => accumulator + currentValue.installmentAmt, 0);
 
                 setPaidMoney(paidMoneyTotal);
