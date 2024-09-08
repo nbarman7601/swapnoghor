@@ -96,7 +96,6 @@ describe("Test Calender function", ()=>{
                                 "dob": "1993-04-14T00:00:00.000Z",
                                 "email": "nbarman760@gmail.com",
                                 "phone": "9933369927",
-                                "password": "$2b$10$8fPm30oh9Z1Y6iQoK.fzWu8xe7.pVl9MYNUiMXi/vrBno.t4qPdu6",
                                 "status": "active",
                                 "deletedAt": null,
                                 "createdAt": "2024-05-22T16:34:51.149Z",
