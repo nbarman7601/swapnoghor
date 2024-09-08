@@ -1,0 +1,6 @@
+projectKey=swapnoghor
+serverUrl=http://localhost:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://localhost:9000/dashboard?id=swapnoghor
+ceTaskId=74148aa7-7fce-4bfb-b11a-98bbc9cd8070
+ceTaskUrl=http://localhost:9000/api/ce/task?id=74148aa7-7fce-4bfb-b11a-98bbc9cd8070

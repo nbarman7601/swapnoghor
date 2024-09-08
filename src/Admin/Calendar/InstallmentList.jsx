@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import PropTypes from 'prop-types';
 import Popup from "../../common/Popup"
 import Grid from '../../Element/Grid/index'
 import CurrencyFormatter from "../../common/CurrencyFormatter"
@@ -135,4 +136,11 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
 
         </Popup>
     )
+}
+
+InstallmentListPopUP.propTypes = {
+    installments: PropTypes.array.isRequired,
+    currentMonth: PropTypes.number.isRequired,
+    currentYear: PropTypes.number.isRequired,
+    onClose: PropTypes.func.isRequired
 }
