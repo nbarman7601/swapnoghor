@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { ErrorPopup } from "../../common/ErrorPopup/ErrorPopup";
 import Spinner from "../../Element/Spinner";
 import { useDispatch } from "react-redux";
-import { fetchCustomers, resetCustomerState } from "../../store/actions/customer.action";
+import {  resetCustomerState } from "../../store/actions/customer.action";
 
 const formLabel = {
     name: 'Customer Name',

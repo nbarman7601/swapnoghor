@@ -29,7 +29,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll -- --coverage",
+    "test": "react-scripts test --coverage",
+    "test:coverage": "react-scripts test --coverage --coverageReporters=html",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -52,15 +53,6 @@
   },
   "devDependencies": {
     "jest": "^27.5.1"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ],
-    "coverageDirectory": "./coverage",
-    "collectCoverageFrom": ["src/**/*test.js", "**/*.test.jsx"]
   },
   "jestSonar": {
     "sonar56x": true,
