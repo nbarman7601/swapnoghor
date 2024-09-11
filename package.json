@@ -29,7 +29,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage",
+    "test": "react-scripts test",
     "test:coverage": "react-scripts test --coverage --coverageReporters=html",
     "eject": "react-scripts eject"
   },
@@ -53,11 +53,5 @@
   },
   "devDependencies": {
     "jest": "^27.5.1"
-  },
-  "jestSonar": {
-    "sonar56x": true,
-    "reportPath": "testResults",
-    "reportFile": "sonar-report.xml",
-    "indent": 4
   }
 }
