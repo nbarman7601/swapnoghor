@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const apiService = axios.create({
-  baseURL: 'http://192.168.0.6:3001/v1/api/', // Replace with your API base URL
+  baseURL: 'http://localhost:3001/v1/api/', // Replace with your API base URL
 });
 
 // Request Interceptor
