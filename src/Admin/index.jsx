@@ -7,7 +7,9 @@ import { Footer } from "./Footer";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from "react-redux";
 const Admin = () => {
+    const {error, display} = useSelector((state)=> state.global);
     return (
         <React.Fragment>
             <div className="admin-layout">
@@ -16,6 +18,11 @@ const Admin = () => {
                     <div className="layout">
                         <div className="content_layout">
                             <Breadcrumb routes={router.routes} />
+                            {
+                                display && (<div className="error-container">
+                                            {error}
+                                    </div>)
+                            }
                             <Outlet />
                         </div>
                     </div>

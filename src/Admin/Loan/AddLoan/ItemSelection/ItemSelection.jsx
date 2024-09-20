@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import Counter from '../../../../Element/Counter/Counter';
 import CurrencyFormatter from '../../../../common/CurrencyFormatter';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCartItems } from '../../../../store/actions/disburse.action';
+import { setCartItems, updateTotalAmount } from '../../../../store/actions/disburse.action';
 
 export const ItemSelection = () => {
     const {
@@ -54,7 +54,10 @@ export const ItemSelection = () => {
         setCurrentStep(1)
     }
 
-    const next = () => {
+    const next = () => { 
+        console.log(cartItems, totalAmount)
+        dispatch(setCartItems(cartItems));
+        dispatch(updateTotalAmount(totalAmount));
         setCurrentStep(3)
     }
 

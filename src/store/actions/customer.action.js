@@ -42,7 +42,6 @@ export const fetchCustomers=()=>{
               searchBy: 'GROUP'
             },
           });
-          console.log(response)
           dispatch(fetchCustomersSuccess(response));
         } catch (error) {
           dispatch(fetchCustomersFailure(error.message));

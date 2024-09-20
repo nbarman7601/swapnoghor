@@ -32,7 +32,13 @@ apiService.interceptors.response.use(
       // For example, redirect to login page on 401 unauthorized
       // window.location.href = '/login';
     }
-    return Promise.reject(error.response);
+    if (error.response && error.response.status === 404) {
+       return Promise.reject("Resource Not Found");
+    }
+    if(error.code === "ERR_NETWORK"){
+        return Promise.reject("Server not running. Please contact admin")
+    }
+    return Promise.reject(error);
   }
 );
 

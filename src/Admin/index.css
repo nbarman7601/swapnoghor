@@ -42,3 +42,18 @@
   .admin-layout{
     margin-bottom: 50px;
   }
+  .error-container{
+    display: flex;
+    width: 98%;
+    font-size: 12px;
+    border: 1px solid #556;
+    padding: 10px;
+    background: #fcc1c1;
+    color: darkred;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 3s 2s forwards;
+    transition: transform 1s;
+}
+  

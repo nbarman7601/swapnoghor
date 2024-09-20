@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Card from "../../../../Element/Card/Card"
 import AutoComplete from "../../../../Element/AutoComplete/AutoComplete";
 import apiService from "../../../../axios";
@@ -15,7 +15,7 @@ const CustomerSelection = ({group, customer, updateGroup, updateCustomer}) => {
     const [listCustomer, setListCustomer] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [initGroup, setInitgroup] = useState('');
-    const fetchSuggestions = async (query) => {
+    const fetchSuggestions = useCallback(async(query) => {
         const response =  await apiService.get('/group/list', {
             params: {
                 search: query,
@@ -27,7 +27,7 @@ const CustomerSelection = ({group, customer, updateGroup, updateCustomer}) => {
             },
         })
         return response.data.map((item) => ({ _id: item._id, name: item.name, customers: item.customers }));
-    };
+    }, [])
 
     useEffect(()=>{
         setInitgroup(group);

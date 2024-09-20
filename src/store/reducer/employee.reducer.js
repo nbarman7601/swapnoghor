@@ -1,4 +1,4 @@
-import { EMPLOYEE_REQ_SUCCESS, FETCH_EMPLOYEE_LIST_REQUEST, SET_EMP_SEARCHQUERY, SET_EMP_SORT, SET_EMPLOYEE_SUCCESS_DATA } from "../actions/employee.action"
+import { EMPLOYEE_REQ_SUCCESS, FETCH_EMPLOYEE_LIST_REQUEST, SET_EMP_SEARCHQUERY, SET_EMP_SORT, SET_EMPLOYEE_ERROR, SET_EMPLOYEE_SUCCESS_DATA } from "../actions/employee.action"
 
 const initialState = {
     employees: [],
@@ -43,6 +43,12 @@ export const employeeReducer = (state = initialState, action)=>{
                 sortKey: action.payload.key,
                 sortOrder: action.payload.direction,
                 needRefresh: true
+            }
+        case SET_EMPLOYEE_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
             }
         default:
             return state;

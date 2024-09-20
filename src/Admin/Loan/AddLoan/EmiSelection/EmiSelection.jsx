@@ -2,11 +2,26 @@ import React from "react"
 import Card from "../../../../Element/Card/Card"
 import Button from "../../../../Element/Button"
 import { useFormContext } from "../FormProvider";
+import { useSelector } from "react-redux";
 
 export const EmiSelection = () => {
     const { currentStep, setCurrentStep, updateFormData } = useFormContext();
+    const {
+        downpayment,
+        totalAmt,
+        loanAmt,
+        extra,
+        installment_duration,
+        installment_interval,
+        installment_amt,
+        installment_start_date,
+        noOfInstallment,
+        outOfEMIAmount,
+        sanctioned_date,
+        precollection_amt
+    } = useSelector((state)=> state.disburse.loanInfo);
     const prev = () => {
-        setCurrentStep(1)
+        setCurrentStep(2)
     }
 
     const next = () => {

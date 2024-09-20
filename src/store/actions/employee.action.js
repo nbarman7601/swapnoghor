@@ -1,4 +1,5 @@
 import apiService from "../../axios";
+import { setGlobalError } from "./global.action";
 
 export const FETCH_EMPLOYEE_LIST_REQUEST = 'FETCH_EMPLOYEE_LIST_REQUEST';
 export const EMPLOYEE_REQ_SUCCESS = 'EMPLOYEE_REQ_SUCCESS';
@@ -35,7 +36,8 @@ export const fetchEmpList =()=>{
           });
           dispatch(setEmpListData(response));
         } catch(err){
-          dispatch(setEmpError(err))
+          dispatch(setEmpError(err));
+          dispatch(setGlobalError(err));
         }
     }
 }

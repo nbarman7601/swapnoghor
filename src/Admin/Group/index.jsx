@@ -58,7 +58,7 @@ const Group = ({
             columnKey: 'lo',
             desc: 'Loan Officer',
             display: function (item) {
-                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.lo.name}</span>
+                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.lo}</span>
             }
         },
         {

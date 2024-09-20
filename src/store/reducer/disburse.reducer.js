@@ -1,4 +1,4 @@
-import { UPDATE_CART_ITEMS, UPDATE_CUSTOMER_SELECTION, UPDATE_GROUP_QUERY } from "../actions/disburse.action";
+import { UPDATE_CART_ITEMS, UPDATE_CUSTOMER_SELECTION, UPDATE_GROUP_QUERY, UPDATE_TOTAL_AMOUNT } from "../actions/disburse.action";
 
 const initalState = {
     customer: null,
@@ -36,6 +36,11 @@ export const disburseReducer = (state = initalState, action)=>{
             return {
                 ...state,
                 cartItems: action.payload
+            }
+        case UPDATE_TOTAL_AMOUNT: 
+            return {
+                ...state,
+                totalAmt: action.payload
             }
         default:
             return state;
