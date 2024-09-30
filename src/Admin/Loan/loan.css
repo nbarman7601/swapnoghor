@@ -8,10 +8,27 @@ fieldset{
 }
 .loan_filter{
     display: flex;
-    margin-left: 10px;
     column-gap: 10px;
     font-size: 12px;
 }
 .btn-section{
     margin-top: 10px;
+}
+.page_tool{
+    margin-bottom: 10px;
+}
+
+._date_filter{
+    display: flex;
+    column-gap: 5px;
+}
+.btn__search{
+    padding-top: 15px;
+}
+.btn__search button { padding: 7px 20px !important; }
+
+.loan__dates{
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
 }

@@ -138,13 +138,15 @@ export const Customer = () => {
                     {status === 'loading' ? <Spinner /> : ''}
                     <div className="page_tool">
                         <div className="page_info">
-                            <h3>Customer</h3>
+                          <label> Customer
                             <input
                                 type="text"
                                 value={searchQuery}
                                 placeholder={`Search Customer`}
                                 onChange={searchCustomer}
+                                data-testid={`search`}
                                 className="search__input" />
+                                </label>
                         </div>
                         <div className="right_toolbar">
                             <Link to={`/customer/add-customer`} >

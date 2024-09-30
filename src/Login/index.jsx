@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './index.css';
+import classes from './Login.module.css';
 import apiService from '../axios';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
@@ -8,6 +8,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+    const [showError, setShowError] = useState(false)
 
     useEffect(()=>{
         if(isAuthenticated()){
@@ -39,7 +40,7 @@ const Login = () => {
             setErrors(validationErrors);
         } else {
             // Submit form
-            console.log(email, password);
+            setShowError((prev)=> false);
             apiService.post('login', {email, password})
                 .then((response)=>{
                     console.log(response);
@@ -48,39 +49,42 @@ const Login = () => {
                         navigate('/')
                     }
                 }).catch((error)=>{
-                    console.log(error)
+                    setShowError((prev)=> true);
                 })
         }
     }
 
     return (
-        <div className='login__container'>
-            <div className="login-container">
+        <div className={classes.container}>
+            <div className={classes.lcontainer}>
+                {
+                    showError && <div className='error-container'>Username or password incorrect</div>
+                }
                 <h2>Login</h2>
                 <form onSubmit={handleSubmit} >
-                    <div className='item'>
+                    <div className={classes.item}>
                         <label htmlFor="username">* Username:</label>
                         <input type="text"
                             id="username"
                             name="email"
-                            className={errors.email ? 'error_input': ''}
+                            className={errors.email ? classes.error_input : ''}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             />
-                        {errors.email && <span className='error'>{errors.email}</span>}
+                        {errors.email && <span className={classes.error}>{errors.email}</span>}
                     </div>
-                    <div className='item'>
+                    <div className={classes.item}>
                         <label htmlFor="password">* Password:</label>
                         <input
                             type="password"
                             id="password"
-                            className={errors.password ? 'error_input': ''}
+                            className={errors.password ? classes.error_input: ''}
                             name="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             
                         />
-                        {errors.password && <span className='error'>{errors.password}</span>}
+                        {errors.password && <span className={classes.error}>{errors.password}</span>}
                     </div>
                     <button type="submit">Login</button>
                 </form>

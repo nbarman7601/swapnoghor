@@ -6,7 +6,10 @@ import { FETCH_LOAN_REQUEST,
      SET_LOAN_SEARCH_QUERY, 
      SET_LOAN_SORT, 
      SET_SELECTED_LOAN,
-     UPDATE_LOAN_SEARCHBY
+     UPDATE_LOAN_INTERVAL_FILTER,
+     UPDATE_LOAN_SEARCHBY,
+     UPDATE_LOAN_STATUS,
+     UPDATE_SNC_DATE_FILTER
 } from "../actions/loan.action"
 
 const initialState = {
@@ -22,8 +25,11 @@ const initialState = {
     totalPages: 0,
     itemsPerPage: 25,
     totalCount: 0,
+    interval: '',
     loading: false,
     selectedLoan: null,
+    from: '',
+    to: '',
     needRefresh: true
 }
 
@@ -68,7 +74,8 @@ export const loanReducer = (state = initialState, action )=>{
             return {
                 ...state,
                 searchBy: action.payload,
-                searchQuery: ''
+                searchQuery: '',
+                // needRefresh: true
             }
         case 'UPDATE_LOAN_GROUP_ID':
             return {
@@ -81,6 +88,24 @@ export const loanReducer = (state = initialState, action )=>{
                 ...state,
                 searchQuery: action.payload,
                 needRefresh: true
+            }
+        case UPDATE_LOAN_STATUS:
+            return {
+                ...state,
+                status: action.payload,
+                needRefresh: true
+            }
+        case UPDATE_LOAN_INTERVAL_FILTER: 
+            return {
+                ...state,
+                interval: action.payload,
+                needRefresh: true
+            }
+        case UPDATE_SNC_DATE_FILTER:
+            return {
+                ...state,
+                from: action.payload.from,
+                to: action.payload.to
             }
         default:
             return state

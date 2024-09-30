@@ -6,11 +6,13 @@ import Grid from "../../Element/Grid";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import CurrencyFormatter from "../../common/CurrencyFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faEllipsisV, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../Element/Button";
 import { LoanFilter } from "./LoanFilter";
 import { EMIInterval } from "./EMIInterval";
 import DateFormatter from "../../common/DateFormatter";
+import Popover from "../../Element/Popover/Popover";
+import apiService from "../../axios";
 
 const columns = [
     {
@@ -95,26 +97,37 @@ const Loan = () => {
     const regex = /\/loan\/.*\/detail/;
     const isDetailPage = regex.test(location.pathname)
         || location.pathname.includes('/disburse-loan');
+    const [menu, setMenu] = useState(null);
     const {
-        loans,
         status,
-        error,
-        searchQuery,
+        loans,
         sortKey,
         sortOrder,
+        searchQuery,
+        groupId,
         currentPage,
         totalPages,
         totalCount,
         itemsPerPage,
         loading,
         searchBy,
+        interval,
         needRefresh
     } = useSelector((state) => state.loans);
     useEffect(() => {
         if (needRefresh) {
             dispatch(fetchLoans())
         }
-    }, [dispatch, sortKey, searchBy, sortOrder, currentPage, itemsPerPage]
+    }, [dispatch,
+         sortKey, 
+         interval, 
+         status, 
+         groupId, 
+         searchBy, 
+         sortOrder, 
+         currentPage, 
+         itemsPerPage
+        ]
     );
 
     const handleSort = (e) => {
@@ -127,16 +140,53 @@ const Loan = () => {
         dispatch(setLoanItemPageNumber(e))
     }
 
-    const handleMoreAction = (e) => {
-        setIsOpen(!isOpen);
+    const handleMoreAction = (event) => {
+        const rect = event.target.getBoundingClientRect();
+        setIsOpen(true);
+        setMenu({
+          x: rect.left + window.scrollX,
+          y: rect.bottom + window.scrollY,
+          items: [
+            { label: 'Option 1', onClick: () => alert('Option 1') },
+            { label: 'Option 2', onClick: () => alert('Option 2') },
+            { label: 'Option 3', onClick: () => alert('Option 3') },
+          ],
+        });
     }
 
-    const printLoan = () => {
-
+    const closeMenu = () => {
+        setMenu(null);
+        setIsOpen(false);
     }
 
     const navigateToNewLoan = () => {
         navigate(`/loan/disburse-loan`)
+    }
+
+    const download = ()=>{
+        apiService.get(`loan/export-excel`, {
+            params: {
+                search: searchQuery,
+                sortBy: sortKey, 
+                sort: sortOrder, 
+                page: currentPage,
+                limit: itemsPerPage,
+                status: status,
+                searchBy: searchBy,
+                groupId: groupId
+            }
+        }).then((blob)=>{
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Loan_list.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
 
     return (
@@ -145,24 +195,22 @@ const Loan = () => {
             {isDetailPage ? <Outlet /> :
                 <React.Fragment>
                     <div className="page_tool">
-                        <h3>Loan</h3>
+                        {/* <h3>Loan</h3> */}
                         <LoanFilter />
                         <div className="tools menu-container">
-                            <Button onClick={navigateToNewLoan}>
-                                Disburse Loan
+                            <Button onClick={navigateToNewLoan} title={`Disburse Loan`}>
+                                <FontAwesomeIcon icon={faPlus}/>
+                            </Button>
+                            <Button onClick={download} title={`Download Excell`}>
+                                <FontAwesomeIcon icon={faDownload}/>
                             </Button>
                             <Button onClick={handleMoreAction} className="custom-class">
                                 More Action&nbsp;
                                 <FontAwesomeIcon icon={faEllipsisV} />
                             </Button>
-                            {isOpen && (
-                                <div className="menu">
-                                    <Button className="menu-item" onClick={printLoan}>
-                                        Print &nbsp;
-                                        <FontAwesomeIcon icon={faPrint} />
-                                    </Button>
-                                </div>
-                            )}
+                            { isOpen ?
+                                <Popover x={menu.x} y={menu.y} items={menu.items} onClose={closeMenu} /> : null
+                            }
                         </div>
                     </div>
                     <Grid

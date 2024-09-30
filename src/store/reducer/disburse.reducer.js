@@ -40,7 +40,10 @@ export const disburseReducer = (state = initalState, action)=>{
         case UPDATE_TOTAL_AMOUNT: 
             return {
                 ...state,
-                totalAmt: action.payload
+                loanInfo: {
+                    ...state.loanInfo,
+                    totalAmt: action.payload
+                }
             }
         default:
             return state;

@@ -9,7 +9,9 @@ export const SET_LOAN_SORT = 'SET_LOAN_SORT';
 export const SET_LOAN_ITEM_PER_PAGE = 'SET_LOAN_ITEM_PER_PAGE';
 export const SET_LOAN_ITEM_PAGE_NO = 'SET_LOAN_ITEM_PAGE_NO';
 export const SET_LOAN_SEARCH_QUERY = 'SET_LOAN_SEARCH_QUERY';
-
+export const UPDATE_LOAN_STATUS = 'UPDATE_LOAN_STATUS';
+export const UPDATE_LOAN_INTERVAL_FILTER = 'UPDATE_LOAN_INTERVAL_FILTER';
+export const UPDATE_SNC_DATE_FILTER = 'UPDATE_SNC_DATE_FILTER';
 export const fetchLoanRequest = () => ({ type: FETCH_LOAN_REQUEST });
 
 export const UPDATE_LOAN_SEARCHBY = 'UPDATE_LOAN_SEARCHBY';
@@ -28,7 +30,10 @@ export const fetchLoans = ()=>{
             itemsPerPage,
             searchBy,
             status,
-            groupId
+            interval,
+            groupId,
+            from,
+            to
         } = getState().loans;
 
         dispatch(fetchLoanRequest());
@@ -42,7 +47,10 @@ export const fetchLoans = ()=>{
                   limit: itemsPerPage,
                   status: status,
                   searchBy: searchBy,
-                  groupId: groupId
+                  groupId: groupId,
+                  interval: interval,
+                  from: from,
+                  to: to
                 },
               });
               dispatch(fetchLoanSuccess({ ...response  }));
@@ -78,3 +86,7 @@ export const setLoanSort=({key, direction})=>({type: SET_LOAN_SORT, payload: {ke
 export const setLoanDetail = (data)=>({type: SET_SELECTED_LOAN, payload: data});
 export const setLoanItemPageNumber = (data)=>({type: SET_LOAN_ITEM_PER_PAGE, payload: data});
 export const setLoanPageNumber = (data)=>({type: SET_LOAN_ITEM_PAGE_NO, payload: data});
+export const updateLoanFilterStatus = (data)=>({type: UPDATE_LOAN_STATUS, payload: data});
+export const updateLoanIntervalFilter = (filter)=>({type: UPDATE_LOAN_INTERVAL_FILTER, payload: filter})
+
+export const updateSanctionDateFiltr = (data)=>({type: UPDATE_SNC_DATE_FILTER, payload: data});

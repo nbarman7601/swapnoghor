@@ -1,4 +1,4 @@
- div.login__container {
+.container {
     height: 100vh;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -8,7 +8,7 @@
     background-color: #f0f0f0;
 } 
 
-.login-container {
+.lcontainer{
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -17,16 +17,16 @@
     text-align: center;
 }
 
-.login-container h2 {
+.lcontainer h2 {
     margin-bottom: 20px;
 }
 
-.login-container label {
+.lcontainer label {
     display: block;
     margin: 10px 0 5px;
 }
 
-.login-container input {
+.lcontainer input {
     width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 10px;
@@ -34,7 +34,7 @@
     border-radius: 4px;
 }
 
-.login-container button {
+.lcontainer button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -44,7 +44,7 @@
     cursor: pointer;
 }
 
-.login-container button:hover {
+.lcontainer button:hover {
     background-color: #45a049;
 }
 form{
