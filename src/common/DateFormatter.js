@@ -3,7 +3,7 @@ import React from 'react';
 
 const DateFormatter = ({date})=>{
     return (
-        <span>{moment(date).format('DD MMM, yyyy')}</span>
+        <span>{moment(date).format('DD/MM/YY')}</span>
     )
 }
 export default DateFormatter;

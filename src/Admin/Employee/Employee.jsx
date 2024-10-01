@@ -90,7 +90,7 @@ const Employee = () => {
           {status === 'loading' ? <Spinner /> : ''}
           <div className="page_tool">
             <div className="page_info">
-              <h3>Customer</h3>
+              {/* <h3>Customer</h3> */}
               <input
                 type="text"
                 value={searchQuery}

@@ -1,0 +1,12 @@
+.tablecontainer{
+    height: 300px;
+    overflow-y: scroll;
+}
+.emi__details{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+.emi_info{
+    width: 50%;
+}

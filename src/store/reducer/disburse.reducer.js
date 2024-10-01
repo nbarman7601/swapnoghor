@@ -1,4 +1,5 @@
-import { UPDATE_CART_ITEMS, UPDATE_CUSTOMER_SELECTION, UPDATE_GROUP_QUERY, UPDATE_TOTAL_AMOUNT } from "../actions/disburse.action";
+import moment from "moment";
+import { RESET_DISBURSE_LOAN, UPDATE_CART_ITEMS, UPDATE_CUSTOMER_SELECTION, UPDATE_GROUP_QUERY, UPDATE_LOAN_INFO, UPDATE_TOTAL_AMOUNT } from "../actions/disburse.action";
 
 const initalState = {
     customer: null,
@@ -13,11 +14,12 @@ const initalState = {
         installment_interval: '1Y',
         installment_amt: 0,
         installment_start_date: '',
-        noOfInstallment: '',
+        noOfInstallment: 0,
         outOfEMIAmount: 0,
-        sanctioned_date: '',
+        sanctioned_date: moment(new Date()).format("YYYY-MM-DD"),
         precollection_amt: 0
-    }
+    },
+    installments: []
 }
 
 export const disburseReducer = (state = initalState, action)=>{
@@ -45,6 +47,17 @@ export const disburseReducer = (state = initalState, action)=>{
                     totalAmt: action.payload
                 }
             }
+        case UPDATE_LOAN_INFO:
+            return {
+                ...state,
+                loanInfo: {
+                    ...state.loanInfo,
+                    ...action.payload.loanInfo
+                },
+                installments: action.payload.installments
+            }
+        case RESET_DISBURSE_LOAN:
+            return initalState;
         default:
             return state;
     }

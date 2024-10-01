@@ -32,3 +32,6 @@ fieldset{
     flex-direction: row;
     column-gap: 15px;
 }
+.emi_days_info{
+    width: 50%;
+}

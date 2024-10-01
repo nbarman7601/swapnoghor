@@ -1,0 +1,39 @@
+*{
+    font-size: 14px;
+}
+.customerInfo{
+    display: flex;
+    flex-direction: column;
+    column-gap: 30px;
+}
+.item{
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+}
+.keyname{
+    font-weight: bold;
+    width: 130px;
+}
+.valueobj{
+    text-transform: capitalize;
+}
+
+.loanCustomerInfo{
+    display: flex;
+    flex-direction: row;
+}
+.loanInfo{
+    margin-left: auto;
+}
+.loanPreview{
+    margin-inline: 200px;
+}
+.btnContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 10px;
+    margin-top: 10px;
+}

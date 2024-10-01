@@ -3,6 +3,8 @@ import { useFormContext } from "../FormProvider";
 import { ItemSelection } from "../ItemSelection/ItemSelection";
 import CustomerSelection from '../../AddLoan/CustomerSelection/CustomerSelection'
 import React from "react";
+import { Preview } from "../Preview/Preview";
+import { Success } from "../PrintLoan/Success";
 export const Stepper = () => {
     const { currentStep, setCurrentStep } = useFormContext();
     return (
@@ -16,6 +18,8 @@ export const Stepper = () => {
            { currentStep == 1 && <CustomerSelection /> }
            { currentStep == 2 && <ItemSelection /> }
            { currentStep == 3 && <EmiSelection /> }
+           { currentStep == 4 && <Preview /> }
+           { currentStep == 5 && <Success /> }
         </React.Fragment>
 
     )
