@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './group.css';
 import { connect } from 'react-redux';
 import { fetchGroupApiCall, resetGroupData, setGroupCurrentPage, setGroupItemPerPage, setGroupSearchQuery, setGroupTableSort } from '../../store/actions/group.action';
@@ -37,47 +37,56 @@ const Group = ({
         if (needRefresh) {
             fetchGroup();
         }
-    }, [status, sortKey, sortOrder, currentPage, itemsPerPage])
+    }, [needRefresh, sortKey, sortOrder, currentPage, itemsPerPage]);
 
-    const columns = [
+    const columns = useMemo(() => [
         {
             columnKey: 'name',
             desc: 'Name',
-            display: function (item) {
-                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.name}</span>
-            }
+            display: (item) => (
+                <span className='pointer' onClick={() => viewCustomers(item)}>
+                    {item.name}
+                </span>
+            ),
         },
         {
             columnKey: 'weekday',
             desc: 'Weekday',
-            display: function (item) {
-                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.weekday}</span>
-            }
+            display: (item) => (
+                <span className='pointer' onClick={() => viewCustomers(item)}>
+                    {item.weekday}
+                </span>
+            ),
         },
         {
             columnKey: 'lo',
             desc: 'Loan Officer',
-            display: function (item) {
-                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.lo}</span>
-            }
+            display: (item) => (
+                <span className='pointer' onClick={() => viewCustomers(item)}>
+                    {item.lo}
+                </span>
+            ),
         },
         {
             columnKey: 'customers',
             desc: 'No of Customer',
-            display: function (item) {
-                return <span className='pointer' onClick={() => viewCustomers(item)}>{item.customers.length}</span>
-            }
+            display: (item) => (
+                <span className='pointer' onClick={() => viewCustomers(item)}>
+                    {item.customers.length}
+                </span>
+            ),
         },
         {
             columnKey: 'actions',
             desc: 'Action',
-            display: function (item){
-                return <button onClick={()=>editGroup(item)}>
-                    <FontAwesomeIcon icon={faPen}/>
+            display: (item) => (
+                <button onClick={() => editGroup(item)}>
+                    <FontAwesomeIcon icon={faPen} />
                 </button>
-            }
-        }
-    ]
+            ),
+        },
+    ], []);
+
 
 
     const viewCustomers = (item) => {
@@ -97,18 +106,17 @@ const Group = ({
         sortGroup(e);
     }
 
-    let timeout = useRef(null);
     const handleSearch = (e) => {
         const value = e.target.value;
         setGroupSearch(value)
-        timeout = setTimeout(() => {
+        setTimeout(() => {
             fetchGroup();
         }, 1000)
 
     }
 
     const gotoAddNewGroup = () => {
-        setSelectedGroup((prevGroup)=> ({
+        setSelectedGroup((prevGroup) => ({
             name: '',
             weekday: 'Sunday',
             lo: ''
@@ -117,9 +125,9 @@ const Group = ({
         setShowAddEditGroup(true);
     }
 
-    const editGroup = (item)=>{
+    const editGroup = (item) => {
         const selectedItm = {
-            lo: item.lo._id,
+            lo: item.lo?._id,
             name: item.name,
             _id: item._id,
             customers: item.customers,
@@ -129,9 +137,9 @@ const Group = ({
         setShowAddEditGroup(true);
     }
 
-    const onClose = ()=> setShowAddEditGroup(false);
+    const onClose = () => setShowAddEditGroup(false);
 
-    const clearAll = ()=>{
+    const clearAll = () => {
         resetGroup();
     }
     return (
@@ -147,9 +155,9 @@ const Group = ({
                             onChange={(e) => handleSearch(e)}
                             placeholder={`Search Customer`}
                             className="search__input" />
-                            <Button onClick={clearAll}>
-                                <FontAwesomeIcon icon={faRefresh}/>
-                            </Button>
+                        <Button onClick={clearAll}>
+                            <FontAwesomeIcon icon={faRefresh} />
+                        </Button>
                     </div>
                     <div className="right_toolbar">
                         <Button onClick={gotoAddNewGroup}>Add New Group</Button>
@@ -185,12 +193,12 @@ const Group = ({
                     </div>
                 </div>
             </div>
-            {showAddEditGroup ? 
-            <AddEditGroup 
-            group={selectedGroup} 
-            onClose={onClose}
-            mode={mode}
-            />: null}
+            {showAddEditGroup ?
+                <AddEditGroup
+                    group={selectedGroup}
+                    onClose={onClose}
+                    mode={mode}
+                /> : null}
         </React.Fragment>
     )
 }
@@ -230,6 +238,6 @@ const matDispatchToProps = (dispath) => ({
     setGroupSearch: (value) => dispath(setGroupSearchQuery(value)),
     setItemPerPage: (noOfItem) => dispath(setGroupItemPerPage(noOfItem)),
     setCurrentPage: (page) => dispath(setGroupCurrentPage(page)),
-    resetGroup: ()=> dispath(resetGroupData())
+    resetGroup: () => dispath(resetGroupData())
 })
 export default connect(mapStateToProps, matDispatchToProps)(Group)

@@ -1,4 +1,3 @@
-import moment from "moment";
 import { RESET_DISBURSE_LOAN, UPDATE_CART_ITEMS, UPDATE_CUSTOMER_SELECTION, UPDATE_GROUP_QUERY, UPDATE_LOAN_INFO, UPDATE_TOTAL_AMOUNT } from "../actions/disburse.action";
 
 const initalState = {
@@ -16,7 +15,7 @@ const initalState = {
         installment_start_date: '',
         noOfInstallment: 0,
         outOfEMIAmount: 0,
-        sanctioned_date: moment(new Date()).format("YYYY-MM-DD"),
+        sanctioned_date: new Date(),
         precollection_amt: 0
     },
     installments: []

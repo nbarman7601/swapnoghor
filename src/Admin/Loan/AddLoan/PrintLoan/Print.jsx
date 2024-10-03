@@ -1,50 +1,10 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux"
-import classes from './preview.module.css'
+import classes from './success.module.css'
 import CurrencyFormatter from "../../../../common/CurrencyFormatter";
 import DateFormatter from "../../../../common/DateFormatter";
-import Button from "../../../../Element/Button";
-import { useFormContext } from "../FormProvider";
-import apiService from "../../../../axios";
-import { setGlobalError } from "../../../../store/actions/global.action";
-import { createPortal } from "react-dom";
-import Spinner from "../../../../Element/Spinner";
-import { toast } from "react-toastify";
+import React,{ useSelector } from 'react-redux';
 
-export const Preview = () => {
+const Print = () => {
     const disburse = useSelector((state) => state.disburse);
-    const { currentStep, setCurrentStep } = useFormContext();
-    const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
-    useEffect(() => {
-        console.log(disburse);
-    }, [])
-
-    const prev = ()=>{
-        setCurrentStep(3);
-    }
-
-    const saveLoan = async ()=>{
-        if(disburse.loanInfo.installment_start_date == "" ||
-            disburse.loanInfo.sanctioned_date == ""
-        ){
-            toast.error("Sanction and EMI start date can not be blank")
-            return 0;
-        }
-        try {
-            setLoading(true);
-            const loan = await apiService.post(`loan/create-loan`, disburse);
-            if(loan){
-                setLoading(false);
-                setCurrentStep(5);
-            }
-        } catch (error) {
-            console.log(error);
-            dispatch(setGlobalError(error.error))
-            setLoading(false);
-        }
-    }
-
     return (
         <div className="preview">
             <div className={classes.loanPreview}>
@@ -205,13 +165,8 @@ export const Preview = () => {
                     </table>
                 </fieldset>
             </div>
-            <div className={classes.btnContainer}>
-                <Button onClick={prev}>Prev</Button>
-                <Button className={classes.right} onClick={saveLoan}>Create Loan</Button>
-            </div>
-            {
-               loading && createPortal(<Spinner />, document.body)
-            }
         </div>
     )
 }
+
+export default Print;

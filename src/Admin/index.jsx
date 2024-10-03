@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import './index.css';
 import Breadcrumb from "../common/Breadcrumb";
 import router from "../routes";
@@ -8,8 +8,10 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from "react-redux";
+import Dashboard from "./Dashboard/Dashboard";
 const Admin = () => {
-    const {error, display} = useSelector((state)=> state.global);
+    const { error, display } = useSelector((state) => state.global);
+    const location = useLocation();
     return (
         <React.Fragment>
             <div className="admin-layout">
@@ -20,9 +22,10 @@ const Admin = () => {
                             <Breadcrumb routes={router.routes} />
                             {
                                 display && (<div className="error-container">
-                                            {error}
-                                    </div>)
+                                    {error}
+                                </div>)
                             }
+                            {location.pathname === '/' && <Dashboard /> }
                             <Outlet />
                         </div>
                     </div>

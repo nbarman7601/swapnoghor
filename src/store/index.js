@@ -8,6 +8,7 @@ import { employeeReducer } from './reducer/employee.reducer';
 import { itemReducer } from './reducer/item.reducer';
 import { disburseReducer } from './reducer/disburse.reducer';
 import { globalReducer } from './reducer/global.reducer';
+import {dashboardReducer} from './reducer/dashboard.reducer';
 
 const rootReducer = combineReducers({
   customers: customerReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   employee: employeeReducer,
   item: itemReducer,
   disburse: disburseReducer,
-  global: globalReducer
+  global: globalReducer,
+  dashboard: dashboardReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
