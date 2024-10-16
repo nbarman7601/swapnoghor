@@ -73,6 +73,7 @@ const CustomerSelection = ({group, customer, updateGroup, updateCustomer}) => {
                                     <label>Group</label>
                                     <AutoComplete
                                         fetchSuggestions={fetchSuggestions}
+                                        data-testid={`groupauto`}
                                         onSelect={handleSelect}
                                     />
                                 </div>

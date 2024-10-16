@@ -1,0 +1,16 @@
+.payinfo{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+}
+.btnContainer{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    align-items: flex-end;
+    justify-content: flex-end;
+}

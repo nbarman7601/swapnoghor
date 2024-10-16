@@ -136,7 +136,7 @@ export const LoanFilter = () => {
                 <label htmlFor="status"> Status</label>
                 <select value={status} onChange={handleStatusChange}>
                     <option value={'active'}>Active</option>
-                    <option value={'paid'}>Closed</option>
+                    <option value={'closed'}>Closed</option>
                 </select>
             </div>
             <div className="search__by">

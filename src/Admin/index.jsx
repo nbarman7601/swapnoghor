@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from "react-redux";
 import Dashboard from "./Dashboard/Dashboard";
+import "react-datepicker/dist/react-datepicker.css";
 const Admin = () => {
     const { error, display } = useSelector((state) => state.global);
     const location = useLocation();

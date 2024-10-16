@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchLoanDetails } from "../../store/actions/loan.action";
@@ -9,10 +9,26 @@ import Spinner from "../../Element/Spinner";
 import Button from "../../Element/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { createPortal } from "react-dom";
+import { PayNow } from "./PayNow/PayNow";
+import { ForceClose } from "./ForceClose/ForceClose";
+import apiService from "../../axios";
+import { toast } from "react-toastify";
 export const LoanDetail = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { id } = useParams();
     const { selectedLoan, loading } = useSelector((state) => state.loans);
+    const [isPayNow, setIsPayNow] = useState(false);
+    const [payItem, setPayItem] = useState(null);
+    const [isForceClosePopup, setIsForceClosePopup] = useState(false);
+    const outstanding = useMemo(()=>{
+        return selectedLoan ? selectedLoan.installments.reduce((acc, item) => {
+            return item.status == 'active' ? acc + item.installmentAmt : acc; 
+        }, 0) : 0;
+    }, [selectedLoan]);
+
+    const [spinner, setSpinner] = useState(false);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchLoanDetails(id));
@@ -29,6 +45,22 @@ export const LoanDetail = () => {
         setIsOpen(false);
     }
 
+    const forceCloseHandle = ()=>{
+            setIsForceClosePopup(true);
+            setIsOpen(false);
+    }
+    const fcApiCall = (fcAmount)=>{
+        setSpinner(true);
+        apiService.post('/loan/force-close', {
+            loanId: id, fcAmount
+        }).then((res)=>{
+            toast.success('Loan Closed Successfully');
+            setSpinner(false);
+            setIsForceClosePopup(false);
+            dispatch(fetchLoanDetails(id));
+        })
+    }
+
     const printLoan = ()=> {
         const printWindow = window.open('', '', 'height=600,width=800');
         const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
@@ -41,6 +73,28 @@ export const LoanDetail = () => {
         printWindow.document.close();
         printWindow.focus();
         printWindow.print();
+    }
+
+    const handlePopupClose =()=>{
+        setIsPayNow(false)
+    }
+
+    const paynow = (item)=>{
+        console.log(item)
+        setIsPayNow(true);
+        setPayItem(item);
+    }
+
+    const handlePay = ({id, actualAmt, paymentDate, loanId})=>{
+        apiService.put(`/loan/installment/${id}/mark-as-paid`, { loanId, actualAmt, payment_date: paymentDate })
+                .then((res)=>{
+                    console.log(res);
+                    toast.success(`Installment Mark Paid Successfully`);
+                    dispatch(fetchLoanDetails(loanId));
+                    setIsPayNow(false)
+                }).catch((error)=>{
+                    console.log(error);
+                })
     }
 
     return (
@@ -58,13 +112,13 @@ export const LoanDetail = () => {
                                 Print &nbsp;
                                 <FontAwesomeIcon icon={faPrint}/>
                             </Button>
-                            <Button className="menu-item" onClick={closeMenu}>Force Close</Button>
+                            <Button className="menu-item" onClick={forceCloseHandle}>Force Close</Button>
                         </div>
                     )}
                 </div>
             </div>
 
-            {loading ? <Spinner /> : ''}
+            {loading && <Spinner />}
             {
                 selectedLoan ? (
                     <div className="print-only">  
@@ -72,30 +126,30 @@ export const LoanDetail = () => {
                             <legend>Customer</legend>
                             <div className="row">
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Name:</strong> {selectedLoan.customer.name} </label>
+                                    <span className="identification"> <strong> Name:</strong> {selectedLoan.customer.name} </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Phone:</strong> {selectedLoan.customer.phone} </label>
+                                    <span className="identification"> <strong> Phone:</strong> {selectedLoan.customer.phone} </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Age:</strong> {selectedLoan.customer.age} </label>
+                                    <span className="identification"> <strong> Age:</strong> {selectedLoan.customer.age} </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Guardian:</strong> {selectedLoan.customer.guardian} </label>
+                                    <span className="identification"> <strong> Guardian:</strong> {selectedLoan.customer.guardian} </span>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Identity :</strong> {selectedLoan.customer.identityProof} </label>
+                                    <span className="identification"> <strong> Identity :</strong> {selectedLoan.customer.identityProof} </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Identity No:</strong> {selectedLoan.customer.identityNo} </label>
+                                    <span className="identification"> <strong> Identity No:</strong> {selectedLoan.customer.identityNo} </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Created At:</strong> {selectedLoan.customer.createdAt} </label>
+                                    <span className="identification"> <strong> Created At:</strong> {selectedLoan.customer.createdAt} </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Address:</strong> {selectedLoan.customer.address} </label>
+                                    <span className="identification"> <strong> Address:</strong> {selectedLoan.customer.address} </span>
                                 </div>
                             </div>
                         </fieldset>
@@ -103,34 +157,47 @@ export const LoanDetail = () => {
                             <legend>Loan Information</legend>
                             <div className="row">
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Total Amount:</strong>
+                                    <span className="identification"> <strong> Total Amount:</strong>
                                         <CurrencyFormatter amount={selectedLoan.totalAmt} />
-                                    </label>
+                                    </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Loan Amount:</strong>
+                                    <span className="identification"> <strong> Loan Amount:</strong>
                                         <CurrencyFormatter amount={selectedLoan.loanAmt} />
-                                    </label>
+                                    </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> EMI Amount:</strong>
+                                    <span className="identification"> <strong> EMI Amount:</strong>
                                         <CurrencyFormatter amount={selectedLoan.installment_amt} />
-                                    </label>
+                                    </span>
                                 </div>
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> EMI Cycle:</strong> {
+                                    <span className="identification"> <strong> EMI Cycle:</strong> {
                                         selectedLoan.installment_interval === '1M' ?
                                             'Monthly' : selectedLoan.installment_interval === '1W' ?
                                                 'Weekly' : '2 Weeks'
-                                    } </label>
+                                    } </span>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-xs-3">
-                                    <label className="identification"> <strong> Sanctioned Date:</strong>
+                                    <span className="identification"> <strong> Sanctioned Date:</strong>
                                         <DateFormatter date={selectedLoan.sanctioned_date} />
-                                    </label>
+                                    </span>
                                 </div>
+                                <div className="col-xs-3">
+                                    <span className="identification"> <strong> Status:</strong>
+                                        <strong style={{"text-transform": "uppercase"}}>{selectedLoan.status}</strong> 
+                                    </span>
+                                </div>
+                                <div className="col-xs-3">
+                                    <span className="identification"> <strong> Close Amount:</strong>
+                                        <CurrencyFormatter amount={selectedLoan.fcAmount} />
+                                    </span>
+                                </div>
+                                <div className="col-xs-3">
+                                </div>
+                                
                             </div>
                         </fieldset>
                         <fieldset>
@@ -180,6 +247,7 @@ export const LoanDetail = () => {
                                                 <th>Paid Amount</th>
                                                 <th>Collected By</th>
                                                 <th>Collected On</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -208,6 +276,13 @@ export const LoanDetail = () => {
                                                                     : ''
                                                             }
                                                         </td>
+                                                        <td>
+                                                            { 
+                                                            item.status == 'active' 
+                                                             && <button onClick={(e)=>paynow(item)}>Pay</button>
+                                                            }
+                                                            
+                                                        </td>
                                                     </tr>
                                                 ))
                                             }
@@ -220,6 +295,29 @@ export const LoanDetail = () => {
                     </div>
                 ) : ''
             }
+            {
+              isPayNow &&  createPortal(<PayNow 
+                loanId={id} 
+                onClose={handlePopupClose}
+                installment_date={payItem.installment_date}
+                installmentAmt={payItem.installmentAmt}
+                id={payItem._id}
+                onPay={handlePay}
+                />, document.body)
+            }
+            {
+                isForceClosePopup && createPortal(
+                    <ForceClose 
+                    outstanding={outstanding}
+                    onSubmit={fcApiCall}
+                    onClose={()=>setIsForceClosePopup(false)}/>,
+                    document.body
+                )
+            }
+            {
+                loading && <Spinner />
+            }
+            
         </div>
     )
 }

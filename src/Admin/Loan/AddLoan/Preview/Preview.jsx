@@ -10,6 +10,7 @@ import { setGlobalError } from "../../../../store/actions/global.action";
 import { createPortal } from "react-dom";
 import Spinner from "../../../../Element/Spinner";
 import { toast } from "react-toastify";
+import { fetchLoans } from "../../../../store/actions/loan.action";
 
 export const Preview = () => {
     const disburse = useSelector((state) => state.disburse);
@@ -36,6 +37,7 @@ export const Preview = () => {
             const loan = await apiService.post(`loan/create-loan`, disburse);
             if(loan){
                 setLoading(false);
+                dispatch(fetchLoans())
                 setCurrentStep(5);
             }
         } catch (error) {

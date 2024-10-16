@@ -3,8 +3,7 @@ import classes from './dashboard.module.css';
 import CurrencyFormatter from '../../common/CurrencyFormatter';
 function LoanCount() {
     const {
-        count,
-        loading
+        count
     } = useSelector((state)=> state.dashboard);
   
     return (

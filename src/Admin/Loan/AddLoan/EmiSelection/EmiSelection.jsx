@@ -7,6 +7,7 @@ import CurrencyFormatter from "../../../../common/CurrencyFormatter";
 import DateFormatter from "../../../../common/DateFormatter";
 import classes from './emi.module.css';
 import { updateLoanInfo } from "../../../../store/actions/disburse.action";
+import { toast } from "react-toastify";
 
 export const EmiSelection = () => {
     const { currentStep, setCurrentStep } = useFormContext();
@@ -77,8 +78,13 @@ export const EmiSelection = () => {
             sanctioned_date: sanctionDate,
             precollection_amt: 0
         }
-        dispatch(updateLoanInfo({loanInfo, installments}))
-        setCurrentStep(4);
+        if(installmentStartDate != "" && sanctionDate != ""){
+            dispatch(updateLoanInfo({loanInfo, installments}))
+            setCurrentStep(4);
+        }else{
+            toast("Please enter loan sanction date and installment start date");
+        }
+      
     }
 
     return (

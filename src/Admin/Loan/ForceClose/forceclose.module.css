@@ -1,0 +1,16 @@
+.forceClose{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+}
+label[for="close"]{
+  color: gray;
+}
+.btnContainer{
+    display: flex;
+    column-gap: 5px;
+}
