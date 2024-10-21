@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "../../common/Popup";
 import Grid from '../../Element/Grid/index';
 import CurrencyFormatter from "../../common/CurrencyFormatter";
@@ -7,9 +7,17 @@ import DateFormatter from "../../common/DateFormatter";
 import Button from "../../Element/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { createPortal } from 'react-dom';
+import { PayNow } from '../Loan/PayNow/PayNow';
+import { payNowInstallment } from '../ajax';
+import Spinner from '../../Element/Spinner';
+import { toast } from 'react-toastify';
 
 export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, onClose }) => {
     const [title, setTitle] = useState('');
+    const [isPayNow, setIsPayNow] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [spinner, setSpinner] = useState(false);
     useEffect(() => {
         const date = new Date(`${currentYear}-${currentMonth}-${installments[0].installment_date}`);
         const modalTitle = <DateFormatter date={date} />;
@@ -96,7 +104,8 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
     ];
 
     const payNow = (item) => {
-        console.log(item);
+        setIsPayNow(true);
+        setSelectedItem((prevItem)=> item);
     };
 
     const print = () => {
@@ -112,24 +121,58 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
         printWindow.print();
     };
 
+    const handlePayNow = (payload)=>{
+        setSpinner(true);
+        payNowInstallment(payload).then((response)=>{
+            console.log(payload)
+            setSpinner(false);
+            toast.success("EMI Paid Successfully");
+            setIsPayNow(false);
+        }).catch((error)=>{
+            console.log(error)
+            toast.error("Something Went Wrong");
+            setSpinner(false);
+        })
+    }
+
     return (
-        <Popup>
-            <div className='popup_tool'>
-                <div data-testid="today_date"> {title} </div>
-                <Button onClick={print} data-testid="print-button">
-                    <FontAwesomeIcon icon={faPrint} />
-                </Button>
-                <button className="popup-close" data-testid="close-button" onClick={onClose}>
-                    <FontAwesomeIcon icon={faClose} />
-                </button>
-            </div>
-            <div className="popup__content print-only">
-                <Grid
-                    data={installments}
-                    columns={gridColumns}
-                />
-            </div>
-        </Popup>
+        <React.Fragment>
+            <Popup>
+                <div className='popup_tool'>
+                    <div data-testid="today_date"> {title} </div>
+                    <Button onClick={print} data-testid="print-button">
+                        <FontAwesomeIcon icon={faPrint} />
+                    </Button>
+                    <button className="popup-close" data-testid="close-button" onClick={onClose}>
+                        <FontAwesomeIcon icon={faClose} />
+                    </button>
+                </div>
+                <div className="popup__content print-only">
+                    <Grid
+                        data={installments}
+                        columns={gridColumns}
+                    />
+                </div>
+            </Popup>
+            { isPayNow && createPortal(
+                    <PayNow 
+                        id={selectedItem._id}
+                        loanId={selectedItem.loanId._id} 
+                        onClose={onClose}
+                        installment_date={selectedItem.installment_date}
+                        installmentAmt={selectedItem.installmentAmt}
+                        onPay={handlePayNow}
+                    />,
+                    document.body
+                )
+            }
+            {
+                spinner && createPortal(
+                    <Spinner/>,
+                    document.body
+                )
+            }
+        </React.Fragment>
     );
 };
 

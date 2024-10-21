@@ -1,0 +1,59 @@
+.summary{
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+}
+
+.title_summary{
+    width: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1f31d2;
+    border-radius: 49%;
+    height: 110px;
+    color: white;
+}
+.count_summary{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    align-items: flex-start;
+    color: #792480ed;
+}
+.borrower_title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    background-color: green;
+    border-radius: 50%;
+    height: 110px;
+    font-size: 23px;
+    color: #fff;
+}
+.borrower, .summary{
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    align-items: center;
+    justify-content: center;
+    width: 33%;
+}
+.borrower_count{
+    width: 175px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 10px;
+    color: #1966de;
+}
+.loan_title{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 5px;
+    justify-content: center;
+}

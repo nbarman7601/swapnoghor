@@ -6,6 +6,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import apiService from "../../../axios";
 import Button from "../../../Element/Button";
 import Spinner from "../../../Element/Spinner";
+import PropTypes from 'prop-types';
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 export const AddEditGroup = ({ group, mode, onClose }) => {
     const [groupData, setGroupData] = useState(group);
@@ -39,7 +40,7 @@ export const AddEditGroup = ({ group, mode, onClose }) => {
                 .then(
                     (response)=>{
                         setLoading(false);
-                        onClose();
+                        onClose(true);
                     }
                 ).catch(error=>{
                    // onClose();
@@ -50,7 +51,7 @@ export const AddEditGroup = ({ group, mode, onClose }) => {
             apiService.post(`group/add-new-group`, groupData)
                 .then(
                     (response)=>{
-                        onClose()
+                        onClose(true)
                         setLoading(false);
                     }
                 ).catch(error=>{
@@ -59,11 +60,15 @@ export const AddEditGroup = ({ group, mode, onClose }) => {
         }
     }
 
+    const handleClose = ()=>{
+        onClose(false);
+    }
+
     return (
         <React.Fragment>
             <Popup>
                 <div className="popup_header">
-                    <div className={`close_icon`} tabIndex={1} onClick={onClose}>
+                    <div className={`close_icon`}  tabIndex={1} onClick={handleClose}>
                         <FontAwesomeIcon icon={faClose} />
                     </div>
                 </div>
@@ -113,6 +118,12 @@ export const AddEditGroup = ({ group, mode, onClose }) => {
             </Popup>
             {loading ? <Spinner/> : null}
         </React.Fragment>
-
     )
+}
+AddEditGroup.propTypes = {
+    group: PropTypes.shape({
+        name: PropTypes.string
+    }).isRequired,
+    mode: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired
 }

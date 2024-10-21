@@ -17,6 +17,7 @@ import { AddEmployee } from "./Admin/Employee/AddEmployee/AddEmployee";
 import  ItemList  from "./Admin/Item/ItemList";
 import { AddEditItem } from "./Admin/Item/AddEditItem";
 import { AddLoan } from "./Admin/Loan/AddLoan/AddLoan";
+import Today from "./Admin/Due/Today";
 
 const router = createBrowserRouter([
   // {
@@ -150,7 +151,11 @@ const router = createBrowserRouter([
           }
         ]
       },
-
+      {
+        path: 'due/today',
+        element: <Today/>,
+        breadcrumb: "Todays Due"
+      }
     ],
     loader: async () => {
       if (!isAuthenticated()) {

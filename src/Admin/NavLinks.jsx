@@ -1,4 +1,6 @@
-import { NavLink } from "react-router-dom"
+import { faArrowDown, faCaretDown } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link, NavLink } from "react-router-dom"
 
 export const NavLinks = ()=>{
     return (
@@ -20,6 +22,22 @@ export const NavLinks = ()=>{
             </li>
             <li>
                 <NavLink to="/employee">Employee</NavLink>
+            </li>
+            <li className="due_link">
+                <NavLink to="#">Due &nbsp;
+                    <FontAwesomeIcon icon={faCaretDown}/>
+                </NavLink>
+                <ul className="sublink">
+                    <li>
+                        <Link to={`/due/today`}>Today's Due</Link>
+                    </li>
+                    <li>
+                        <Link to={`/due/in-progress`}>In Progress</Link>
+                    </li>
+                    <li>
+                        <Link to={`/due/overdue`}>Overdue</Link>
+                    </li>
+                </ul>
             </li>
         </ul>
     )

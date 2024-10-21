@@ -137,7 +137,12 @@ const Group = ({
         setShowAddEditGroup(true);
     }
 
-    const onClose = () => setShowAddEditGroup(false);
+    const onClose = (isAction) =>{ 
+        if(isAction){
+            fetchGroup();
+        }
+        setShowAddEditGroup(false); 
+    }
 
     const clearAll = () => {
         resetGroup();

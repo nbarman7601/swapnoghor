@@ -26,8 +26,7 @@ export const PayNow = ({ id, loanId, onClose, installment_date, installmentAmt, 
                 </div>
                 <div className={payClass.item}>
                     <label>
-                         Actual Pay: 
-                         <input type="number" 
+                         Actual Pay:<input type="number" 
                          onChange={(e)=> setActualAmt(e.target.value)}
                          value={actualAmt}
                          />
