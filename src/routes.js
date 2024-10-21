@@ -18,6 +18,7 @@ import  ItemList  from "./Admin/Item/ItemList";
 import { AddEditItem } from "./Admin/Item/AddEditItem";
 import { AddLoan } from "./Admin/Loan/AddLoan/AddLoan";
 import Today from "./Admin/Due/Today";
+import DueInProgress from "./Admin/Due/InProcess";
 
 const router = createBrowserRouter([
   // {
@@ -155,6 +156,11 @@ const router = createBrowserRouter([
         path: 'due/today',
         element: <Today/>,
         breadcrumb: "Todays Due"
+      },
+      {
+        path: 'due/in-progress',
+        element: <DueInProgress/>,
+        breadcrumb: "Due In-Process"
       }
     ],
     loader: async () => {
