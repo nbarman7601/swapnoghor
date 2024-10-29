@@ -46,6 +46,7 @@ const Login = () => {
                     console.log(response);
                     if(response.token){
                         localStorage.setItem('access_token', response.token);
+                        localStorage.setItem('user_info', JSON.stringify(response.user));
                         navigate('/')
                     }
                 }).catch((error)=>{
@@ -60,7 +61,7 @@ const Login = () => {
                 {
                     showError && <div className='error-container'>Username or password incorrect</div>
                 }
-                <h2>Login</h2>
+                <img src='./../swapnoghor-logo.png' width={`250px`} alt="Logo"/>
                 <form onSubmit={handleSubmit} >
                     <div className={classes.item}>
                         <label htmlFor="username">* Username:</label>

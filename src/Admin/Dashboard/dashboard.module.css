@@ -7,13 +7,13 @@
     flex-direction: row;
     column-gap: 10px;
 }
-.item{
+.loanItemSummary{
     display: flex;
     flex-direction: row;
     box-shadow: 1px 1px 2px 1px #d7d7df;
+    column-gap: 20px;
 }
 .itemCount{
-    padding: 30px;
     color: #33338f;
     display: flex;
     align-items: center;
@@ -61,4 +61,22 @@
 .summary_Link *{
     font-size: 41px;
     color: blue;
+}
+.countSummary{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 200px;
+    align-items: center;
+    justify-content: center;
+}
+.titleheader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: larger;
+    text-transform: uppercase;
+    font-family: revert;
+    text-decoration: underline;
+    color: #3700d8;
 }

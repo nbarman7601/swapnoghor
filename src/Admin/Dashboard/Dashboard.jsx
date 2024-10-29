@@ -8,6 +8,7 @@ import Card from '../../Element/Card/Card';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import DueInProgress from '../Due/InProcess';
 
 export default function Dashboard(){
     const dispatch = useDispatch();
@@ -17,8 +18,8 @@ export default function Dashboard(){
     return (
         <div className={classes.dashboard}>
             <div className={classes.row}>
-                <LoanCount/>
                 <TodayDue />
+                <LoanCount/>
                 <Borrower />
             </div>
             <div className={classes.row}>
@@ -35,7 +36,10 @@ export default function Dashboard(){
                 <LoanDisbursed />
                 <OutOffStockCount />
             </div>
-           
+           <Card className={classes.cardItem}>
+                <h2 className={classes.titleheader}>Collection In-Process</h2>
+                <DueInProgress />
+           </Card>
         </div>
     )
 }

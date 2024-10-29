@@ -20,6 +20,7 @@ export const setSortOrder = (order) => ({ type: SET_SORT_ORDER, payload: order }
 export const setCurrentPage = (page) => ({ type: SET_CURRENT_PAGE, payload: page });
 export const setPerPageItem = (item)=> ({type: SET_CUSTOMER_PER_PAGE_ITEM, payload: item});
 export const resetCustomerState = ()=>({type: RESET_CUSTOMER_STATE})
+export const setCustomerStatus = (status)=>({type: 'customer/status', payload: status});
 export const fetchCustomers=()=>{
     return async (dispatch, getState) => {
         const { 
@@ -28,6 +29,7 @@ export const fetchCustomers=()=>{
             sortOrder,
             currentPage, 
             itemsPerPage,
+            status
         } = getState().customers;
         dispatch(fetchCustomersRequest());
         try {
@@ -38,7 +40,7 @@ export const fetchCustomers=()=>{
               sort: sortOrder, 
               page: currentPage,
               limit: itemsPerPage,
-              status: 'active',
+              status: status,
               searchBy: 'GROUP'
             },
           });

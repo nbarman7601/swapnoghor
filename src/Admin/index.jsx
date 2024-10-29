@@ -33,7 +33,7 @@ const Admin = () => {
                 </div>
             </div>
             <Footer />
-            <ToastContainer />
+            <ToastContainer dangerouslyAllowHtml={true}/>
         </React.Fragment>
     )
 }

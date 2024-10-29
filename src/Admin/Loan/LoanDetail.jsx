@@ -118,7 +118,7 @@ export const LoanDetail = () => {
                 </div>
             </div>
 
-            {loading && <Spinner />}
+        
             {
                 selectedLoan ? (
                     <div className="print-only">  

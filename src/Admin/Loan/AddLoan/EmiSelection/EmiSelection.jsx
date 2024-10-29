@@ -21,45 +21,45 @@ export const EmiSelection = () => {
     const [installments, setInstallments] = useState([]);
     const [sanctionDate, setSanctionDate] = useState('');
 
-    const loanAmt = useMemo(() => (+totalAmt) + (+extra) - (downpayment), [totalAmt, downpayment, extra]);
+    const loanAmt = useMemo(() => (+totalAmt) + (+extra) - (+downpayment), [totalAmt, downpayment, extra]);
 
     const noOfInstallment = useMemo(() => Math.floor(loanAmt / installmentAmt), [loanAmt, installmentAmt]);
     const excessAmt = useMemo(() => loanAmt - (noOfInstallment * installmentAmt), [loanAmt, noOfInstallment, installmentAmt]);
 
     useEffect(() => {
+        if (!installmentStartDate || isNaN(installmentAmt)) return;
+
         let installments = [];
         let currentDate = new Date(installmentStartDate);
-        console.log(totalAmt)
-        if (installmentStartDate != '') {
-            for (let i = 0; i < noOfInstallment; i++) {
-                installments.push({
-                    installmentNo: i + 1,
-                    installment_date: new Date(currentDate), // Clone date
-                    installmentAmt: Math.max(installmentAmt, 0)
-                });
 
-                switch (interval) {
-                    case '1W':
-                        currentDate.setDate(currentDate.getDate() + 7);
-                        break;
-                    case '2W':
-                        currentDate.setDate(currentDate.getDate() + 15);
-                        break;
-                    default:
-                        currentDate.setMonth(currentDate.getMonth() + 1);
-                }
+        for (let i = 0; i < noOfInstallment; i++) {
+            installments.push({
+                installmentNo: i + 1,
+                installment_date: new Date(currentDate),
+                installmentAmt: Math.max(installmentAmt, 0)
+            });
+
+            switch (interval) {
+                case '1W':
+                    currentDate.setDate(currentDate.getDate() + 7);
+                    break;
+                case '2W':
+                    currentDate.setDate(currentDate.getDate() + 15);
+                    break;
+                default:
+                    currentDate.setMonth(currentDate.getMonth() + 1);
             }
-
-            if (excessAmt > 0) {
-                installments.push({
-                    installmentNo: noOfInstallment + 1,
-                    installment_date: new Date(currentDate),
-                    installmentAmt: excessAmt
-                });
-            }
-
-            setInstallments(installments);
         }
+
+        if (excessAmt > 0) {
+            installments.push({
+                installmentNo: noOfInstallment + 1,
+                installment_date: new Date(currentDate),
+                installmentAmt: excessAmt
+            });
+        }
+
+        setInstallments(installments);
     }, [installmentStartDate, installmentAmt, noOfInstallment, interval, excessAmt]);
 
     const prev = () => setCurrentStep(2);
@@ -77,15 +77,15 @@ export const EmiSelection = () => {
             outOfEMIAmount: excessAmt,
             sanctioned_date: sanctionDate,
             precollection_amt: 0
-        }
-        if(installmentStartDate != "" && sanctionDate != ""){
-            dispatch(updateLoanInfo({loanInfo, installments}))
+        };
+
+        if (installmentStartDate !== "" && sanctionDate !== "") {
+            dispatch(updateLoanInfo({ loanInfo, installments }));
             setCurrentStep(4);
-        }else{
+        } else {
             toast("Please enter loan sanction date and installment start date");
         }
-      
-    }
+    };
 
     return (
         <Card>
@@ -104,20 +104,31 @@ export const EmiSelection = () => {
                             <tr>
                                 <td>Extra Charges</td>
                                 <td>
-                                    <input type="number" className="input75" value={extra} onChange={(e) => setExtra(e.target.value)} />
+                                    <input type="number"
+                                        className="input75"
+                                        value={extra}
+                                        onChange={(e) => setExtra(+e.target.value)} // Parse input as number
+                                    />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Down Payment</td>
                                 <td>
-                                    <input type="number" value={downpayment} onChange={(e) => setDownpayment(e.target.value)} className="input75" />
+                                    <input type="number"
+                                        value={downpayment}
+                                        onChange={(e) => setDownpayment(+e.target.value)} // Parse input as number
+                                        className="input75" />
                                 </td>
                             </tr>
                             <tr><td>Loan Amount</td><td><CurrencyFormatter amount={loanAmt} /></td></tr>
                             <tr>
                                 <td>Installment Amount</td>
                                 <td>
-                                    <input type="number" className="input75" value={installmentAmt} onChange={(e) => setInstallmentAmt(e.target.value)} />
+                                    <input type="number"
+                                        className="input75"
+                                        value={installmentAmt}
+                                        onChange={(e) => setInstallmentAmt(+e.target.value)} // Parse input as number
+                                    />
                                 </td>
                             </tr>
                             <tr>

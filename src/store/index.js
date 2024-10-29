@@ -9,6 +9,8 @@ import { itemReducer } from './reducer/item.reducer';
 import { disburseReducer } from './reducer/disburse.reducer';
 import { globalReducer } from './reducer/global.reducer';
 import {dashboardReducer} from './reducer/dashboard.reducer';
+import { collectionReducer } from './reducer/collection.reducer';
+import { overdueReducer } from './reducer/overdue.reducer';
 
 const rootReducer = combineReducers({
   customers: customerReducer,
@@ -18,7 +20,9 @@ const rootReducer = combineReducers({
   item: itemReducer,
   disburse: disburseReducer,
   global: globalReducer,
-  dashboard: dashboardReducer
+  dashboard: dashboardReducer,
+  collection: collectionReducer,
+  overdue: overdueReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

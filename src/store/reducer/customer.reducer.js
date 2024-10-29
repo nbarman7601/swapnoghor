@@ -13,6 +13,7 @@ import {
   } from '../actions/customer.action';
   
   const initialState = {
+    loading: false,
     customers: [],
     status: 'active',
     error: null,
@@ -29,21 +30,23 @@ import {
   const customerReducer = (state = initialState, action) => {
     switch (action.type) {
       case FETCH_CUSTOMERS_REQUEST:
-        return { ...state, status: 'loading' };
+        return { ...state, loading: true };
       case FETCH_CUSTOMERS_SUCCESS:
         return {
           ...state,
-          status: 'active',
           customers: action.payload.data,
           totalPages: action.payload.totalPages,
           currentPage: action.payload.currentPage,
           totalCount: action.payload.totalCount,
-          needRefresh: false
+          needRefresh: false,
+          loading: false
         };
       case FETCH_CUSTOMERS_FAILURE:
-        return { ...state, status: 'failed', error: action.payload, needRefresh: false };
+        return { ...state, loading: false, error: action.payload, needRefresh: false };
       case SET_SEARCH_QUERY:
         return { ...state, searchQuery: action.payload,  needRefresh: true };
+      case 'customer/status':
+        return { ...state, status: action.payload, needRefresh: true };
       case SET_SORT_KEY:
         return { ...state, sortKey: action.payload, needRefresh: true };
       case SET_SORT_ORDER:

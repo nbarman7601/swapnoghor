@@ -7,6 +7,8 @@ import apiService from "../../../axios";
 import Spinner from "../../../Element/Spinner";
 import { ToastContainer, toast  } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchEmpList } from "../../../store/actions/employee.action";
 
 const formLabel = {
     firstName: 'First Name',
@@ -40,9 +42,19 @@ export const AddEmployee = () => {
     const [formError, setFormError] = useState({});
     const [showError, setShowError] = useState(false);
     const [errors, setErrors] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-            console.log(id)
+        if(id){
+           apiService.get(`user/${id}/details`)
+                .then((res)=>{
+                    setFormData((prev)=> res);
+                }).catch(
+                    (error)=>{
+                        console.log(error);
+                    }
+                )
+        }
     }, [id])
 
     const validateFields = () => {
@@ -121,6 +133,26 @@ export const AddEmployee = () => {
         }
     }
 
+    const handleEmployeeUpdate = ()=>{
+        setLoading(true);
+        apiService.put(`user/${id}/update`, {
+            "firstName": formData.firstName,
+            "lastName": formData.lastName,
+            "role": formData.role,
+            "gender": formData.gender,
+            "dob": formData.dob,
+            "phone": formData.phone,
+        }).then((res)=>{
+            setLoading(false);
+            toast.success(`User has been updated successfully`);
+            dispatch(fetchEmpList());
+            navigate('/employee')
+        }).catch((error)=>{
+            toast.error(`Something Went Wrong.`);
+            setLoading(false);
+        })
+    }
+
     return (
         <React.Fragment>
             {loading ? <Spinner />: null}
@@ -178,6 +210,7 @@ export const AddEmployee = () => {
                         <input type="email"
                             value={formData.email}
                             onChange={updateValue}
+                            disabled={id !== ''}
                             name="email"
                             className={formError.email ? 'invalid_field' : ''}
                             placeholder="Email" />
@@ -211,6 +244,7 @@ export const AddEmployee = () => {
                             onChange={updateValue}
                             name="password"
                             autoComplete="off"
+                            disabled={id !== ''}
                             value={formData.password}
                             placeholder="Enter Password" />
                     </div>
@@ -219,6 +253,7 @@ export const AddEmployee = () => {
                         <input type="password"
                             autoComplete="off"
                             onChange={updateValue}
+                            disabled={id !== ''}
                             className={formError.confirmedPassword ? 'invalid_field' : ''}
                             name="confirmedPassword"
                             placeholder="Enter Password Again"
@@ -227,7 +262,14 @@ export const AddEmployee = () => {
                     </div>
                 </div>
                 <div className="btn-container">
-                    <Button onClick={handleEmployeeSubmit} className="primary-save-btn">Save</Button>
+                    {
+                        id !== '' &&
+                        <Button onClick={handleEmployeeUpdate} className="primary-save-btn">Update</Button>
+                    }
+                    {
+                        id === '' &&
+                        <Button onClick={handleEmployeeSubmit} className="primary-save-btn">Save</Button>
+                    }
                 </div>
             </Card>
             {showError && <ErrorPopup errors={errors} onClose={() => setShowError(false)} />}

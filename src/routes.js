@@ -19,6 +19,9 @@ import { AddEditItem } from "./Admin/Item/AddEditItem";
 import { AddLoan } from "./Admin/Loan/AddLoan/AddLoan";
 import Today from "./Admin/Due/Today";
 import DueInProgress from "./Admin/Due/InProcess";
+import Collection from "./Admin/Collection/Collection";
+import MyProfile from "./Admin/MyProfile/MyProfile";
+import Overdue from "./Admin/Due/Overdue";
 
 const router = createBrowserRouter([
   // {
@@ -68,7 +71,7 @@ const router = createBrowserRouter([
       {
         path: "customer",
         element: <Customer />,
-        breadcrumb: 'Customer',
+        breadcrumb: 'Admission',
         children: [
           {
             path: 'detail/:id',
@@ -112,7 +115,7 @@ const router = createBrowserRouter([
       {
         path: 'loan',
         element: <Loan />,
-        breadcrumb: 'Loan',
+        breadcrumb: 'Balance Sheet',
         children: [
           {
             path: ':id/detail',
@@ -161,6 +164,21 @@ const router = createBrowserRouter([
         path: 'due/in-progress',
         element: <DueInProgress/>,
         breadcrumb: "Due In-Process"
+      },
+      {
+        path: 'due/overdue',
+        element: <Overdue/>,
+        breadcrumb: "Overdue"
+      },
+      {
+        path: 'collection',
+        element: <Collection />,
+        breadcrumb: 'Collection'
+      },
+      {
+        path: 'my-profile',
+        element: <MyProfile />,
+        breadcrumb: 'My Profile'
       }
     ],
     loader: async () => {

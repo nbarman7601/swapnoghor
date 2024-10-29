@@ -1,0 +1,59 @@
+.profileContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.profileForm{
+    width: 300px;
+    box-shadow: 1px 1px 3px 3px #d4cccc;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.sidebar{
+    width: 200px;
+    height: 100%;
+    background: #0808ff;
+    position: absolute;
+    margin-top: -20px;
+}
+.nav{
+    list-style: none;
+    padding: 0px;
+}
+.navItem{
+    padding: 10px;
+    color: #fff;
+    background: #5a44b0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+.navItem:hover{
+    background: grey;
+}
+
+.active{
+    background: darkblue;
+}
+.itemBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.error{
+    border: 2px solid #fb1010;
+}
+.flexdiv{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.btnContainer{
+    display: flex;
+    column-gap: 25px;
+}

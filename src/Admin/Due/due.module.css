@@ -12,3 +12,35 @@
     flex-direction: row;
     column-gap: 5px;
 }
+.rightMenu{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-left: auto;
+    column-gap: 10px;
+}
+.filterStatus{
+    width: 200px;
+}
+.page__tool{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+.left_side_tool{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.right_tool{
+    margin-left: auto;
+}
+
+.overdue_search{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 13px;
+}

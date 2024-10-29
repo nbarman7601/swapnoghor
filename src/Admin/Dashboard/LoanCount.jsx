@@ -8,13 +8,23 @@ function LoanCount() {
     } = useSelector((state)=> state.dashboard);
   
     return (
-        <Card className={classes.item}>
+        <Card className={classes.loanItemSummary}>
             <div className={classes.description}>
                <h3 className={classes.circle}>Loans</h3>
             </div>
-            <div className={classes.itemCount}>
-               <label>  Outstanding: &nbsp; 
-                <CurrencyFormatter amount={count?.totalOutstanding[0].totalAmount}/> </label>
+            <div className={classes.countSummary}>
+                <div className={classes.itemCount}>
+                    <label>  Outstanding: &nbsp;
+                        <CurrencyFormatter amount={count?.totalOutstanding[0].totalAmount} /> </label>
+                </div>
+                <div className={classes.itemCount}>
+                    <label>  Active Loan: &nbsp;
+                        <CurrencyFormatter amount={count?.totalLoanAmount[0].totalAmount} /> </label>
+                </div>
+                <div className={classes.itemCount}>
+                    <label>  Overdue: &nbsp;
+                        <CurrencyFormatter amount={count?.totalOverdueAmount[0].totalAmount} /> </label>
+                </div>
             </div>
         </Card>
     )

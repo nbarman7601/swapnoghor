@@ -13,6 +13,8 @@ import { EMIInterval } from "./EMIInterval";
 import DateFormatter from "../../common/DateFormatter";
 import Popover from "../../Element/Popover/Popover";
 import apiService from "../../axios";
+import LoanService from "./LoanService";
+import { toast } from "react-toastify";
 
 const columns = [
     {
@@ -188,7 +190,34 @@ const Loan = () => {
             console.log(error)
         })
     }
-
+    const handleDownload = async () => {
+        toast.info("Download Started");
+        try {
+          const blob = await LoanService.downloadLoan({
+            search: searchQuery,
+            sortBy: sortKey, 
+            sort: sortOrder, 
+            page: currentPage,
+            limit: itemsPerPage,
+            status: status,
+            searchBy: searchBy,
+            groupId: groupId
+        });
+          const url = window.URL.createObjectURL(new Blob([blob]));
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'Loan_list.xlsx';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+          toast.success("Download Completed");
+        } catch (error) {
+          console.error('Download failed:', error);
+        } finally {
+          //setDownloadLoading(false);
+        }
+      };
     return (
         <React.Fragment>
             {loading ? <Spinner /> : null}
@@ -201,7 +230,7 @@ const Loan = () => {
                             <Button onClick={navigateToNewLoan} title={`Disburse Loan`}>
                                 <FontAwesomeIcon icon={faPlus}/>
                             </Button>
-                            <Button onClick={download} title={`Download Excell`}>
+                            <Button onClick={handleDownload} title={`Download Excell`}>
                                 <FontAwesomeIcon icon={faDownload}/>
                             </Button>
                             <Button onClick={handleMoreAction} className="custom-class">

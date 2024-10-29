@@ -46,7 +46,7 @@
     background: #3c7b29;
 }
 .main_navigation__title{
-    width: 7rem;
+    width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,4 +76,33 @@
 }
 .due_link:hover .sublink{
     display: block;
+}
+.activenav{
+    background: #513f3f;
+    padding: 10px;
+}
+.user_link{
+    display: none;
+    position: absolute;
+    margin-top: 0px;
+    background: #aa994c;
+    width: 100px;
+    box-shadow: 1px 0px 0px 0px #dddde1;
+    z-index: 99999;
+    padding: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.userLog:hover .user_link{
+    display: block;
+}
+
+.user_link li{
+    padding: 5px;
+    margin-bottom: 1px;
+    border-bottom: 1px solid #fff
+}
+.user_link li:hover{
+    background-color: #3c7b29;
 }

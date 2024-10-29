@@ -41,5 +41,12 @@ apiService.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+apiService.getWithParams = (url, params = {}, responseType = 'json') => {
+  return apiService.get(url, {
+    params,
+    responseType,
+  });
+};
 
 export default apiService;
+
