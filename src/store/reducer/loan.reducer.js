@@ -30,6 +30,7 @@ const initialState = {
     selectedLoan: null,
     from: '',
     to: '',
+    weekday: '',
     needRefresh: true
 }
 
@@ -40,7 +41,7 @@ export const loanReducer = (state = initialState, action )=>{
         case SET_LOAN_DATA: 
             return {
                 ...state, 
-                loans: action.payload.data, 
+                loans: action.payload.data,
                 loading: false,
                 totalPages: action.payload.totalPages,
                 currentPage: action.payload.currentPage,
@@ -106,6 +107,12 @@ export const loanReducer = (state = initialState, action )=>{
                 ...state,
                 from: action.payload.from,
                 to: action.payload.to
+            }
+        case 'loan/weekday':
+            return {
+                ...state,
+                weekday: action.payload,
+                needRefresh: true
             }
         default:
             return state

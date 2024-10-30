@@ -8,10 +8,11 @@ import CurrencyFormatter from "../../common/CurrencyFormatter";
 import DateFormatter from "../../common/DateFormatter";
 import Button from "../../Element/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckDouble, faEllipsisV, faPen, faTrash, faVcard } from "@fortawesome/free-solid-svg-icons";
+import { faCheckDouble, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { PayNow } from "../Loan/PayNow/PayNow";
 import { toast } from "react-toastify";
 import { fetchLoans } from "../../store/actions/loan.action";
+import { useUserRole } from "../../common/hooks/useUserRole";
 
 const DueInProgress = () => {
     const [collector, setCollector] = useState('');
@@ -21,6 +22,8 @@ const DueInProgress = () => {
     const [isModify, setIsModify] = useState(false);
     const [modifyItem, setModifyItem] = useState(null);
     const [counter, setCounter] = useState(0);
+    const [customer, setCustomer] = useState('');
+    const role = useUserRole();
     const {
         employees,
     } = useSelector((state) => state.employee)
@@ -30,22 +33,26 @@ const DueInProgress = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        setSpinner(true)
-        apiService.get(`loan/cip-list`, {
-            params: {
-                collector: collector
-            }
-        }).then((res) => {
-            console.log(res);
-            setInstallments((prev) => res);
-            setSpinner(false)
-        }).catch(
-            (error) => {
-                console.log(error);
+        const delayDebounceFn = setTimeout(() => {
+            setSpinner(true)
+            apiService.get(`loan/cip-list`, {
+                params: {
+                    collector: collector,
+                    customer: customer
+                }
+            }).then((res) => {
+                console.log(res);
+                setInstallments(res);
                 setSpinner(false)
-            }
-        )
-    }, [collector, counter])
+            }).catch(
+                (error) => {
+                    console.log(error);
+                    setSpinner(false)
+                }
+            )
+        }, 500)
+        return () => clearTimeout(delayDebounceFn);
+    }, [collector, counter, customer])
 
     const handleCheckboxChange = (id) => {
         setSelectedItems((prevSelected) => {
@@ -133,92 +140,113 @@ const DueInProgress = () => {
     }
 
     return (
-        <React.Fragment>
-            <div className={classes.filter}>
-                <div className={classes.left_filter_option}>
-                    <div className="item">
-                        <label>Loan Officer</label>
-                        <select value={collector} onChange={(e) => setCollector(e.target.value)}>
-                            <option value={``}>--Select Collector--</option>
-                            {
-                                employees.map((loItem) => <option key={loItem._id} value={loItem._id}>{loItem.firstName + ' ' + loItem.lastName}</option>)
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div className={classes.rightMenu}>
-                    <Button disabled={selectedItems.length != 1} onClick={modify}>
-                        Modify &nbsp; <FontAwesomeIcon icon={faPen} />
-                    </Button>
-                    <Button disabled={selectedItems.length === 0} onClick={remove}>
-                        Remove &nbsp; <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                    <Button disabled={selectedItems.length === 0} onClick={handleMarkPaid}>
-                        Mak Paid &nbsp; <FontAwesomeIcon icon={faCheckDouble} />
-                    </Button>
-                </div>
+      <React.Fragment>
+        <div className={classes.filter}>
+          <div className={classes.left_filter_option}>
+            <div className="item">
+              <span>Loan Officer</span>
+              <select
+                value={collector}
+                onChange={(e) => setCollector(e.target.value)}
+              >
+                <option value={``}>--Select Collector--</option>
+                {employees.map((loItem) => (
+                  <option key={loItem._id} value={loItem._id}>
+                    {loItem.firstName + " " + loItem.lastName}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Sl No</th>
-                            <th>Loan Officer</th>
-                            <th>Customer</th>
-                            <th>Collected Amount</th>
-                            <th>Date</th>
-                            <th>
-                                <label>
-                                    <input type="checkbox"
-                                        onChange={handleSelectAll}
-                                        checked={selectedItems.length === installments.length && installments.length > 0}
-                                    />
-                                </label>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            installments.map((installment, index) => (
-                                <tr key={installment._id}>
-                                    <td>{(index + 1)}</td>
-                                    <td>{installment?.collectedBy?.firstName + ' ' + installment?.collectedBy?.lastName}</td>
-                                    <td>{installment.loanId?.customer?.name}</td>
-                                    <td>
-                                        <CurrencyFormatter amount={installment.actualAmt} />
-                                    </td>
-                                    <td>
-                                        <DateFormatter date={installment.payment_date} />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedItems.includes(installment._id)}
-                                            onChange={() => handleCheckboxChange(installment._id)}
-
-                                        />
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+            <div className="item">
+              <span>Customer</span>
+              <input
+                type="text"
+                name="customer"
+                onChange={(e) => setCustomer(e.target.value)}
+                placeholder={`Search by customer`}
+              />
             </div>
-            {
-                spinner && <Spinner />
-            }
-            {
-                isModify &&
-                <PayNow
-                    id={modifyItem._id}
-                    loanId={modifyItem.loanId._id}
-                    onClose={onCloseModify}
-                    installment_date={modifyItem.payment_date}
-                    installmentAmt={modifyItem.actualAmt}
-                    onPay={modifyPay}
-                />
-            }
-        </React.Fragment>
-    )
+          </div>
+          {role == "admin" && (
+            <div className={classes.rightMenu}>
+              <Button disabled={selectedItems.length != 1} onClick={modify}>
+                Modify &nbsp; <FontAwesomeIcon icon={faPen} />
+              </Button>
+              <Button disabled={selectedItems.length === 0} onClick={remove}>
+                Remove &nbsp; <FontAwesomeIcon icon={faTrash} />
+              </Button>
+              <Button
+                disabled={selectedItems.length === 0}
+                onClick={handleMarkPaid}
+              >
+                Mak Paid &nbsp; <FontAwesomeIcon icon={faCheckDouble} />
+              </Button>
+            </div>
+          )}
+        </div>
+        <div className="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Sl No</th>
+                <th>Loan Officer</th>
+                <th>Customer</th>
+                <th>Collected Amount</th>
+                <th>Date</th>
+                <th>
+                  <span>
+                    <input
+                      type="checkbox"
+                      onChange={handleSelectAll}
+                      checked={
+                        selectedItems.length === installments.length &&
+                        installments.length > 0
+                      }
+                    />
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {installments.map((installment, index) => (
+                <tr key={installment._id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    {installment?.collectedBy?.firstName +
+                      " " +
+                      installment?.collectedBy?.lastName}
+                  </td>
+                  <td>{installment.loanId?.customer?.name}</td>
+                  <td>
+                    <CurrencyFormatter amount={installment.actualAmt} />
+                  </td>
+                  <td>
+                    <DateFormatter date={installment.payment_date} />
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.includes(installment._id)}
+                      onChange={() => handleCheckboxChange(installment._id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {spinner && <Spinner />}
+        {isModify && (
+          <PayNow
+            id={modifyItem._id}
+            loanId={modifyItem.loanId._id}
+            onClose={onCloseModify}
+            installment_date={modifyItem.payment_date}
+            installmentAmt={modifyItem.actualAmt}
+            onPay={modifyPay}
+          />
+        )}
+      </React.Fragment>
+    );
 }
 export default DueInProgress;

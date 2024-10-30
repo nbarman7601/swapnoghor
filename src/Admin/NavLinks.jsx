@@ -1,14 +1,16 @@
-import { faArrowDown, faCaretDown } from "@fortawesome/free-solid-svg-icons"
+import {  faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink, useLocation } from "react-router-dom"
 
 export const NavLinks = () => {
+    const location = useLocation();
+    const isActive = ['/due/today', '/due/in-progress', '/due/overdue'].includes(location.pathname);
     return (
         <ul className="nav-links">
             <li className="due_link">
                 <NavLink
-                    to="/due"
-                    className={({ isActive }) => (isActive ? 'activenav' : '')}
+                    to="/due/today"
+                    className={isActive ? 'activenav' : ''}
                 >Due &nbsp;
                     <FontAwesomeIcon icon={faCaretDown} />
                 </NavLink>

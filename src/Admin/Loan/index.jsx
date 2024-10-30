@@ -15,6 +15,7 @@ import Popover from "../../Element/Popover/Popover";
 import apiService from "../../axios";
 import LoanService from "./LoanService";
 import { toast } from "react-toastify";
+import { faUpload } from "@fortawesome/free-solid-svg-icons/faUpload";
 
 const columns = [
     {
@@ -43,9 +44,16 @@ const columns = [
     },
     {
         columnKey: 'sanctioned_date',
-        desc: 'Santioned Date',
+        desc: 'Snc Date',
         display: function (item) {
             return <DateFormatter date={item.sanctioned_date} />
+        }
+    },
+    {
+        columnKey: 'weekday',
+        desc: 'Weekday',
+        display: function (item) {
+            return <span>{ item.weekday }</span>
         }
     },
     {
@@ -218,6 +226,11 @@ const Loan = () => {
           //setDownloadLoading(false);
         }
       };
+
+    const uploadLoan = ()=>{
+
+    }
+
     return (
         <React.Fragment>
             {loading ? <Spinner /> : null}
@@ -233,9 +246,9 @@ const Loan = () => {
                             <Button onClick={handleDownload} title={`Download Excell`}>
                                 <FontAwesomeIcon icon={faDownload}/>
                             </Button>
-                            <Button onClick={handleMoreAction} className="custom-class">
-                                More Action&nbsp;
-                                <FontAwesomeIcon icon={faEllipsisV} />
+                            <Button onClick={uploadLoan} className="custom-class" disabled={true}>
+                                Upload Loan&nbsp;
+                                <FontAwesomeIcon icon={faUpload} />
                             </Button>
                             { isOpen ?
                                 <Popover x={menu.x} y={menu.y} items={menu.items} onClose={closeMenu} /> : null

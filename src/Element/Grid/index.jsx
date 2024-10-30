@@ -34,7 +34,7 @@ const Grid = ({ data, totalPages, totalCount, pageChange,
                         {showIndex ? <th>Sl No</th> : null}
                         {columns.map((column) => (
                             <th key={column.columnKey} onClick={() => handleSort(column.columnKey)}>
-                                {column.desc} {sortKey === column.columnKey ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                               <span>{column.desc} </span> <span>{sortKey === column.columnKey ? (sortOrder === 'asc' ? '↑' : '↓') : ''}</span>
                             </th>
                         ))}
                     </tr>

@@ -37,10 +37,10 @@
 
 
 .footer {
-  font-size: 11px;
+  font-size: 2px;
   text-align: center;
   width: 100%;
-  font-weight: bold;
+  font-style: italic;
 }
 
 .error-container {

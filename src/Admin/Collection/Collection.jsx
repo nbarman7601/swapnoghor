@@ -15,6 +15,7 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
+import TruncateText from "../../common/TruncateText";
 
 const Collection = () => {
     const dispatch = useDispatch();
@@ -170,8 +171,12 @@ const Collection = () => {
                                     <td>
                                        <ul>
                                           {
-                                            item.installments.map((litem)=> <li key={litem._id}>{litem.loan.customer.name} | &nbsp;
-                                            <span className={classes.greyCol}>{litem.loan.customer.guardian}</span> &nbsp; -
+                                            item.installments.map((litem)=> <li key={litem._id} style={{wordBreak: 'break-all'}}>
+                                              <TruncateText limit={10} text={litem.loan.customer.name}/>&nbsp;
+                                            | &nbsp;
+                                            <span className={classes.greyCol}>
+                                            <TruncateText limit={10} text= {litem.loan.customer.guardian} />
+                                               </span>-
                                             {litem.loan.customer.group?.weekday}
                                              </li>)
                                           }
@@ -207,11 +212,10 @@ const Collection = () => {
                                     <td>
                                     <ul>
                                           {
-                                            item.installments.map((litem)=> <li key={litem._id}>{litem.collectedBy.firstName + ' '+ litem.collectedBy.lastName}</li>)
+                                            item.installments.map((litem)=> <li key={litem._id}>{litem.collectedBy.firstName }</li>)
                                           }
                                        </ul>
                                     </td>
-                                  
                                 </tr>
                                 ))
                             }

@@ -33,7 +33,8 @@ export const fetchLoans = ()=>{
             interval,
             groupId,
             from,
-            to
+            to,
+            weekday
         } = getState().loans;
 
         dispatch(fetchLoanRequest());
@@ -50,7 +51,8 @@ export const fetchLoans = ()=>{
                   groupId: groupId,
                   interval: interval,
                   from: from,
-                  to: to
+                  to: to,
+                  weekday: weekday
                 },
               });
               dispatch(fetchLoanSuccess({ ...response  }));
@@ -90,3 +92,5 @@ export const updateLoanFilterStatus = (data)=>({type: UPDATE_LOAN_STATUS, payloa
 export const updateLoanIntervalFilter = (filter)=>({type: UPDATE_LOAN_INTERVAL_FILTER, payload: filter})
 
 export const updateSanctionDateFiltr = (data)=>({type: UPDATE_SNC_DATE_FILTER, payload: data});
+
+export const setWeekday = (day)=>({ type: 'loan/weekday', payload: day });
