@@ -10,7 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchEmpList } from "../../../store/actions/employee.action";
 
-const formLabel = {
+const formspan = {
     firstName: 'First Name',
     lastName: 'Last Name',
     role: 'Role',
@@ -44,11 +44,19 @@ export const AddEmployee = () => {
     const [errors, setErrors] = useState([]);
     const dispatch = useDispatch();
 
+    const [mode, setMode] = useState('ADD');
+
     useEffect(()=>{
         if(id){
            apiService.get(`user/${id}/details`)
                 .then((res)=>{
-                    setFormData((prev)=> res);
+                    const user = {
+                        ...res, 
+                        password: '******',
+                        confirmedPassword: '******'
+                    }
+                    setFormData((prev)=> user);
+                    setMode('EDIT')
                 }).catch(
                     (error)=>{
                         console.log(error);
@@ -128,7 +136,7 @@ export const AddEmployee = () => {
         } else {
             setFormError(prevError => ({
                 ...prevError,
-                [name]: value === '' ? `${formLabel[name]} is required` : ''
+                [name]: value === '' ? `${formspan[name]} is required` : ''
             }));
         }
     }
@@ -165,7 +173,7 @@ export const AddEmployee = () => {
                 </div>
                 <div className="row">
                     <div className="col-xs-4">
-                        <label>* First Name</label>
+                        <span>* First Name</span>
                         <input type="text"
                             autoComplete="off"
                             onChange={updateValue}
@@ -175,7 +183,7 @@ export const AddEmployee = () => {
                             placeholder="First Name" />
                     </div>
                     <div className="col-xs-4">
-                        <label>* Last Name</label>
+                        <span>* Last Name</span>
                         <input type="text"
                             autoComplete="off"
                             name="lastName"
@@ -186,7 +194,7 @@ export const AddEmployee = () => {
                         />
                     </div>
                     <div className="col-xs-4">
-                        <label>* Role</label>
+                        <span>* Role</span>
                         <select name="role"
                             value={formData.role}
                             className={formError.role ? 'invalid_field' : ''}
@@ -197,7 +205,7 @@ export const AddEmployee = () => {
                         </select>
                     </div>
                     <div className="col-xs-4">
-                        <label>* Date of Birth</label>
+                        <span>* Date of Birth</span>
                         <input type="date"
                             value={formData.dob}
                             onChange={updateValue}
@@ -206,11 +214,11 @@ export const AddEmployee = () => {
                             placeholder="Date of Birth" />
                     </div>
                     <div className="col-xs-4">
-                        <label>* Email</label>
+                        <span>* Email</span>
                         <input type="email"
                             value={formData.email}
                             onChange={updateValue}
-                            disabled={id !== ''}
+                            disabled={mode == 'EDIT'}
                             name="email"
                             className={formError.email ? 'invalid_field' : ''}
                             placeholder="Email" />
@@ -219,7 +227,7 @@ export const AddEmployee = () => {
 
                 <div className="row">
                 <div className="col-xs-4">
-                        <label>* Phone</label>
+                        <span>* Phone</span>
                         <input type="text"
                             value={formData.phone}
                             onChange={updateValue}
@@ -228,7 +236,7 @@ export const AddEmployee = () => {
                             placeholder="Phone" />
                     </div>
                     <div className="col-xs-4">
-                        <label>* Gender</label>
+                        <span>* Gender</span>
                         <select name="gender"
                             className={formError.gender ? 'invalid_field' : ''}
                             value={formData.gender}
@@ -238,22 +246,22 @@ export const AddEmployee = () => {
                         </select>
                     </div>
                     <div className="col-xs-4">
-                        <label>* Password</label>
+                        <span>* Password</span>
                         <input type="password"
                             className={formError.password ? 'invalid_field' : ''}
                             onChange={updateValue}
                             name="password"
                             autoComplete="off"
-                            disabled={id !== ''}
+                            disabled={mode == 'EDIT'}
                             value={formData.password}
                             placeholder="Enter Password" />
                     </div>
                     <div className="col-xs-4">
-                        <label>* Confirmed Password</label>
+                        <span>* Confirmed Password</span>
                         <input type="password"
                             autoComplete="off"
                             onChange={updateValue}
-                            disabled={id !== ''}
+                            disabled={mode == 'EDIT'}
                             className={formError.confirmedPassword ? 'invalid_field' : ''}
                             name="confirmedPassword"
                             placeholder="Enter Password Again"
@@ -263,12 +271,12 @@ export const AddEmployee = () => {
                 </div>
                 <div className="btn-container">
                     {
-                        id !== '' &&
-                        <Button onClick={handleEmployeeUpdate} className="primary-save-btn">Update</Button>
+                       mode == 'EDIT' &&
+                        <Button onClick={handleEmployeeUpdate} className="primary-save-btn">Update Employee</Button>
                     }
                     {
-                        id === '' &&
-                        <Button onClick={handleEmployeeSubmit} className="primary-save-btn">Save</Button>
+                        mode == 'ADD' &&
+                        <Button onClick={handleEmployeeSubmit} className="primary-save-btn">Add Employee</Button>
                     }
                 </div>
             </Card>

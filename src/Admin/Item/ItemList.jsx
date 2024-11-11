@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Grid from "../../Element/Grid";
 import apiService from "../../axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,33 +7,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import Spinner from "../../Element/Spinner";
 import { fetchItems, setItemSearchQuery, setItemTableSort } from "../../store/actions/item.action";
-const columns = [
-  {
-    columnKey: '_id',
-    desc: 'ID',
-    display: (item)=> <Link to={`/item/edit/${item._id}`}>{item._id}</Link>
-  },
-  {
-    columnKey: 'name',
-    desc: 'Name',
-  },
-   {
-    columnKey: 'model',
-    desc: 'Model',
-  },
-  {
-    columnKey: 'eprice',
-    desc: 'Expected Sell Price'
-  },
-  {
-    columnKey: 'price',
-    desc: 'Price'
-  },
-  {
-    columnKey: 'stock',
-    desc: 'In Stock'
-  }
-]
+
 const ItemList = () => {
   const {
     items,
@@ -51,6 +25,33 @@ const ItemList = () => {
   } = useSelector((state) => state.item);
   const dispatch = useDispatch();
   const location = useLocation();
+  const columns = useMemo(()=>[
+    {
+      columnKey: '_id',
+      desc: 'ID',
+      display: (item)=> <Link to={`/item/edit/${item._id}`}>{item._id}</Link>
+    },
+    {
+      columnKey: 'name',
+      desc: 'Name',
+    },
+     {
+      columnKey: 'model',
+      desc: 'Model',
+    },
+    {
+      columnKey: 'eprice',
+      desc: 'Expected Sell Price'
+    },
+    {
+      columnKey: 'price',
+      desc: 'Price'
+    },
+    {
+      columnKey: 'stock',
+      desc: 'In Stock'
+    }
+  ],[])
   const isDetailPage = location.pathname.includes('/items/edit') || location.pathname.includes('/add-item');
   useEffect(() => {
     if (needRefresh) {

@@ -11,13 +11,15 @@ import classes from './due.module.css';
 import Button from "../../Element/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 const Today = () => {
     const [installments, setInstallments] = useState([]);
     const [isPayNow, setIsPayNow] = useState(false);
     const [payItem, setPayItem] = useState(null);
     const [loading, setLoading] = useState(false);
     const [counter, setCounter] = useState(1);
-    const [status, setStatus] = useState('')
+    const [status, setStatus] = useState('');
+    const [projectedCount, setProjectedCount] = useState(0); 
     const dispatch = useDispatch();
     
     useEffect(() => {
@@ -25,6 +27,8 @@ const Today = () => {
         apiService.get(`loan/installment/today?status=${status}`)
             .then((response) => {
                 setInstallments(response.data);
+                const collectionAmt = response.data.reduce((prev, inst)=> prev + (inst.installmentAmt || 0), 0);
+                setProjectedCount(collectionAmt);
                 setLoading(false);
             }).catch((error) => {
                 dispatch(setGlobalError('Something went wrong. Please try after sometimes'))
@@ -70,6 +74,9 @@ const Today = () => {
                         </div>
                     </div>
                     <div className={classes.right_tool}>
+                        <div className={classes.count}>
+                           Projected Collection: <CurrencyFormatter  amount={projectedCount}/>
+                        </div>
                         <Button title="Print">
                             <FontAwesomeIcon icon={faPrint}/>
                         </Button>
@@ -81,6 +88,7 @@ const Today = () => {
                         <thead>
                             <tr>
                                 <th>Customer</th>
+                                <th>Guardian</th>
                                 <th>Group</th>
                                 <th>Address</th>
                                 <th>EMI Amount</th>
@@ -97,7 +105,12 @@ const Today = () => {
                                     {
                                         installments.map((installment) => (
                                             <tr key={installment._id}>
-                                                <td>{installment.customer.name}</td>
+                                                <td>
+                                                  <Link to={`/customer/detail/${installment.customer._id}`}>
+                                                       {installment.customer.name}
+                                                  </Link>  
+                                                </td>
+                                                <td>{installment.customer.guardian}</td>
                                                 <td>{installment.group.name}</td>
                                                 <td>{installment.customer.address}</td>
                                                 <td>

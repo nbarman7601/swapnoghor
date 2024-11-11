@@ -19,10 +19,17 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons/faUpload";
 
 const columns = [
     {
+        columKey: 'orderNo',
+        desc: 'Loan No',
+        display: function(item){
+               return <Link to={`/loan/${item._id}/detail`}>{item.orderNo}</Link>
+        }
+    },
+    {
         columnKey: 'customer',
         desc: 'Name',
         display: function (item) {
-            return <Link to={`/loan/${item._id}/detail`}>{item.customer}</Link>
+            return `${item.customer}`;
         }
     },
     {

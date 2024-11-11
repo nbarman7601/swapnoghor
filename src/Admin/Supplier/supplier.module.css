@@ -1,0 +1,32 @@
+.supplierContainer{
+    width: 100%;
+}
+.page_frilter_tool{
+    display: flex;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.pageFilter{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    width: 50%;
+} 
+.filterItem{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+.supplierInput{
+    height: 26px;
+}
+.buttonItem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 26px; */
+    padding-top: 20px;
+}
+.buttonItem button{
+    height: 30px;
+}

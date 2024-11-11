@@ -187,7 +187,7 @@ export const LoanDetail = () => {
                                 </div>
                                 <div className="col-xs-3">
                                     <span className="identification"> <strong> Status:</strong>
-                                        <strong style={{"text-transform": "uppercase"}}>{selectedLoan.status}</strong> 
+                                        <strong style={{textTransform: "uppercase"}}>{selectedLoan.status}</strong> 
                                     </span>
                                 </div>
                                 <div className="col-xs-3">
@@ -196,6 +196,10 @@ export const LoanDetail = () => {
                                     </span>
                                 </div>
                                 <div className="col-xs-3">
+                                    <span className="identification">
+                                        <strong>Outstanding:</strong>
+                                        <CurrencyFormatter amount={outstanding}/>
+                                    </span>
                                 </div>
                                 
                             </div>
@@ -207,6 +211,7 @@ export const LoanDetail = () => {
                                     <table className="table">
                                         <thead>
                                             <tr>
+                                                <th>Sl No</th> 
                                                 <th>Name</th>
                                                 <th>Sell Price</th>
                                                 <th>Quantity</th>
@@ -217,6 +222,7 @@ export const LoanDetail = () => {
                                             {
                                                 selectedLoan.items.map((item, index) => (
                                                     <tr key={item._id}>
+                                                        <td>{(index + 1)}</td>
                                                         <td>{item.item.name}</td>
                                                         <td>
                                                             <CurrencyFormatter amount={item.unitSellPrice} />
@@ -241,6 +247,7 @@ export const LoanDetail = () => {
                                     <table className="table">
                                         <thead>
                                             <tr>
+                                                <th>Sl No</th>
                                                 <th>Date</th>
                                                 <th>Amount</th>
                                                 <th>Status</th>
@@ -252,8 +259,9 @@ export const LoanDetail = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                selectedLoan.installments.map((item) => (
+                                                selectedLoan.installments.map((item, index) => (
                                                     <tr key={item._id}>
+                                                        <td>{(index + 1)}</td>
                                                         <td>
                                                             <DateFormatter date={item.installment_date} />
                                                         </td>

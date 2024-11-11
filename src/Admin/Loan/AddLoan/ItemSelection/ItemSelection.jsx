@@ -4,7 +4,7 @@ import { useFormContext } from '../FormProvider';
 import Button from '../../../../Element/Button';
 import apiService from '../../../../axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { debounce } from '../../../../helper';
 import { toast } from 'react-toastify';
 import Counter from '../../../../Element/Counter/Counter';
@@ -92,6 +92,11 @@ export const ItemSelection = () => {
         dispatch(setCartItems(newValues))
     }
 
+    const removeItem = (item)=>{
+            const updateCartItems = cartItems.filter((citem)=> citem._id !== item._id);
+            dispatch(setCartItems(updateCartItems))
+    }
+
     return (
         <React.Fragment>
             {
@@ -154,6 +159,7 @@ export const ItemSelection = () => {
                                                         <th>Qty</th>
                                                         <th>Unit Price</th>
                                                         <th>Item Total</th>
+                                                        <th>Remove</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -181,6 +187,11 @@ export const ItemSelection = () => {
                                                                 <td>
                                                                     <CurrencyFormatter amount=
                                                                         {item.qty * item.unitSellPrice} />
+                                                                </td>
+                                                                <td>
+                                                                    <button onClick={(e)=>removeItem(item)}>
+                                                                        <FontAwesomeIcon icon={faTrash}/>
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         ))

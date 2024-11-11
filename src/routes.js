@@ -22,6 +22,7 @@ import DueInProgress from "./Admin/Due/InProcess";
 import Collection from "./Admin/Collection/Collection";
 import MyProfile from "./Admin/MyProfile/MyProfile";
 import Overdue from "./Admin/Due/Overdue";
+import Supplier from "./Admin/Supplier/Supplier";
 
 const router = createBrowserRouter([
   // {
@@ -169,6 +170,11 @@ const router = createBrowserRouter([
         path: 'due/overdue',
         element: <Overdue/>,
         breadcrumb: "Overdue"
+      },
+      {
+        path: 'supplier',
+        element: <Supplier />,
+        breadcrumb: 'Supplier or Distributor'
       },
       {
         path: 'collection',

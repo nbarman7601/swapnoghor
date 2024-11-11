@@ -36,6 +36,9 @@
 }
 .right_tool{
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
 }
 
 .overdue_search{
@@ -43,4 +46,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 13px;
+}
+.count{
+    align-items: center;
 }

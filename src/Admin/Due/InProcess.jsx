@@ -13,6 +13,7 @@ import { PayNow } from "../Loan/PayNow/PayNow";
 import { toast } from "react-toastify";
 import { fetchLoans } from "../../store/actions/loan.action";
 import { useUserRole } from "../../common/hooks/useUserRole";
+import { Link } from "react-router-dom";
 
 const DueInProgress = () => {
     const [collector, setCollector] = useState('');
@@ -23,6 +24,7 @@ const DueInProgress = () => {
     const [modifyItem, setModifyItem] = useState(null);
     const [counter, setCounter] = useState(0);
     const [customer, setCustomer] = useState('');
+    const [totalCollection, setTotalCollection] = useState(0);
     const role = useUserRole();
     const {
         employees,
@@ -41,7 +43,8 @@ const DueInProgress = () => {
                     customer: customer
                 }
             }).then((res) => {
-                console.log(res);
+                const collectionAmt = res.reduce((prev, inst)=> prev + (inst.actualAmt || 0), 0);
+                setTotalCollection(collectionAmt);
                 setInstallments(res);
                 setSpinner(false)
             }).catch(
@@ -167,22 +170,28 @@ const DueInProgress = () => {
               />
             </div>
           </div>
-          {role == "admin" && (
-            <div className={classes.rightMenu}>
-              <Button disabled={selectedItems.length != 1} onClick={modify}>
-                Modify &nbsp; <FontAwesomeIcon icon={faPen} />
-              </Button>
-              <Button disabled={selectedItems.length === 0} onClick={remove}>
-                Remove &nbsp; <FontAwesomeIcon icon={faTrash} />
-              </Button>
-              <Button
-                disabled={selectedItems.length === 0}
-                onClick={handleMarkPaid}
-              >
-                Mak Paid &nbsp; <FontAwesomeIcon icon={faCheckDouble} />
-              </Button>
+
+          <div className={classes.rightMenu}>
+            <div className={classes.count}>
+               Total Collection: <CurrencyFormatter amount={totalCollection}/>
             </div>
-          )}
+            {role == "admin" && (
+              <React.Fragment>
+                <Button disabled={selectedItems.length != 1} onClick={modify}>
+                  Modify &nbsp; <FontAwesomeIcon icon={faPen} />
+                </Button>
+                <Button disabled={selectedItems.length === 0} onClick={remove}>
+                  Remove &nbsp; <FontAwesomeIcon icon={faTrash} />
+                </Button>
+                <Button
+                  disabled={selectedItems.length === 0}
+                  onClick={handleMarkPaid}
+                >
+                  Mak Paid &nbsp; <FontAwesomeIcon icon={faCheckDouble} />
+                </Button>
+              </React.Fragment>
+            )}
+          </div>
         </div>
         <div className="table-container">
           <table>
@@ -216,7 +225,11 @@ const DueInProgress = () => {
                       " " +
                       installment?.collectedBy?.lastName}
                   </td>
-                  <td>{installment.loanId?.customer?.name}</td>
+                  <td>
+                    <Link to={`/customer/detail/${installment.loanId?.customer?._id}`}>
+                         {installment.loanId?.customer?.name}
+                    </Link> 
+                  </td>
                   <td>
                     <CurrencyFormatter amount={installment.actualAmt} />
                   </td>
