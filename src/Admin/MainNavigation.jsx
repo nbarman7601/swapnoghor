@@ -27,7 +27,7 @@ export const MainNavigation = ()=>{
             </button>
             <div className="main_navigation__title">
                 <Link to={`/`}>
-                    <img src={`./../white-swapnogor-logo.png`} alt="Logo" width={`auto`} height={`35px`}/>
+                    <img src={`./../white-logo.png`} alt="Logo" width={`auto`} height={`35px`}/>
                 </Link>
             </div>
             <nav>
