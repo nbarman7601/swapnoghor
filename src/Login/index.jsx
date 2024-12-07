@@ -14,7 +14,7 @@ const Login = () => {
         if(isAuthenticated()){
             navigate('/');
         }
-    }, [])
+    }, [isAuthenticated, navigate])
 
     const validate = () => {
         const newErrors = {};
@@ -61,7 +61,7 @@ const Login = () => {
                 {
                     showError && <div className='error-container'>Username or password incorrect</div>
                 }
-                <img src='./../logo.png' width={`250px`} alt="Logo"/>
+                <img src='./../swapnokamal.png' width={`250px`} alt="Logo"/>
                 <form onSubmit={handleSubmit} >
                     <div className={classes.item}>
                         <label htmlFor="username">* Username:</label>
