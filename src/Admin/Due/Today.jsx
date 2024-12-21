@@ -94,7 +94,7 @@ const Today = () => {
                                 <th>EMI Amount</th>
                                 <th>Loan Officer</th>
                                 <th>Status</th>
-                              
+                                <th>Actual Payment</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -121,6 +121,11 @@ const Today = () => {
                                                 </td>
                                                 <td>
                                                     <FormattedStatus status={installment.status}/>
+                                                </td>
+                                                <td>
+                                                    {
+                                                        installment.actualAmt && <CurrencyFormatter amount={installment.actualAmt}/>
+                                                    }
                                                 </td>
                                               
                                                 <td>
@@ -165,6 +170,8 @@ const FormattedStatus = ({ status }) => {
           return 'Active';
         case 'OIP':
           return 'In-Process';
+        case 'paid':
+            return 'Paid'
         default:
           return 'Force Closed';
       }

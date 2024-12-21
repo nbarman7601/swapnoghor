@@ -37,10 +37,19 @@
 
 
 .footer {
-  font-size: 2px;
-  text-align: center;
-  width: 100%;
-  font-style: italic;
+    display: flex;
+    text-align: center;
+    width: 99%;
+    align-items: flex-end;
+    justify-content: end;
+    color: grey;
+    font-size: 11px !important;
+    margin-right: 10px;
+}
+.footer a, .footer span{
+  text-decoration: none;
+  color: grey;
+  font-size: 11px !important;
 }
 
 .error-container {

@@ -11,6 +11,8 @@ import Counter from '../../../../Element/Counter/Counter';
 import CurrencyFormatter from '../../../../common/CurrencyFormatter';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCartItems, updateTotalAmount } from '../../../../store/actions/disburse.action';
+import { setGlobalError } from '../../../../store/actions/global.action';
+import Spinner from '../../../../Element/Spinner';
 
 export const ItemSelection = () => {
     const {
@@ -23,6 +25,7 @@ export const ItemSelection = () => {
     const [searchText, setSearchText] = useState('');
     const [items, setItems] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
+    const [loading, setLoading] = useState(false);
     const debouncedSetSearchText = useMemo(() => debounce(setSearchText, 500), []);
 
     useEffect(() => {
@@ -31,6 +34,7 @@ export const ItemSelection = () => {
     }, [cartItems])
 
     useEffect(() => {
+        setLoading(true);
         apiService.get('product/productlist', {
             params: {
                 search: searchText,
@@ -42,11 +46,12 @@ export const ItemSelection = () => {
             }
         }).then(
             (response) => {
-                console.log(response);
+                setLoading(false);
                 setItems((prevItems) => response.data);
             }
         ).catch((error) => {
-            console.log(error)
+            setLoading(false);
+            dispatch(setGlobalError("Sometime went wrong. "+ error?.response?.data?.msg))
         })
     }, [searchText])
 
@@ -217,6 +222,9 @@ export const ItemSelection = () => {
                         </div>
                     </Card>
                 ) : null
+            }
+            {
+                loading && <Spinner />
             }
         </React.Fragment>
     )

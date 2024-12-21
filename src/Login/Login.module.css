@@ -70,3 +70,11 @@ span.error{
 .error_input{
     border: 2px solid #e43434 !important;
 }
+.showPassword{
+    position: absolute;
+    margin-left: 269px;
+    margin-top: 46px;
+    width: 20px;
+    background: #ffffff00 !important;
+    color: black !important;
+}

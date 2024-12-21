@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Grid from "../../Element/Grid";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,8 +20,11 @@ import {
   faFileDownload,
   faPlus,
   faPrint,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import TruncateText from "../../common/TruncateText";
+import apiService from "../../axios";
+import { toast } from "react-toastify";
 
 export const Customer = () => {
   const [data, setData] = useState([]);
@@ -45,7 +48,7 @@ export const Customer = () => {
     itemsPerPage,
     needRefresh,
   } = useSelector((state) => state.customers);
-  const columns = [
+  const columns = useMemo(()=> [
     {
       columnKey: "name",
       desc: "Name",
@@ -111,7 +114,16 @@ export const Customer = () => {
         return <TruncateText text={item.address} />;
       },
     },
-  ];
+    {
+      columnKey: 'action',
+      desc: "Action",
+      display: function(item){
+        return <button  onClick={()=> deleteCustomer(item)}>
+          <FontAwesomeIcon icon={faTrash}/>
+        </button>
+      }
+    }
+  ], []);
   useEffect(() => {
     if (needRefresh) {
       dispatch(fetchCustomers());
@@ -149,6 +161,16 @@ export const Customer = () => {
      dispatch(setCustomerStatus(e.target.value))
   };
 
+  const deleteCustomer = (customer)=>{
+      apiService.delete(`/customer/${customer._id}/delete-customer`) 
+          .then((response)=>{
+            toast.success("Customer deleted successfully");
+            dispatch(fetchCustomers())
+          }).catch((error)=>{
+             toast.error(error.response.data.msg);
+          })
+  }
+
   return (
     <React.Fragment>
       {isDetailPage ? (
@@ -183,7 +205,7 @@ export const Customer = () => {
 
             <div className="right_toolbar">
               <Link to={`/customer/add-customer`}>
-                <FontAwesomeIcon title="Add Customer" icon={faPlus} />
+                Add Customer<FontAwesomeIcon title="Add Customer" icon={faPlus} />
               </Link>
             </div>
           </div>

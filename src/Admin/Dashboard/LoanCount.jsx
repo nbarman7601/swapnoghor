@@ -15,15 +15,15 @@ function LoanCount() {
             <div className={classes.countSummary}>
                 <div className={classes.itemCount}>
                     <label>  Outstanding: &nbsp;
-                        <CurrencyFormatter amount={count?.totalOutstanding[0]?.totalAmount} /> </label>
+                        <CurrencyFormatter amount={count?.totalOutstanding[0]?.totalAmount || 0} /> </label>
                 </div>
                 <div className={classes.itemCount}>
                     <label>  Active Loan: &nbsp;
-                        <CurrencyFormatter amount={count?.totalLoanAmount[0]?.totalAmount} /> </label>
+                        <CurrencyFormatter amount={count?.totalLoanAmount[0]?.totalAmount || 0} /> </label>
                 </div>
                 <div className={classes.itemCount}>
                     <label>  Overdue: &nbsp;
-                        <CurrencyFormatter amount={count?.totalOverdueAmount[0]?.totalAmount} /> </label>
+                        <CurrencyFormatter amount={count?.totalOverdueAmount[0]?.totalAmount || 0} /> </label>
                 </div>
             </div>
         </Card>

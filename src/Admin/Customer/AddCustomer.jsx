@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { ErrorPopup } from "../../common/ErrorPopup/ErrorPopup";
 import Spinner from "../../Element/Spinner";
 import { useDispatch } from "react-redux";
-import {  resetCustomerState } from "../../store/actions/customer.action";
+import {  fetchCustomers, resetCustomerState } from "../../store/actions/customer.action";
 
 const formLabel = {
     name: 'Customer Name',
@@ -129,6 +129,7 @@ export const AddCustomer = () => {
                             dispatch(resetCustomerState());
                             // dispatch(fetchCustomers())
                             toast.success("Customer has been updated successfully")
+                            dispatch(fetchCustomers());
                             navigate('/customer')
                         }
                     ).catch((error) => {
@@ -142,7 +143,8 @@ export const AddCustomer = () => {
                 .then(
                     (response) => {
                         setLoading(false);
-                        toast.success("Customer has been added successfully")
+                        toast.success("Customer has been added successfully");
+                        dispatch(fetchCustomers());
                         navigate('/customer')
                     }
                 ).catch((error) => {

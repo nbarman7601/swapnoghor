@@ -1,19 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { fetchLoanDetails } from "../../store/actions/loan.action";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchLoanDetails, fetchLoans } from "../../store/actions/loan.action";
 import './loan.css';
 import CurrencyFormatter from "../../common/CurrencyFormatter";
 import DateFormatter from "../../common/DateFormatter";
 import Spinner from "../../Element/Spinner";
 import Button from "../../Element/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faClose, faEllipsisV, faPrint, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { createPortal } from "react-dom";
 import { PayNow } from "./PayNow/PayNow";
 import { ForceClose } from "./ForceClose/ForceClose";
 import apiService from "../../axios";
 import { toast } from "react-toastify";
+import ConfirmationDialog from "../../common/ConfirmationDialog/ConfirmationDialog";
+import { setGlobalError } from "../../store/actions/global.action";
+import { Box, MenuItem, Popover } from "@mui/material";
 export const LoanDetail = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { id } = useParams();
@@ -21,6 +24,7 @@ export const LoanDetail = () => {
     const [isPayNow, setIsPayNow] = useState(false);
     const [payItem, setPayItem] = useState(null);
     const [isForceClosePopup, setIsForceClosePopup] = useState(false);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const outstanding = useMemo(()=>{
         return selectedLoan ? selectedLoan.installments.reduce((acc, item) => {
             return item.status == 'active' ? acc + item.installmentAmt : acc; 
@@ -28,7 +32,8 @@ export const LoanDetail = () => {
     }, [selectedLoan]);
 
     const [spinner, setSpinner] = useState(false);
-
+    const [anchorPosition, setAnchorPosition] = useState(null);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchLoanDetails(id));
@@ -36,18 +41,22 @@ export const LoanDetail = () => {
     }, [dispatch])
 
 
-    const handleClick = (e)=>{
-        console.log(e)
+    const handleClick = (event)=>{
         setIsOpen(!isOpen);
+        setAnchorPosition({
+            mouseX: event.clientX,
+            mouseY: event.clientY,
+        });
     }
 
     const closeMenu=()=>{
         setIsOpen(false);
+        setAnchorPosition(null)
     }
 
     const forceCloseHandle = ()=>{
             setIsForceClosePopup(true);
-            setIsOpen(false);
+            closeMenu();
     }
     const fcApiCall = (fcAmount)=>{
         setSpinner(true);
@@ -58,10 +67,12 @@ export const LoanDetail = () => {
             setSpinner(false);
             setIsForceClosePopup(false);
             dispatch(fetchLoanDetails(id));
+            dispatch(fetchLoans())
         })
     }
 
     const printLoan = ()=> {
+        closeMenu();
         const printWindow = window.open('', '', 'height=600,width=800');
         const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
         .map(style => style.outerHTML)
@@ -80,7 +91,6 @@ export const LoanDetail = () => {
     }
 
     const paynow = (item)=>{
-        console.log(item)
         setIsPayNow(true);
         setPayItem(item);
     }
@@ -97,6 +107,53 @@ export const LoanDetail = () => {
                 })
     }
 
+    const deleteLoan = ()=>{
+            setShowDeleteConfirmation(false);
+            setSpinner(true);
+            closeMenu();
+            apiService.delete(`loan/${id}/delete`)
+                    .then(
+                        (response)=>{
+                            toast.success(response.msg);
+                            setSpinner(false);
+                            dispatch(fetchLoans());
+                            navigate('/loan')
+                        }
+                    ).catch((error)=>{
+                        dispatch(setGlobalError(error.response?.data?.msg));
+                        setSpinner(false);
+                    })
+    }
+
+    const showContextMenu = () => {
+        return (
+          <Popover
+            open={Boolean(anchorPosition)}
+            onClose={closeMenu}
+            anchorReference="anchorPosition"
+            anchorPosition={
+              anchorPosition
+                ? { top: anchorPosition.mouseY, left: anchorPosition.mouseX }
+                : undefined
+            }
+            PaperProps={{ style: { padding: "10px", minWidth: "150px" } }}
+          >
+            <Box>
+               <MenuItem onClick={printLoan}>
+                     <FontAwesomeIcon icon={faPrint}/> &nbsp; Print 
+               </MenuItem>
+               <MenuItem onClick={forceCloseHandle}>
+                     <FontAwesomeIcon icon={faClose}/>&nbsp; Force Close
+               </MenuItem>
+               <MenuItem onClick={()=> setShowDeleteConfirmation(true)}>
+                    <FontAwesomeIcon icon={faTrash}/>&nbsp; Delete Loan 
+               </MenuItem>
+            </Box>
+          </Popover>
+        );
+      };
+    
+
     return (
         <div className="container">
             <div className="page_tool">
@@ -106,15 +163,7 @@ export const LoanDetail = () => {
                         More Action&nbsp;
                         <FontAwesomeIcon  icon={faEllipsisV} />
                     </Button>
-                    {isOpen && (
-                        <div className="menu">
-                            <Button className="menu-item" onClick={printLoan}>
-                                Print &nbsp;
-                                <FontAwesomeIcon icon={faPrint}/>
-                            </Button>
-                            <Button className="menu-item" onClick={forceCloseHandle}>Force Close</Button>
-                        </div>
-                    )}
+                    {isOpen && showContextMenu()}
                 </div>
             </div>
 
@@ -323,8 +372,18 @@ export const LoanDetail = () => {
                 )
             }
             {
-                loading && <Spinner />
+                spinner && <Spinner />
             }
+
+            {
+                    showDeleteConfirmation && <ConfirmationDialog 
+                        open={showDeleteConfirmation}
+                        onCancel={()=>setShowDeleteConfirmation(false)}
+                        onConfirm={()=> deleteLoan()}
+                        title={`Confirmation`}
+                        message={`Are you sure want to delete this item?`}
+                    />
+                }
             
         </div>
     )

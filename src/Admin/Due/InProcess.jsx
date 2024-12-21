@@ -200,6 +200,8 @@ const DueInProgress = () => {
                 <th>Sl No</th>
                 <th>Loan Officer</th>
                 <th>Customer</th>
+                <th>Guardian</th>
+                <th>Group</th>
                 <th>Collected Amount</th>
                 <th>Date</th>
                 <th>
@@ -229,6 +231,12 @@ const DueInProgress = () => {
                     <Link to={`/customer/detail/${installment.loanId?.customer?._id}`}>
                          {installment.loanId?.customer?.name}
                     </Link> 
+                  </td>
+                  <td>
+                      {installment.loanId?.customer?.guardian}
+                  </td>
+                  <td>
+                      {installment.loanId?.customer?.group?.name}
                   </td>
                   <td>
                     <CurrencyFormatter amount={installment.actualAmt} />

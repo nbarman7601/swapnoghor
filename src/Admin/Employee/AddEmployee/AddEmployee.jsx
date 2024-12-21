@@ -199,9 +199,9 @@ export const AddEmployee = () => {
                             value={formData.role}
                             className={formError.role ? 'invalid_field' : ''}
                             onChange={updateValue}>
-                            <option value="Loan Officer">Loan Officer</option>
-                            <option value="Supervisor">Supervisor</option>
-                            <option value="Admin">Admin</option>
+                            <option value="loan officer">Loan Officer</option>
+                            <option value="supervisor">Supervisor</option>
+                            <option value="admin">Admin</option>
                         </select>
                     </div>
                     <div className="col-xs-4">

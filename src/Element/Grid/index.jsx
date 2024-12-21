@@ -6,7 +6,8 @@ const Grid = ({ data, totalPages, totalCount, pageChange,
      currentPage, columns, itemsPerPage, sortChange, 
      sort = false, pagination = false,
      sortKey, sortOrder, perPageChange ,
-     showIndex = true
+     showIndex = true,
+     onContextMenu
     }) => {
 
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
@@ -24,6 +25,12 @@ const Grid = ({ data, totalPages, totalCount, pageChange,
 
     const setItemPerPage = (e) => {
         perPageChange(e.target.value)
+    }
+    const handleContextMenu = (e, item)=>{
+        if(onContextMenu){
+            e.preventDefault();
+            onContextMenu(e, item)
+        }
     }
 
     return (
@@ -43,7 +50,7 @@ const Grid = ({ data, totalPages, totalCount, pageChange,
                     data ?
                         (<tbody>
                             {data.map((item, index) => (
-                                <tr key={item._id}>
+                                <tr key={item._id} onContextMenu={(e)=> handleContextMenu(e, item)}>
                                     {showIndex ? <td> {pagination ? (index + 1) + ((currentPage - 1) * itemsPerPage) : (index + 1)} </td> : ''}
                                     {columns.map((column, index) => (
                                         <td key={index}>

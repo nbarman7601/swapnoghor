@@ -44,7 +44,7 @@ export const EmiSelection = () => {
                     currentDate.setDate(currentDate.getDate() + 7);
                     break;
                 case '2W':
-                    currentDate.setDate(currentDate.getDate() + 15);
+                    currentDate.setDate(currentDate.getDate() + 14);
                     break;
                 default:
                     currentDate.setMonth(currentDate.getMonth() + 1);
@@ -136,7 +136,7 @@ export const EmiSelection = () => {
                                 <td>
                                     <select className="input75" value={interval} onChange={(e) => setInterval(e.target.value)}>
                                         <option value="1W">1 Week</option>
-                                        <option value="2W">2 Week</option>
+                                        <option value="2W">2 Week (15 days)</option>
                                         <option value="1M">1 Month</option>
                                     </select>
                                 </td>

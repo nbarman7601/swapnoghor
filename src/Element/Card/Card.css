@@ -4,5 +4,10 @@
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    margin-top: 5px;
+    margin-top: 10px;
+}
+.title{
+    position: absolute;
+    margin-top: -26px;
+    background: white;
 }

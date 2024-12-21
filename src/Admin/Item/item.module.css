@@ -1,0 +1,14 @@
+.container{
+  width: 100%;
+}
+.itemRow{
+    display: flex;
+    column-gap: 10px;
+}
+.flexGrid{
+  display: flex;
+  column-gap: 50px;
+}
+.itemlabel{
+  font-weight: bold;
+}

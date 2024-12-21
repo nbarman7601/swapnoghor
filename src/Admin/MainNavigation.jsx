@@ -27,8 +27,10 @@ export const MainNavigation = ()=>{
             </button>
             <div className="main_navigation__title">
                 <Link to={`/`}>
-                    <img src={`./../logo-swapnokamal.png`} alt="Logo" width={`auto`} height={`35px`}/>
-                </Link>
+                    <img src={`./../sajhghor-logo.png`} alt="Logo" width={`auto`} height={`35px`}/>
+                    {/* <img src={`./../white-logo.png`} alt="Logo" width={`auto`} height={`35px`}/>  */}
+                    {/* <img src={`./../swapnoghor-logo.png`} alt="Logo" width={`auto`} height={`35px`}/> */}
+                </Link> 
             </div>
             <nav>
                 <NavLinks />

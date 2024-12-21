@@ -3,12 +3,15 @@ import classes from './Login.module.css';
 import apiService from '../axios';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
-    const [showError, setShowError] = useState(false)
+    const [showError, setShowError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(()=>{
         if(isAuthenticated()){
@@ -61,7 +64,9 @@ const Login = () => {
                 {
                     showError && <div className='error-container'>Username or password incorrect</div>
                 }
-                <img src='./../swapnokamal.png' width={`250px`} alt="Logo"/>
+                <img src='./../sajhghor-logo.png' width={`250px`} alt="Logo"/>
+                {/* <img src='./../logo.png' width={`250px`} alt="Logo"/> */}
+                {/* <img src='./../swapnoghor-login.png' width={`250px`} alt="Logo"/> */}
                 <form onSubmit={handleSubmit} >
                     <div className={classes.item}>
                         <label htmlFor="username">* Username:</label>
@@ -71,20 +76,27 @@ const Login = () => {
                             className={errors.email ? classes.error_input : ''}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            placeholder='Enter Email'
                             />
                         {errors.email && <span className={classes.error}>{errors.email}</span>}
                     </div>
                     <div className={classes.item}>
                         <label htmlFor="password">* Password:</label>
                         <input
-                            type="password"
+                            type={showPassword ? 'text': 'password'}
                             id="password"
                             className={errors.password ? classes.error_input: ''}
                             name="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            placeholder='Enter Password'
                             
                         />
+                        <a href="javascript:void(0)" className={classes.showPassword} 
+                           onClick={()=> setShowPassword((prev)=> !prev)}>
+                           {showPassword && <FontAwesomeIcon icon={faEye}/>} 
+                           {!showPassword && <FontAwesomeIcon icon={faEyeSlash}/>} 
+                        </a>
                         {errors.password && <span className={classes.error}>{errors.password}</span>}
                     </div>
                     <button type="submit">Login</button>

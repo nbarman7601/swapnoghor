@@ -5,7 +5,7 @@ import Grid from "../../Element/Grid";
 import DateFormatter from "../../common/DateFormatter";
 import CurrencyFormatter from "../../common/CurrencyFormatter";
 import Button from "../../Element/Button";
-
+import './customer.css';
 export const CustomerDetail = () => {
     const { id } = useParams();
     const [customer, setCustomer] = useState(null);

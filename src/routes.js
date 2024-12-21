@@ -23,6 +23,7 @@ import Collection from "./Admin/Collection/Collection";
 import MyProfile from "./Admin/MyProfile/MyProfile";
 import Overdue from "./Admin/Due/Overdue";
 import Supplier from "./Admin/Supplier/Supplier";
+import ItemDetail from "./Admin/Item/ItemDetail";
 
 const router = createBrowserRouter([
   // {
@@ -153,6 +154,20 @@ const router = createBrowserRouter([
               <AddEditItem />
             </Suspense>,
             breadcrumb: 'Add Item'
+          },
+          {
+            path: 'detail/:id',
+            element: <Suspense fallback={`Loading`}>
+              <ItemDetail />
+            </Suspense>,
+            breadcrumb: 'Detail',
+          },
+          {
+            path: 'edit/:id',
+            element: <Suspense fallback={`Loading`}>
+              <AddEditItem />
+            </Suspense>,
+            breadcrumb: 'Detail',
           }
         ]
       },

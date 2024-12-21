@@ -15,7 +15,7 @@ const months = [
 const Calendar = () => {
     const [extraData, setExtraData] = useState(null);
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
     const [paidMoney, setPaidMoney] = useState(0);
     const [total, setTotal]= useState(0);
     const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ const Calendar = () => {
     const [installments, setInstallments]= useState([]);
 
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
 
     const today = new Date();
     const currentDay = today.getDate();
@@ -100,8 +100,8 @@ const Calendar = () => {
 
 
     const handlePrevMonth = () => {
-        if (currentMonth === 0) {
-            setCurrentMonth(11);
+        if (currentMonth === 1) {
+            setCurrentMonth(12);
             setCurrentYear(currentYear - 1);
         } else {
             setCurrentMonth(currentMonth - 1);
@@ -109,8 +109,8 @@ const Calendar = () => {
     };
 
     const handleNextMonth = () => {
-        if (currentMonth === 11) {
-            setCurrentMonth(0);
+        if (currentMonth === 12) {
+            setCurrentMonth(1);
             setCurrentYear(currentYear + 1);
         } else {
             setCurrentMonth(currentMonth + 1);
@@ -185,7 +185,7 @@ const Calendar = () => {
             </div>
             <div className="calendar-header">
                 <button onClick={handlePrevMonth}>Previous</button>
-                <h2>{months[currentMonth]} {currentYear}</h2>
+                <h2>{months[currentMonth-1]} {currentYear}</h2>
                 <button onClick={handleNextMonth}>Next</button>
             </div>
             <div className="calendar-week-header">

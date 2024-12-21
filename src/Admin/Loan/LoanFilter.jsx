@@ -74,7 +74,7 @@ function SanctionDateFilter() {
         />
       </div>
       <div className="to__date">
-        <label>From</label>
+        <label>To</label>
         <input type="date" onChange={(e) => handleToDateChange(e)} value={to} />
       </div>
       <div className="btn__search">
