@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import apiService from "../../axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setGlobalError } from "../../store/actions/global.action";
 import CurrencyFormatter from "../../common/CurrencyFormatter";
 import { createPortal } from "react-dom";
@@ -12,6 +12,7 @@ import Button from "../../Element/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useUserId } from "../../common/hooks/useUserId";
 const Today = () => {
     const [installments, setInstallments] = useState([]);
     const [isPayNow, setIsPayNow] = useState(false);
@@ -20,11 +21,14 @@ const Today = () => {
     const [counter, setCounter] = useState(1);
     const [status, setStatus] = useState('');
     const [projectedCount, setProjectedCount] = useState(0); 
+    const userId= useUserId();
+    const [lo, setLo] = useState(userId);
     const dispatch = useDispatch();
+      const { employees = [] } = useSelector((state) => state.employee);
     
     useEffect(() => {
         setLoading(true);
-        apiService.get(`loan/installment/today?status=${status}`)
+        apiService.get(`loan/installment/today?status=${status}&lo=${lo}`)
             .then((response) => {
                 setInstallments(response.data);
                 const collectionAmt = response.data.reduce((prev, inst)=> prev + (inst.installmentAmt || 0), 0);
@@ -35,7 +39,7 @@ const Today = () => {
                 setInstallments([]);
                 setLoading(false);
             })
-    }, [counter, status])
+    }, [counter, lo, status])
 
     const handleClose = () => {
         setIsPayNow(false);
@@ -63,8 +67,9 @@ const Today = () => {
             <div className="content">
                 <div className={classes.page__tool}>
                     <div className={classes.left_side_tool}>
-                        <h2>Today's Due</h2>
-                        <div >
+                        {/* <h2>Today's Due</h2> */}
+                        <div className={classes.filterItem} >
+                            <span>Status</span>
                             <select value={status} onChange={(e)=> setStatus(e.target.value)}>
                                 <option value={``}>--Select Status--</option>
                                 <option value={`active`}>Active</option>
@@ -72,7 +77,19 @@ const Today = () => {
                                 <option value={`FC`}>Force Closed</option>
                             </select>
                         </div>
+                        <div className={classes.filterItem}>
+                            <span>Loan Officer</span>
+                            <select 
+                            value={lo} 
+                            onChange={(e)=> setLo(e.target.value)}>
+                                <option value={``}>--Select Loan Officer--</option>
+                                {
+                                    employees.map((employee)=> <option value={employee._id} key={employee._id}>{employee.firstName + ' ' + employee.lastName}</option>)
+                                }
+                            </select>
+                        </div>
                     </div>
+                    
                     <div className={classes.right_tool}>
                         <div className={classes.count}>
                            Projected Collection: <CurrencyFormatter  amount={projectedCount}/>

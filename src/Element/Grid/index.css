@@ -43,3 +43,12 @@ tbody{
   align-items: center;
   justify-content: center;
 }
+
+.notfound{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #454a4f;
+    margin-top: 20px;
+}

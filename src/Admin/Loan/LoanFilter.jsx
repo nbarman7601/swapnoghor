@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AutoComplete from "../../Element/AutoComplete/AutoComplete";
 import apiService from "../../axios";
 import {
   fetchLoans,
+  setLoanOfficerFilter,
   setWeekday,
   updateLoanFilterStatus,
   updateLoanIntervalFilter,
@@ -14,6 +15,7 @@ import {
 import Button from "../../Element/Button";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { fetchEmpList } from "../../store/actions/employee.action";
 
 function IntervalFilter() {
   const dispatch = useDispatch();
@@ -24,7 +26,7 @@ function IntervalFilter() {
 
   return (
     <div className="interval">
-      <label>Interval</label>
+      <label htmlFor="Interval">Interval</label>
       <select value={interval} onChange={handleIntervalChange}>
         <option value={""}>--Select Interval--</option>
         <option value={"1W"}>1 Week</option>
@@ -97,7 +99,10 @@ function WeekdayFilter() {
     <div className="filterweekday">
       <div className="filterItem">
         <span>Week Day</span>
-        <select value={weekday}  onChange={(e)=>dispatch(setWeekday(e.target.value))}>
+        <select
+          value={weekday}
+          onChange={(e) => dispatch(setWeekday(e.target.value))}
+        >
           <option value={``}>--Select Day--</option>
           <option value={`Sunday`}>Sunday</option>
           <option value={`Monday`}>Monday</option>
@@ -108,12 +113,46 @@ function WeekdayFilter() {
           <option value={`Saturday`}>Saturday</option>
         </select>
       </div>
-      
 
       <div className="btn__search">
         <Button type="search" onClick={searchHandle}>
           Search
         </Button>
+      </div>
+    </div>
+  );
+}
+
+function LoanOfficerFilter() {
+  const { lo } = useSelector((state) => state.loans);
+  const { employees = [] } = useSelector((state) => state.employee);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!employees.length) {
+      dispatch(fetchEmpList());
+    }
+  }, [employees, dispatch]);
+
+  const handleLoanOfficerChange = (event) => {
+     dispatch(setLoanOfficerFilter(event.target.value))
+  };
+
+  return (
+    <div className="filterLoanOfficer">
+      <div className="filterItem">
+        <span>Loan Officer</span>
+        <select
+          className="loanOfficer"
+          onChange={handleLoanOfficerChange}
+          value={lo}
+        >
+          <option value={``}>--Select Loan Officer--</option>
+          {employees.map((employee) => (
+            <option value={employee._id} key={employee._id}>
+              {employee.firstName + " " + employee.lastName}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
@@ -173,8 +212,9 @@ export const LoanFilter = () => {
         </select>
       </div>
       <div className="search__by">
-        <label>Search By</label>
+        <label htmlFor="SearchBy">Search By</label>
         <select value={searchBy} onChange={(e) => updateSearchBy(e)}>
+          <option value={"LONOFCR"}>Loan Officer</option>
           <option value={"GROUP"}>Group</option>
           <option value={"CUSTOMER"}>Customer</option>
           <option value={`WEEKDAY`}>Week Day</option>
@@ -184,7 +224,7 @@ export const LoanFilter = () => {
       </div>
       {searchBy === "GROUP" && (
         <div className="search__item">
-          <label>Group</label>
+          <label htmlFor="Group">Group</label>
           <AutoComplete
             fetchSuggestions={fetchSuggestions}
             initialQuery={""}
@@ -195,7 +235,7 @@ export const LoanFilter = () => {
       {searchBy === "CUSTOMER" && (
         <React.Fragment>
           <div className="search__item">
-            <label>Customer</label>
+            <label htmlFor="customer">Customer</label>
             <input
               type="text"
               value={searchQuery}
@@ -212,6 +252,7 @@ export const LoanFilter = () => {
 
       {searchBy == "SNC_DATE" && <SanctionDateFilter />}
       {searchBy == "WEEKDAY" && <WeekdayFilter />}
+      {searchBy === "LONOFCR" && <LoanOfficerFilter />}
     </div>
   );
 };

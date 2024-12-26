@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLoans, setLoanItemPageNumber, setLoanPageNumber, setLoanSort } from "../../store/actions/loan.action";
+import { fetchLoans, setLoanItemPageNumber, setLoanOfficerFilter, setLoanPageNumber, setLoanSort } from "../../store/actions/loan.action";
 import Spinner from "../../Element/Spinner";
 import Grid from "../../Element/Grid";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ import apiService from "../../axios";
 import LoanService from "./LoanService";
 import { toast } from "react-toastify";
 import { faUpload } from "@fortawesome/free-solid-svg-icons/faUpload";
+import { useUserId } from "../../common/hooks/useUserId";
 
 const columns = [
     {
@@ -122,6 +123,7 @@ const Loan = () => {
         loading,
         searchBy,
         interval,
+        lo,
         needRefresh
     } = useSelector((state) => state.loans);
     useEffect(() => {
@@ -136,7 +138,8 @@ const Loan = () => {
          searchBy, 
          sortOrder, 
          currentPage, 
-         itemsPerPage
+         itemsPerPage,
+         lo
         ]
     );
 
@@ -150,19 +153,6 @@ const Loan = () => {
         dispatch(setLoanItemPageNumber(e))
     }
 
-    const handleMoreAction = (event) => {
-        const rect = event.target.getBoundingClientRect();
-        setIsOpen(true);
-        setMenu({
-          x: rect.left + window.scrollX,
-          y: rect.bottom + window.scrollY,
-          items: [
-            { label: 'Option 1', onClick: () => alert('Option 1') },
-            { label: 'Option 2', onClick: () => alert('Option 2') },
-            { label: 'Option 3', onClick: () => alert('Option 3') },
-          ],
-        });
-    }
 
     const closeMenu = () => {
         setMenu(null);
@@ -173,31 +163,7 @@ const Loan = () => {
         navigate(`/loan/disburse-loan`)
     }
 
-    const download = ()=>{
-        apiService.get(`loan/export-excel`, {
-            params: {
-                search: searchQuery,
-                sortBy: sortKey, 
-                sort: sortOrder, 
-                page: currentPage,
-                limit: itemsPerPage,
-                status: status,
-                searchBy: searchBy,
-                groupId: groupId
-            }
-        }).then((blob)=>{
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Loan_list.xlsx';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-        }).catch((error)=>{
-            console.log(error)
-        })
-    }
+    
     const handleDownload = async () => {
         toast.info("Download Started");
         try {

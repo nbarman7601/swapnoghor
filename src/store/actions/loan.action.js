@@ -34,6 +34,7 @@ export const fetchLoans = ()=>{
             groupId,
             from,
             to,
+            lo,
             weekday
         } = getState().loans;
 
@@ -52,7 +53,8 @@ export const fetchLoans = ()=>{
                   interval: interval,
                   from: from,
                   to: to,
-                  weekday: weekday
+                  weekday: weekday,
+                  lo: lo
                 },
               });
               dispatch(fetchLoanSuccess({ ...response  }));
@@ -64,6 +66,7 @@ export const fetchLoans = ()=>{
 
 export const fetchLoanSuccess = (data)=>({type: SET_LOAN_DATA, payload: data });
 export const setLoanRequestError = (error)=> ({ type: SET_LOAN_REQUEST_FAILURE, payload: error});
+export const setLoanOfficerFilter = (lo)=>({type: 'loan/setLoanFilter', payload: lo});
 
 export const fetchLoanDetails = (id)=>{
     return async (dispatch, getState)=>{
@@ -94,3 +97,5 @@ export const updateLoanIntervalFilter = (filter)=>({type: UPDATE_LOAN_INTERVAL_F
 export const updateSanctionDateFiltr = (data)=>({type: UPDATE_SNC_DATE_FILTER, payload: data});
 
 export const setWeekday = (day)=>({ type: 'loan/weekday', payload: day });
+
+export const resetLoan=()=>({type: 'loan/reset'});

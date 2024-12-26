@@ -5,9 +5,12 @@ import './MainNavigation.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { resetLoan } from "../store/actions/loan.action";
 
 export const MainNavigation = ()=>{
     const [user, setUser] = useState(null);
+    const dispatch = useDispatch();
     useEffect(()=>{
         const userInfo = JSON.parse(localStorage.getItem('user_info'));
         setUser(userInfo);
@@ -15,6 +18,7 @@ export const MainNavigation = ()=>{
     const navigate = useNavigate();
     const handleLogout = ()=>{
         localStorage.clear();
+        dispatch(resetLoan())
         navigate('/login');
     }
 

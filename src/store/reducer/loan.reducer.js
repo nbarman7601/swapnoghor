@@ -20,7 +20,7 @@ const initialState = {
     sortKey: 'sanctioned_date',
     sortOrder: 'desc',
     currentPage: 1,
-    searchBy: 'CUSTOMER',
+    searchBy: 'LONOFCR',
     groupId: '',
     totalPages: 0,
     itemsPerPage: 25,
@@ -31,6 +31,7 @@ const initialState = {
     from: '',
     to: '',
     weekday: '',
+    lo: JSON.parse(localStorage.getItem('user_info'))._id || null,
     needRefresh: true
 }
 
@@ -76,6 +77,7 @@ export const loanReducer = (state = initialState, action )=>{
                 ...state,
                 searchBy: action.payload,
                 searchQuery: '',
+                lo: ''
                 // needRefresh: true
             }
         case 'UPDATE_LOAN_GROUP_ID':
@@ -114,6 +116,14 @@ export const loanReducer = (state = initialState, action )=>{
                 weekday: action.payload,
                 needRefresh: true
             }
+        case 'loan/setLoanFilter':
+            return {
+                ...state,
+                lo: action.payload,
+                needRefresh: true
+            }
+        case 'loan/reset':
+            return initialState;
         default:
             return state
     }
