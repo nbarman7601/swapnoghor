@@ -13,8 +13,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useUserId } from "../../common/hooks/useUserId";
+import { fetchEmpList } from "../../store/actions/employee.action";
 const Today = () => {
     const [installments, setInstallments] = useState([]);
+    const [filteredInstallment, setFilteredInstallment] = useState([]);
     const [isPayNow, setIsPayNow] = useState(false);
     const [payItem, setPayItem] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -22,16 +24,24 @@ const Today = () => {
     const [status, setStatus] = useState('');
     const [projectedCount, setProjectedCount] = useState(0); 
     const userId= useUserId();
-    const [lo, setLo] = useState(userId);
+    const [lo, setLo] = useState(userId || '')
     const dispatch = useDispatch();
-      const { employees = [] } = useSelector((state) => state.employee);
+    const { employees = [] } = useSelector((state) => state.employee);
+
+    useEffect(() => {
+    if (!employees.length) {
+        dispatch(fetchEmpList());
+    }
+    }, [employees, dispatch]);
     
     useEffect(() => {
         setLoading(true);
         apiService.get(`loan/installment/today?status=${status}&lo=${lo}`)
             .then((response) => {
                 setInstallments(response.data);
-                const collectionAmt = response.data.reduce((prev, inst)=> prev + (inst.installmentAmt || 0), 0);
+                const filteredInsts = lo != '' ? response.data.filter((inst)=> inst.lo._id == lo): response.data;
+                setFilteredInstallment(filteredInsts)
+                const collectionAmt = filteredInsts.reduce((prev, inst)=> prev + (inst.installmentAmt || 0), 0);
                 setProjectedCount(collectionAmt);
                 setLoading(false);
             }).catch((error) => {
@@ -39,10 +49,17 @@ const Today = () => {
                 setInstallments([]);
                 setLoading(false);
             })
-    }, [counter, lo, status])
+    }, [counter, status])
 
     const handleClose = () => {
         setIsPayNow(false);
+    }
+    const handleLoChange = (e)=>{
+        setLo(e.target.value);
+        const filteredInsts = e.target.value != '' ? [...installments].filter((inst)=> inst.lo._id == e.target.value): [...installments];
+        setFilteredInstallment(filteredInsts)
+        const collectionAmt = filteredInsts.reduce((prev, inst)=> prev + (inst.installmentAmt || 0), 0);
+        setProjectedCount(collectionAmt);
     }
 
     const handleClickPay = (item)=>{
@@ -81,7 +98,7 @@ const Today = () => {
                             <span>Loan Officer</span>
                             <select 
                             value={lo} 
-                            onChange={(e)=> setLo(e.target.value)}>
+                            onChange={(e)=> handleLoChange(e)}>
                                 <option value={``}>--Select Loan Officer--</option>
                                 {
                                     employees.map((employee)=> <option value={employee._id} key={employee._id}>{employee.firstName + ' ' + employee.lastName}</option>)
@@ -116,11 +133,11 @@ const Today = () => {
                             </tr>
                         </thead>
                         {
-                            installments.length > 0 &&
+                            filteredInstallment.length > 0 &&
                             (
                                 <tbody>
                                     {
-                                        installments.map((installment) => (
+                                        filteredInstallment.map((installment) => (
                                             <tr key={installment._id}>
                                                 <td>
                                                   <Link to={`/customer/detail/${installment.customer._id}`}>

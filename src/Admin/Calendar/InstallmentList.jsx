@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Popup from "../../common/Popup";
 import Grid from '../../Element/Grid/index';
 import CurrencyFormatter from "../../common/CurrencyFormatter";
@@ -12,19 +12,33 @@ import { PayNow } from '../Loan/PayNow/PayNow';
 import { payNowInstallment } from '../ajax';
 import Spinner from '../../Element/Spinner';
 import { toast } from 'react-toastify';
+import style from './calender.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEmpList } from '../../store/actions/employee.action';
 
 export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, onClose }) => {
     const [title, setTitle] = useState('');
     const [isPayNow, setIsPayNow] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [spinner, setSpinner] = useState(false);
+    const dispatch = useDispatch();
+    const { employees=[] } = useSelector((state)=> state.employee);
+    const [lo, setLo] = useState('');
+    const [filteredIntallments, setFilteredIntallments] = useState([...installments]);
+    
+    useEffect(()=>{
+        if(employees.length == 0){
+            dispatch(fetchEmpList())
+        }
+    }, [dispatch, employees])
+
     useEffect(() => {
         const date = new Date(`${currentYear}-${currentMonth}-${installments[0].installment_date}`);
         const modalTitle = <DateFormatter date={date} />;
         setTitle(prevTitle => modalTitle);
     }, [installments, currentYear, currentMonth]);
 
-    const gridColumns = [
+    const gridColumns = useMemo(()=>[
         {
             columnKey: 'customer',
             desc: 'Customer',
@@ -101,7 +115,7 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
                 </>;
             }
         }
-    ];
+    ], []);
 
     const payNow = (item) => {
         setIsPayNow(true);
@@ -135,21 +149,46 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
         })
     }
 
+    const handleLoChange = (e)=>{
+        const id = e.target.value;
+        setLo(id);
+        if(id != ""){
+            const filteredInsts = [...installments].filter((inst)=>inst.loanId.customer.group.lo._id === id);
+            setFilteredIntallments(filteredInsts)
+        }else{
+            setFilteredIntallments([...installments])
+        }
+    }
+
     return (
         <React.Fragment>
             <Popup>
                 <div className='popup_tool'>
-                    <div data-testid="today_date"> {title} </div>
-                    <Button onClick={print} data-testid="print-button">
-                        <FontAwesomeIcon icon={faPrint} />
-                    </Button>
+                    <div data-testid="today_date" className={style.todayDate}> 
+                        {title} 
+                    </div>
                     <button className="popup-close" data-testid="close-button" onClick={onClose}>
                         <FontAwesomeIcon icon={faClose} />
                     </button>
                 </div>
+                <div className={style.filter__panel}>
+                    <div className={style.filterItem}>
+                        <span>Loan Officer</span>
+                        <select value={lo} onChange={(e)=> handleLoChange(e)}>
+                            <option value="">--Select Loan Officer--</option>
+                            {
+                                employees.map((employee)=> <option value={employee._id} key={employee._id}>{employee.firstName + ' '+ employee.lastName}</option>)
+                            }
+                        </select>
+                    </div>
+                     <Button onClick={print} className={style.printBtn} data-testid="print-button">
+                        <FontAwesomeIcon icon={faPrint} />
+                    </Button>
+                </div>
+                
                 <div className="popup__content print-only">
                     <Grid
-                        data={installments}
+                        data={filteredIntallments}
                         columns={gridColumns}
                     />
                 </div>
@@ -178,7 +217,7 @@ export const InstallmentListPopUP = ({ installments, currentMonth, currentYear, 
 
 InstallmentListPopUP.propTypes = {
     installments: PropTypes.arrayOf(PropTypes.shape({
-        installment_date: PropTypes.string.isRequired,
+        installment_date: PropTypes.number,
         loanId: PropTypes.shape({
             customer: PropTypes.shape({
                 name: PropTypes.string.isRequired,

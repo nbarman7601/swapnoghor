@@ -31,7 +31,7 @@ const initialState = {
     from: '',
     to: '',
     weekday: '',
-    lo: JSON.parse(localStorage.getItem('user_info'))._id || null,
+    lo: localStorage.getItem('user_info') ? JSON.parse(localStorage.getItem('user_info'))._id : '',
     needRefresh: true
 }
 
